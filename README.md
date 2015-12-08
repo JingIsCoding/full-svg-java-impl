@@ -1,3 +1,3 @@
-### Building a full implementation of SVG 1.1 using java 
+### Java Implementation of SVG 1.1
 
-The gold of project is to build a full implementation that implements the interface that are defined in http://www.w3.org/TR/SVG/
+The gold of this project is to build the full svg implementation that follows the interface that are defined in http://www.w3.org/TR/SVG/, which can be easily plug in to other functionalities
