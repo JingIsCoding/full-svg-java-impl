@@ -23,8 +23,8 @@ public class SVGNumberList {
 
     }
 
-    SVGNumberList(List<String> initStrings) throws Exception {
-        this(convertStringToNumber(initStrings.toArray(new String[0])));
+    SVGNumberList(List<String> numberStrings) throws Exception {
+        this(convertStringToNumber(numberStrings.toArray(new String[0])));
     }
 
     private static Double[] convertStringToNumber(String[] numberStrings) throws Exception{
