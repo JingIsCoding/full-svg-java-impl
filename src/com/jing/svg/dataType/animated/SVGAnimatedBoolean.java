@@ -1,4 +1,4 @@
-package com.jing.svg.dataType;
+package com.jing.svg.dataType.animated;
 
 public class SVGAnimatedBoolean {
 

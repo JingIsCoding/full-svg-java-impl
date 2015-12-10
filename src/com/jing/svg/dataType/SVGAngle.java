@@ -27,8 +27,33 @@ public class SVGAngle {
         this.valueAsString = value + unit.toString();
     }
 
-    public void convertToSpecifiedUnits(SVGAngelType unit){
-        //TODO
+    public SVGAngle convertToSpecifiedUnits(SVGAngelType unit){
+        if(unit != SVGAngelType.SVG_ANGLETYPE_UNKNOWN && unit != SVGAngelType.SVG_ANGLETYPE_UNSPECIFIED && unit != this.unit){
+            switch (this.unit){
+                case SVG_ANGLETYPE_DEG:
+                    if(unit == SVGAngelType.SVG_ANGLETYPE_GRAD){
+
+                    }else{
+
+                    }
+                    break;
+                case SVG_ANGLETYPE_RAD:
+                    if(unit == SVGAngelType.SVG_ANGLETYPE_GRAD){
+
+                    }else{
+
+                    }
+                    break;
+                case SVG_ANGLETYPE_GRAD:
+                    if(unit == SVGAngelType.SVG_ANGLETYPE_RAD){
+
+                    }else{
+
+                    }
+                    break;
+            }
+        }
+        return this;
     }
 
     public enum SVGAngelType {

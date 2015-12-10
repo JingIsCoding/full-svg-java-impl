@@ -58,34 +58,38 @@ public class SVGMatrix {
 
     public SVGMatrix inverse(){
 
+        return null;
     }
     public SVGMatrix translate(float x, float y){
-
+        return this.multiply(new SVGMatrix(new float[]{1, 0 ,x, 0 , 1, y}));
     }
 
     public SVGMatrix scale(float scaleFactor){
-
+        return this.scaleNonUniform(scaleFactor,scaleFactor);
     }
     public SVGMatrix scaleNonUniform(float scaleFactorX, float scaleFactorY){
-
+        return this.multiply(new SVGMatrix(new float[]{scaleFactorX , 0 , 0, 0 ,scaleFactorX , 0}));
     }
     public SVGMatrix rotate(SVGAngle angle){
-
+        return null;
     }
     public SVGMatrix rotateFromVector(float x,float y){
-
+        return null;
     }
     public SVGMatrix flipX(){
-
+        return null;
     }
     public SVGMatrix flipY(){
-
+        return null;
     }
     public SVGMatrix skewX(float angle){
-
+        return null;
     }
     public SVGMatrix skewY(float angle){
-
+        return null;
     }
 
+    public float[] getValues(){
+        return new float[]{this.matrix[0][0],this.matrix[0][1],this.matrix[0][2],this.matrix[1][0],this.matrix[1][1],this.matrix[1][2]};
+    }
 }

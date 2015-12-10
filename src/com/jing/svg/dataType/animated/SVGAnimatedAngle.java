@@ -1,4 +1,6 @@
-package com.jing.svg.dataType;
+package com.jing.svg.dataType.animated;
+
+import com.jing.svg.dataType.SVGAngle;
 
 public class SVGAnimatedAngle {
 

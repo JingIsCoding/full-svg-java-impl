@@ -1,5 +1,7 @@
-package com.jing.svg.dataType;
+package com.jing.svg.dataType.animated;
 
+
+import com.jing.svg.dataType.SVGLengthList;
 
 public class SVGAnimatedLengthList {
     private SVGLengthList baseVal;
