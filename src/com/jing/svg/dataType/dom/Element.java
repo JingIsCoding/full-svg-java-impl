@@ -1,10 +1,8 @@
-package com.jing.svg;
+package com.jing.svg.dataType.dom;
 
 import java.util.List;
 
-public interface BaseElement {
-
-    public String getTagName();
+public interface Element<T> extends Node<T>{
 
     void setAttribute(String name,String value);
 
@@ -12,5 +10,5 @@ public interface BaseElement {
 
     void removeAttribute(String name);
 
-    List<BaseElement> getElementByTagName(String name);
+    List<Element> getElementByTagName(String name);
 }

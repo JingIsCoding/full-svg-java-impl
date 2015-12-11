@@ -1,10 +1,9 @@
 package com.jing.svg.dataType;
 
 
-import com.jing.svg.SVGElement;
-
-public class SVGLocatable {
-    private SVGElement nearestViewportElement;
-    private SVGElement farthestViewportElement;
-
+public interface SVGLocatable {
+    public SVGRect getBBox();
+    public SVGMatrix getCTM();
+    public SVGMatrix getScreenCTM();
+    public SVGMatrix getTransformToElement(SVGElement element);
 }
