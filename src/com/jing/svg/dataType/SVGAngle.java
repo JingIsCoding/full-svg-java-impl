@@ -17,6 +17,10 @@ public class SVGAngle {
 
     }
 
+    public SVGAngle(@NotNull SVGAngelType unit,@NotNull float value){
+        setValueWithSpecifiedUnits(unit,value);
+    }
+
     public void setValueWithSpecifiedUnits(@NotNull String unit,@NotNull float value){
         setValueWithSpecifiedUnits(SVGAngelType.findByName(unit),value);
     }

@@ -4,7 +4,7 @@ public class SVGNumber {
 
     private double value;
 
-    SVGNumber(double value){
+    public SVGNumber(double value){
         this.value = value;
     }
 

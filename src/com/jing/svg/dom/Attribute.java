@@ -1,4 +1,4 @@
-package com.jing.svg.dataType.dom;
+package com.jing.svg.dom;
 
 /**
  * Created by jguo on 12/8/2015.

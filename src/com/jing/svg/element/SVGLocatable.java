@@ -1,11 +1,10 @@
-package com.jing.svg.dataType.Impl;
+package com.jing.svg.element;
 
-import com.jing.svg.dataType.SVGElement;
-import com.jing.svg.dataType.SVGLocatable;
+
 import com.jing.svg.dataType.SVGMatrix;
 import com.jing.svg.dataType.SVGRect;
 
-public class SVGLocatableImpl implements SVGLocatable{
+public class SVGLocatable {
     private SVGElement nearestViewportElement;
     private SVGElement farthestViewportElement;
 

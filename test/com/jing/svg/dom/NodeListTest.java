@@ -1,4 +1,4 @@
-package com.jing.svg.dataType.dom;
+package com.jing.svg.dom;
 
 import org.junit.Test;
 

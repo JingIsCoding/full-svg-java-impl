@@ -1,4 +1,4 @@
-package com.jing.svg.dataType.animated;
+package com.jing.svg.animated;
 
 
 import com.jing.svg.dataType.SVGLength;

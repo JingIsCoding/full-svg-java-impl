@@ -1,16 +1,18 @@
-package com.jing.svg.dataType;
+package com.jing.svg.element;
 
-import com.jing.svg.dataType.SVGElement;
 import com.jing.svg.SVGSVGElement;
-import com.jing.svg.dataType.dom.Attribute;
-import com.jing.svg.dataType.dom.Element;
-import com.jing.svg.dataType.dom.NodeList;
+import com.jing.svg.dom.Attribute;
+import com.jing.svg.dom.Element;
+import com.jing.svg.dom.NodeList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SVGElementImpl implements SVGElement{
+import static com.jing.svg.dataType.Constants.TagName;
+
+public class SVGElement implements Element<SVGElement>{
     //SVG Element
     private String id;
     private String xmlBase;
@@ -21,54 +23,49 @@ public class SVGElementImpl implements SVGElement{
     private Map<String,Attribute> attributes = new HashMap<>();
 
     //Node
-    private String tagName;
+    private TagName tagName;
     private String value;
     private SVGElement parent;
     private NodeList<SVGElement> children;
 
 
-    public SVGElementImpl(String tagName, SVGSVGElement ownerSVGElement, SVGElement parent){
+    public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement, SVGElement parent){
         this(tagName, null, ownerSVGElement ,parent);
     }
 
-    public SVGElementImpl(String tagName, String value, SVGSVGElement ownerSVGElement, SVGElement parent){
+    public SVGElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement parent){
         this(tagName,value, ownerSVGElement, parent,null);
     }
 
-    public SVGElementImpl(String tagName, String value, SVGSVGElement ownerSVGElement, SVGElement parent, SVGElement viewPortElement){
+    public SVGElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement parent, SVGElement viewPortElement){
         this.tagName = tagName;
         this.value = value;
+        this.parent = parent;
         this.ownerSVGElement = ownerSVGElement;
         this.viewPortElement = viewPortElement;
         this.children = new NodeList<>();
     }
 
-    @Override
     public void setId(String id) {
         this.id = id;
     }
 
-    @Override
     public String getId() {
         return this.id;
     }
 
-    @Override
     public void setXmlBase(String xmlBase) {
         this.xmlBase=xmlBase;
     }
 
-    @Override
     public String getXmlBase() {
         return xmlBase;
     }
 
-    @Override
     public SVGSVGElement getOwnerSVGElement() {
         return this.ownerSVGElement;
     }
 
-    @Override
     public SVGElement getViewportElement() {
         return this.viewPortElement;
     }
@@ -80,7 +77,7 @@ public class SVGElementImpl implements SVGElement{
     }
 
     @Override
-    public String getTagName() {
+    public TagName getTagName() {
         return tagName;
     }
 
@@ -101,42 +98,42 @@ public class SVGElementImpl implements SVGElement{
 
     @Override
     public SVGElement getFirstChild() {
-        return children.getItem(0);
+        return !children.isEmpty() ? children.getItem(0) : null;
     }
 
     @Override
     public SVGElement getLastChild() {
-        return children.getItem(children.size() - 1);
+        return !children.isEmpty()?children.getItem(children.size() - 1) :null;
     }
 
     @Override
     public SVGElement getPreviousSibling() {
-        return null;
+        return parent != null ? parent.getChildrenNodes().getPreviousSiblingOf(this) : null;
     }
 
     @Override
     public SVGElement getNextSibling() {
-        return null;
+        return parent != null ? parent.getChildrenNodes().getNextSiblingOf(this) : null;
     }
 
     @Override
     public Map<String, Attribute> getAttributes() {
-        return null;
+        return this.attributes;
     }
 
     @Override
-    public String getAttribute(String name) {
-        return null;
+    public Attribute getAttribute(String name) {
+        return this.attributes.get(name);
     }
 
     @Override
     public boolean hasAttributes() {
-        return false;
+        return !this.attributes.isEmpty();
     }
 
     @Override
     public boolean hasOwnAttribute(String name) {
-        return false;
+        return this.attributes.containsKey(name);
     }
 
     @Override
@@ -146,11 +143,17 @@ public class SVGElementImpl implements SVGElement{
 
     @Override
     public void removeAttribute(String name) {
-
+        this.attributes.remove(name);
     }
 
     @Override
-    public List<Element> getElementByTagName(String name) {
-        return null;
+    public List<SVGElement> getElementByTagName(TagName name) {
+        List<SVGElement> collector = new ArrayList<>();
+        recFindElementByName(name,collector,children);
+        return collector;
+    }
+
+    private void recFindElementByName(TagName name, List<SVGElement> collector, NodeList<SVGElement> children){
+
     }
 }

@@ -1,130 +1,43 @@
 package com.jing.svg;
 
-import com.jing.svg.dataType.SVGElement;
-import com.jing.svg.dataType.SVGElementImpl;
-import com.jing.svg.dataType.dom.Attribute;
-import com.jing.svg.dataType.dom.Element;
-import com.jing.svg.dataType.dom.NodeList;
+import com.jing.svg.dataType.*;
+import com.jing.svg.element.SVGElement;
 
-import java.util.List;
-import java.util.Map;
+import static com.jing.svg.dataType.Constants.TagName.*;
 
-/**
- * Created by jguo on 12/8/2015.
- */
-public class SVGSVGElement implements SVGElement {
-    private SVGElement svgElement;
 
-    public SVGSVGElement(){
-        svgElement = new SVGElementImpl();
-    }
-    @Override
-    public void setId(String id) {
-        svgElement.setId(id);
+public class SVGSVGElement {
+    private SVGElement svgElement = new SVGElement(SVG.toString(), this, null);
+
+    SVGSVGElement(){
     }
 
-    @Override
-    public String getId() {
-        return null;
+    void deselectAll(){}
+    SVGNumber createSVGNumber(double number){
+        return new SVGNumber(number);
     }
-
-    @Override
-    public void setXmlBase(String xmlBase) {
-
+    SVGLength createSVGLength(String length){
+        return new SVGLength(length);
     }
-
-    @Override
-    public String getXmlBase() {
-        return null;
+    SVGAngle createSVGAngle(String angleStr){
+        return new SVGAngle(angleStr);
     }
-
-    @Override
-    public SVGSVGElement getOwnerSVGElement() {
-        return null;
+    SVGPoint createSVGPoint(String point){
+        return new SVGPoint(point);
     }
-
-    @Override
-    public SVGElement getViewportElement() {
-        return null;
+    SVGMatrix createSVGMatrix(){
+        return new SVGMatrix();
     }
-
-    @Override
-    public void setAttribute(String name, String value) {
-
+    SVGRect createSVGRect(){
+        return new SVGRect();
     }
-
-    @Override
-    public String getTagName() {
-        return null;
+    SVGTransform createSVGTransform(){
+        return new SVGTransform();
     }
-
-    @Override
-    public String getValue() {
-        return null;
+    SVGTransform createSVGTransformFromMatrix(SVGMatrix matrix){
+        return new SVGTransform(matrix);
     }
-
-    @Override
-    public SVGElement getParent() {
-        return null;
-    }
-
-    @Override
-    public NodeList<SVGElement> getChildrenNodes() {
-        return null;
-    }
-
-    @Override
-    public SVGElement getFirstChild() {
-        return null;
-    }
-
-    @Override
-    public SVGElement getLastChild() {
-        return null;
-    }
-
-    @Override
-    public SVGElement getPreviousSibling() {
-        return null;
-    }
-
-    @Override
-    public SVGElement getNextSibling() {
-        return null;
-    }
-
-    @Override
-    public Map<String, Attribute> getAttributes() {
-        return null;
-    }
-
-    @Override
-    public String getAttribute(String name) {
-        return null;
-    }
-
-    @Override
-    public boolean hasAttributes() {
-        return false;
-    }
-
-    @Override
-    public boolean hasOwnAttribute(String name) {
-        return false;
-    }
-
-    @Override
-    public SVGElement cloneNode(boolean deep) {
-        return null;
-    }
-
-    @Override
-    public void removeAttribute(String name) {
-
-    }
-
-    @Override
-    public List<Element> getElementByTagName(String name) {
+    SVGElement getElementById(String elementId){
         return null;
     }
 }

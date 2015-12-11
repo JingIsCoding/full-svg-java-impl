@@ -1,10 +1,13 @@
-package com.jing.svg.dataType.dom;
+package com.jing.svg.dom;
+
+import com.jing.svg.dataType.Constants;
+import com.jing.svg.dataType.Constants.TagName;
 
 import java.util.Map;
 
 public interface Node<T> {
 
-    public String getTagName();
+    public TagName getTagName();
 
     public String getValue();
 
@@ -22,7 +25,7 @@ public interface Node<T> {
 
     public Map<String, Attribute> getAttributes();
 
-    public String getAttribute(String name);
+    public Attribute getAttribute(String name);
 
     public boolean hasAttributes();
 

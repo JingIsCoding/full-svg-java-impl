@@ -1,7 +1,8 @@
-package com.jing.svg.dataType.dom;
+package com.jing.svg.dom;
+
+import com.jing.svg.element.SVGElement;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class NodeList<T> {
@@ -36,7 +37,23 @@ public class NodeList<T> {
         nodes.remove(oldChild);
     }
 
+    public boolean isEmpty(){
+        return nodes.isEmpty();
+    }
+
     public int size(){
         return nodes.size();
+    }
+
+    public boolean hasChild(T child){
+        return nodes.contains(child);
+    }
+
+    public T getPreviousSiblingOf(T element) {
+        return hasChild(element) && nodes.indexOf(element) > 0 ? nodes.get(nodes.indexOf(element) - 1) : null;
+    }
+
+    public T getNextSiblingOf(T element) {
+        return hasChild(element) && nodes.indexOf(element) < nodes.size() - 1 ? nodes.get(nodes.indexOf(element) + 1) : null;
     }
 }

@@ -1,4 +1,4 @@
-package com.jing.svg.dataType;
+package com.jing.svg.element;
 
 /**
  * Created by jguo on 12/9/2015.
