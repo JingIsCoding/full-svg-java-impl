@@ -7,12 +7,13 @@ import static com.jing.svg.dataType.Constants.TagName.*;
 
 
 public class SVGSVGElement {
-    private SVGElement svgElement = new SVGElement(SVG.toString(), this, null);
+    private SVGElement svgElement = new SVGElement(SVG, this, null);
 
     SVGSVGElement(){
     }
 
     void deselectAll(){}
+
     SVGNumber createSVGNumber(double number){
         return new SVGNumber(number);
     }

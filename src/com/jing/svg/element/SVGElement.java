@@ -28,6 +28,9 @@ public class SVGElement implements Element<SVGElement>{
     private SVGElement parent;
     private NodeList<SVGElement> children;
 
+    public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement){
+        this(tagName, null, ownerSVGElement ,null);
+    }
 
     public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement, SVGElement parent){
         this(tagName, null, ownerSVGElement ,parent);
@@ -96,6 +99,11 @@ public class SVGElement implements Element<SVGElement>{
         return children;
     }
 
+    public void appendChild(SVGElement element){
+        element.parent = this;
+        children.appendChild(element);
+    }
+
     @Override
     public SVGElement getFirstChild() {
         return !children.isEmpty() ? children.getItem(0) : null;
@@ -148,12 +156,20 @@ public class SVGElement implements Element<SVGElement>{
 
     @Override
     public List<SVGElement> getElementByTagName(TagName name) {
-        List<SVGElement> collector = new ArrayList<>();
-        recFindElementByName(name,collector,children);
-        return collector;
+        return  recFindElementByName(name,children);
     }
 
-    private void recFindElementByName(TagName name, List<SVGElement> collector, NodeList<SVGElement> children){
-
+    private List<SVGElement> recFindElementByName(TagName name, NodeList<SVGElement> children){
+        List<SVGElement> result = new ArrayList<>();
+        for(SVGElement element : children.getList()){
+            if(element.getTagName() == name){
+                result.add(element);
+            }
+            if(element.children != null && !element.children.isEmpty())
+            {
+                result.addAll(recFindElementByName(name,element.children));
+            }
+        }
+        return result;
     }
 }

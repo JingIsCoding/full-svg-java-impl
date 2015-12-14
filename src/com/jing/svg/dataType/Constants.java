@@ -4,7 +4,8 @@ public class Constants {
 
     public enum TagName{
 
-        SVG("svg");
+        SVG("svg"), RECT("rect"), G("g"), DEFS("defs"), DESC("desc");
+
 
         private String name;
         TagName(String name){
