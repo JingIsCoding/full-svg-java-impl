@@ -74,7 +74,7 @@ public class SVGElement implements Element<SVGElement>{
     }
 
     @Override
-    public void setAttribute(String name, String value) {
+    public void setAttribute(String name, Object value) {
         Attribute attribute = new Attribute(this, name, value);
         attributes.put(name,attribute);
     }

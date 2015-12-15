@@ -1,5 +1,7 @@
 package com.jing.svg.dom;
 
+import java.util.Objects;
+
 /**
  * Created by jguo on 12/8/2015.
  */
@@ -9,16 +11,16 @@ public class Attribute {
         this(ownerElement,null,null);
     }
 
-    public Attribute(Element ownerElement, String name, String value) {
+    public Attribute(Element ownerElement, String name, Object value) {
         this.name = name;
         this.value = value;
     }
 
     private String name;
-    private String value;
+    private Object value;
     private Element ownerElement;
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 

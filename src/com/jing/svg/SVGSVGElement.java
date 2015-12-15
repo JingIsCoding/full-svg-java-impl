@@ -1,8 +1,10 @@
 package com.jing.svg;
 
+import com.jing.svg.animated.SVGAnimatedLength;
 import com.jing.svg.dataType.*;
 import com.jing.svg.element.SVGElement;
 
+import static com.jing.svg.dataType.Constants.Location.*;
 import static com.jing.svg.dataType.Constants.TagName.*;
 
 
@@ -12,33 +14,63 @@ public class SVGSVGElement {
     SVGSVGElement(){
     }
 
-    void deselectAll(){}
+    public void setX(String x){
+        svgElement.setAttribute(X.toString(),new SVGAnimatedLength(new SVGLength(x)));
+    }
 
-    SVGNumber createSVGNumber(double number){
+    public SVGAnimatedLength getX(){
+        return (SVGAnimatedLength) svgElement.getAttribute(X.toString()).getValue();
+    }
+
+    public void setY(String y){
+        svgElement.setAttribute(Y.toString(),new SVGAnimatedLength(new SVGLength(y)));
+    }
+
+    public SVGAnimatedLength getY(){
+        return (SVGAnimatedLength) svgElement.getAttribute(Y.toString()).getValue();
+    }
+
+    public void setWidth(String width){
+        svgElement.setAttribute(WIDTH.toString(),new SVGAnimatedLength(new SVGLength(width)));
+    }
+
+    public SVGAnimatedLength getWidth(){
+        return (SVGAnimatedLength) svgElement.getAttribute(WIDTH.toString()).getValue();
+    }
+
+    public void setHeight(String height){
+        svgElement.setAttribute(HEIGHT.toString(),new SVGAnimatedLength(new SVGLength(height)));
+    }
+
+    public SVGAnimatedLength getHeight(){
+        return (SVGAnimatedLength) svgElement.getAttribute(HEIGHT.toString()).getValue();
+    }
+
+    public SVGNumber createSVGNumber(double number){
         return new SVGNumber(number);
     }
-    SVGLength createSVGLength(String length){
+    public SVGLength createSVGLength(String length){
         return new SVGLength(length);
     }
-    SVGAngle createSVGAngle(String angleStr){
+    public SVGAngle createSVGAngle(String angleStr){
         return new SVGAngle(angleStr);
     }
-    SVGPoint createSVGPoint(String point){
+    public SVGPoint createSVGPoint(String point){
         return new SVGPoint(point);
     }
-    SVGMatrix createSVGMatrix(){
+    public SVGMatrix createSVGMatrix(){
         return new SVGMatrix();
     }
-    SVGRect createSVGRect(){
+    public SVGRect createSVGRect(){
         return new SVGRect();
     }
-    SVGTransform createSVGTransform(){
+    public SVGTransform createSVGTransform(){
         return new SVGTransform();
     }
-    SVGTransform createSVGTransformFromMatrix(SVGMatrix matrix){
+    public SVGTransform createSVGTransformFromMatrix(SVGMatrix matrix){
         return new SVGTransform(matrix);
     }
-    SVGElement getElementById(String elementId){
+    public SVGElement getElementById(String elementId){
         return null;
     }
 }

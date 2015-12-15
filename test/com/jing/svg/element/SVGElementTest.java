@@ -2,6 +2,7 @@ package com.jing.svg.element;
 
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
+import org.omg.CORBA.DoubleHolder;
 
 import static com.jing.svg.dataType.Constants.TagName.*;
 import static org.hamcrest.core.Is.is;
@@ -15,8 +16,8 @@ public class SVGElementTest {
         svgElement.setAttribute("class","what");
         svgElement.setAttribute("width","123px");
 
-        assertThat(svgElement.getAttribute("width").getValue(), is("123px"));
-        assertThat(svgElement.getAttribute("class").getValue(), is("what"));
+        assertThat(svgElement.getAttribute("width").getValue().toString(), is("123px"));
+        assertThat(svgElement.getAttribute("class").getValue().toString(), is("what"));
     }
 
     @Test
