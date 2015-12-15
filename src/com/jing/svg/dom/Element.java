@@ -8,7 +8,7 @@ import static com.jing.svg.dataType.Constants.*;
 
 public interface Element<T> extends Node<T>{
 
-    void setAttribute(String name,String value);
+    void setAttribute(String name,Object value);
 
     Attribute getAttribute(String name);
 

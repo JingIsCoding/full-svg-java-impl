@@ -4,6 +4,7 @@ public class SVGRect {
     private float x;
     private float y;
     private float width;
+    private float height;
 
     public float getHeight() {
         return height;
@@ -36,8 +37,6 @@ public class SVGRect {
     public void setWidth(float width) {
         this.width = width;
     }
-
-    private float height;
 
     public SVGRect(){
     }

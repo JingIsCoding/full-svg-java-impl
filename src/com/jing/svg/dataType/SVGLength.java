@@ -1,4 +1,6 @@
 package com.jing.svg.dataType;
+
+import com.jing.svg.util.StringUtil;
 import com.sun.istack.internal.NotNull;
 
 public class SVGLength {
@@ -9,18 +11,18 @@ public class SVGLength {
     public SVGLength(){}
 
     public SVGLength(@NotNull String lengthString){
-        //TODO
-        char[] chars = lengthString.toCharArray();
-        float value;
-        String unitName;
-
+        try{
+            String[] numberAndUnit = StringUtil.splitIntoNumberAndUnit(lengthString);
+            setValueWithSpecifiedUnits(SVGLengthUnit.findByName(numberAndUnit[1]),Double.parseDouble(numberAndUnit[0]));
+        }catch (Exception e)
+        {throw e;}
     }
 
-    public void setValueWithSpecifiedUnits(@NotNull String unit,@NotNull float value){
+    public void setValueWithSpecifiedUnits(@NotNull String unit,@NotNull double value){
         setValueWithSpecifiedUnits(SVGLengthUnit.findByName(unit),value);
     }
 
-    public void setValueWithSpecifiedUnits(SVGLengthUnit unit,float value){
+    public void setValueWithSpecifiedUnits(SVGLengthUnit unit,double value){
         this.unit = unit;
         this.value = value;
         this.valueAsString = value + unit.toString();

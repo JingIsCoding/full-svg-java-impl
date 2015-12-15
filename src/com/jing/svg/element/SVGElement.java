@@ -28,6 +28,9 @@ public class SVGElement implements Element<SVGElement>{
     private SVGElement parent;
     private NodeList<SVGElement> children;
 
+    public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement){
+        this(tagName, null, ownerSVGElement ,null);
+    }
 
     public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement, SVGElement parent){
         this(tagName, null, ownerSVGElement ,parent);
@@ -71,7 +74,7 @@ public class SVGElement implements Element<SVGElement>{
     }
 
     @Override
-    public void setAttribute(String name, String value) {
+    public void setAttribute(String name, Object value) {
         Attribute attribute = new Attribute(this, name, value);
         attributes.put(name,attribute);
     }
@@ -94,6 +97,11 @@ public class SVGElement implements Element<SVGElement>{
     @Override
     public NodeList<SVGElement> getChildrenNodes() {
         return children;
+    }
+
+    public void appendChild(SVGElement element){
+        element.parent = this;
+        children.appendChild(element);
     }
 
     @Override
@@ -148,12 +156,20 @@ public class SVGElement implements Element<SVGElement>{
 
     @Override
     public List<SVGElement> getElementByTagName(TagName name) {
-        List<SVGElement> collector = new ArrayList<>();
-        recFindElementByName(name,collector,children);
-        return collector;
+        return  recFindElementByName(name,children);
     }
 
-    private void recFindElementByName(TagName name, List<SVGElement> collector, NodeList<SVGElement> children){
-
+    private List<SVGElement> recFindElementByName(TagName name, NodeList<SVGElement> children){
+        List<SVGElement> result = new ArrayList<>();
+        for(SVGElement element : children.getList()){
+            if(element.getTagName() == name){
+                result.add(element);
+            }
+            if(element.children != null && !element.children.isEmpty())
+            {
+                result.addAll(recFindElementByName(name,element.children));
+            }
+        }
+        return result;
     }
 }

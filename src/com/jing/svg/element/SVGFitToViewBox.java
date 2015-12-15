@@ -7,7 +7,16 @@ import com.jing.svg.animated.SVGAnimatedRect;
  * Created by jguo on 12/11/2015.
  */
 public class SVGFitToViewBox {
+
     SVGAnimatedRect viewBox;
+
+    public void setPreserveAspectRatio(SVGAnimatedPreserveAspectRatio preserveAspectRatio) {
+        this.preserveAspectRatio = preserveAspectRatio;
+    }
+
+    public void setViewBox(SVGAnimatedRect viewBox) {
+        this.viewBox = viewBox;
+    }
 
     SVGAnimatedPreserveAspectRatio preserveAspectRatio;
 
