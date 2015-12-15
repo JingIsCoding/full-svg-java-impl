@@ -1,5 +1,6 @@
 package com.jing.svg.dom;
 
+import org.hamcrest.core.IsNull;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.*;
@@ -75,5 +76,71 @@ public class NodeListTest {
         assertThat(list.getItem(0),is(13d));
         assertThat(list.getItem(1),is(5d));
         assertThat(list.getItem(2),is(15d));
+    }
+
+    @Test
+    public void should_return_null_when_it_is_the_first_node() throws Exception {
+        NodeList<Double> list = new NodeList<>();
+        list.appendChild(12d);
+        list.appendChild(5d);
+        list.appendChild(15d);
+        list.appendChild(16d);
+
+        assertThat(list.getPreviousSiblingOf(12d), IsNull.nullValue());
+    }
+
+    @Test
+    public void should_return_null_when_try_get_previous_node_and_node_is_not_in_list() throws Exception {
+        NodeList<Double> list = new NodeList<>();
+        list.appendChild(12d);
+        list.appendChild(5d);
+        list.appendChild(15d);
+        list.appendChild(16d);
+
+        assertThat(list.getPreviousSiblingOf(17d), IsNull.nullValue());
+    }
+
+    @Test
+    public void should_find_the_previous_node() throws Exception {
+        NodeList<Double> list = new NodeList<>();
+        list.appendChild(12d);
+        list.appendChild(5d);
+        list.appendChild(15d);
+        list.appendChild(16d);
+
+        assertThat(list.getPreviousSiblingOf(15d),is(5d));
+    }
+
+    @Test
+    public void should_return_null_when_get_next_sibling_when_it_is_the_last_node() throws Exception {
+        NodeList<Double> list = new NodeList<>();
+        list.appendChild(12d);
+        list.appendChild(5d);
+        list.appendChild(15d);
+        list.appendChild(16d);
+
+        assertThat(list.getNextSiblingOf(16d), IsNull.nullValue());
+    }
+
+    @Test
+    public void should_return_null_when_try_get_next_sibling_node_and_node_is_not_in_list() throws Exception {
+        NodeList<Double> list = new NodeList<>();
+        list.appendChild(12d);
+        list.appendChild(5d);
+        list.appendChild(15d);
+        list.appendChild(16d);
+
+        assertThat(list.getNextSiblingOf(17d), IsNull.nullValue());
+    }
+
+    @Test
+    public void should_find_the_next_sibling_node() throws Exception {
+        NodeList<Double> list = new NodeList<>();
+        list.appendChild(12d);
+        list.appendChild(5d);
+        list.appendChild(15d);
+        list.appendChild(16d);
+
+        assertThat(list.getNextSiblingOf(15d),is(16d));
     }
 }
