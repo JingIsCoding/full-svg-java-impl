@@ -4,7 +4,7 @@ public class Constants {
 
     public enum TagName{
 
-        SVG("svg"), RECT("rect"), G("g"), DEFS("defs"), DESC("desc");
+        SVG("svg"), RECT("rect"), G("g"), DEFS("defs"), DESC("desc"), STYLE("style");
         private String name;
         TagName(String name){
             this.name = name;

@@ -9,7 +9,9 @@ import static com.jing.svg.dataType.Constants.TagName.*;
 
 
 public class SVGSVGElement {
-    private SVGElement svgElement = new SVGElement(SVG, this, null);
+    private SVGElement svgElement = new SVGElement(SVG, this);
+    private SVGTests svgTests = new SVGTests();
+
 
     SVGSVGElement(){
     }

@@ -32,22 +32,20 @@ public class SVGElement implements Element<SVGElement>{
         this(tagName, null, ownerSVGElement ,null);
     }
 
-    public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement, SVGElement parent){
-        this(tagName, null, ownerSVGElement ,parent);
+
+    public SVGElement(TagName tagName, String value, SVGSVGElement ownerSVGElement){
+        this(tagName,value, ownerSVGElement,null);
     }
 
-    public SVGElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement parent){
-        this(tagName,value, ownerSVGElement, parent,null);
-    }
-
-    public SVGElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement parent, SVGElement viewPortElement){
+    public SVGElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
         this.tagName = tagName;
         this.value = value;
-        this.parent = parent;
         this.ownerSVGElement = ownerSVGElement;
         this.viewPortElement = viewPortElement;
         this.children = new NodeList<>();
     }
+
+
 
     public void setId(String id) {
         this.id = id;
@@ -89,6 +87,13 @@ public class SVGElement implements Element<SVGElement>{
         return value;
     }
 
+    public void setParent(SVGElement parent){
+        this.parent = parent;
+        if(!parent.getChildrenNodes().hasChild(this)){
+            parent.appendChild(this);
+        }
+    }
+
     @Override
     public SVGElement getParent() {
         return parent;
@@ -101,6 +106,7 @@ public class SVGElement implements Element<SVGElement>{
 
     public void appendChild(SVGElement element){
         element.parent = this;
+        element.ownerSVGElement = this.ownerSVGElement;
         children.appendChild(element);
     }
 
@@ -146,7 +152,27 @@ public class SVGElement implements Element<SVGElement>{
 
     @Override
     public SVGElement cloneNode(boolean deep) {
-        return null;
+        SVGElement svgElement = new SVGElement(this.tagName, this.value, this.ownerSVGElement, this.viewPortElement);
+        svgElement.id = this.id;
+        svgElement.xmlBase = this.xmlBase;
+        svgElement.attributes.putAll(this.attributes);
+
+        if(deep) {
+            recCloneNode(svgElement, this.children);
+        }
+
+        return svgElement;
+    }
+
+    private void recCloneNode(SVGElement root,NodeList<SVGElement> children){
+        for(SVGElement child : children.getList()){
+            SVGElement newChild = child.cloneNode(false);
+            root.appendChild(newChild);
+
+            if(!child.getChildrenNodes().isEmpty()){
+                recCloneNode(newChild,child.getChildrenNodes());
+            }
+        }
     }
 
     @Override
