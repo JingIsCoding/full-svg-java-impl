@@ -15,7 +15,9 @@ public class SVGLength {
             String[] numberAndUnit = StringUtil.splitIntoNumberAndUnit(lengthString);
             setValueWithSpecifiedUnits(SVGLengthUnit.findByName(numberAndUnit[1]),Double.parseDouble(numberAndUnit[0]));
         }catch (Exception e)
-        {throw e;}
+        {
+            throw e;
+        }
     }
 
     public void setValueWithSpecifiedUnits(@NotNull String unit,@NotNull double value){

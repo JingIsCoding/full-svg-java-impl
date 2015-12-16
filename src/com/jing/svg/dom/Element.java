@@ -15,4 +15,6 @@ public interface Element<T> extends Node<T>{
     void removeAttribute(String name);
 
     List<T> getElementByTagName(TagName name);
+
+    T getElementById(String id);
 }

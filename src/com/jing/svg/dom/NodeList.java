@@ -1,7 +1,5 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.element.SVGElement;
-
 import java.util.ArrayList;
 import java.util.List;
 

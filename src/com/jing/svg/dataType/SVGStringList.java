@@ -53,4 +53,8 @@ public class SVGStringList {
     public int getSize(){
         return strings.size();
     }
+
+    public boolean contains(String item){
+        return strings.contains(item);
+    }
 }

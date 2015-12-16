@@ -9,8 +9,7 @@ import java.util.Map;
 
 
 public class SVGStyleElement {
-    private SVGElement element = new SVGElement(Constants.TagName.STYLE, null);
-    private SVGLangSpace svgLangSpace = new SVGLangSpace();
+    private SVGElement element = new SVGElementImpl(Constants.TagName.STYLE, null);
 
     private String type;
     private String media;

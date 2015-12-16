@@ -1,10 +1,7 @@
 package com.jing.svg.element;
 
-import com.jing.svg.dataType.Constants;
-import com.jing.svg.dataType.Constants.TagName;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
-import org.omg.CORBA.DoubleHolder;
 
 import static com.jing.svg.dataType.Constants.TagName.*;
 import static org.hamcrest.core.Is.is;
@@ -14,7 +11,7 @@ public class SVGElementTest {
 
     @Test
     public void should_set_attribute_correctly(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
+        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
         svgElement.setAttribute("class","what");
         svgElement.setAttribute("width","123px");
 
@@ -24,8 +21,8 @@ public class SVGElementTest {
 
     @Test
     public void should_set_parent_correctly(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
-        SVGElement rectElement= new SVGElement(RECT, null ,null);
+        SVGElement svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGElement rectElement= new SVGElementImpl(RECT, null ,null);
         svgElement.appendChild(rectElement);
 
         assertThat(rectElement.getParent(), is(svgElement));
@@ -33,10 +30,10 @@ public class SVGElementTest {
 
     @Test
     public void should_set_children_correctly(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
-        SVGElement rectElement1= new SVGElement(RECT, null ,null);
-        SVGElement rectElement2= new SVGElement(RECT, null ,null);
-        SVGElement rectElement3= new SVGElement(RECT, null ,null);
+        SVGElement svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGElement rectElement1= new SVGElementImpl(RECT, null ,null);
+        SVGElement rectElement2= new SVGElementImpl(RECT, null ,null);
+        SVGElement rectElement3= new SVGElementImpl(RECT, null ,null);
 
         svgElement.appendChild(rectElement1);
         svgElement.appendChild(rectElement2);
@@ -49,10 +46,10 @@ public class SVGElementTest {
 
     @Test
     public void should_get_siblings_correctly(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
-        SVGElement rectElement1= new SVGElement(RECT, null ,null);
-        SVGElement rectElement2= new SVGElement(RECT, null ,null);
-        SVGElement rectElement3= new SVGElement(RECT, null ,null);
+        SVGElement svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGElement rectElement1= new SVGElementImpl(RECT, null ,null);
+        SVGElement rectElement2= new SVGElementImpl(RECT, null ,null);
+        SVGElement rectElement3= new SVGElementImpl(RECT, null ,null);
 
         svgElement.appendChild(rectElement1);
         svgElement.appendChild(rectElement2);
@@ -65,20 +62,20 @@ public class SVGElementTest {
 
     @Test
     public void should_get_element_by_tag_name_correctly(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
-        SVGElement rect= new SVGElement(RECT, null ,null);
-        SVGElement gElement= new SVGElement(G, null ,null);
-        SVGElement defsElement= new SVGElement(DEFS, null ,null);
-        SVGElement descElement = new SVGElement(DESC, null ,null);
+        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGElementImpl rect= new SVGElementImpl(RECT, null ,null);
+        SVGElementImpl gElement= new SVGElementImpl(G, null ,null);
+        SVGElementImpl defsElement= new SVGElementImpl(DEFS, null ,null);
+        SVGElementImpl descElement = new SVGElementImpl(DESC, null ,null);
 
         svgElement.appendChild(rect);
         svgElement.appendChild(gElement);
         svgElement.appendChild(defsElement);
         svgElement.appendChild(descElement);
 
-        SVGElement rect1= new SVGElement(RECT, null ,null);
-        SVGElement rect2= new SVGElement(RECT, null ,null);
-        SVGElement rect3= new SVGElement(RECT, null ,null);
+        SVGElementImpl rect1= new SVGElementImpl(RECT, null ,null);
+        SVGElementImpl rect2= new SVGElementImpl(RECT, null ,null);
+        SVGElementImpl rect3= new SVGElementImpl(RECT, null ,null);
         gElement.appendChild(rect1);
         gElement.appendChild(rect2);
         gElement.appendChild(rect3);
@@ -89,7 +86,7 @@ public class SVGElementTest {
 
     @Test
     public void should_clone_node_not_deep_with_correctly_properties(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
+        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
         svgElement.setId("abc");
         svgElement.setXmlBase("base");
         svgElement.setAttribute("key1",new Integer(123));
@@ -109,9 +106,9 @@ public class SVGElementTest {
 
     @Test
     public void should_clone_node_deep_with_correctly_properties(){
-        SVGElement svgElement= new SVGElement(SVG, null ,null);
-        SVGElement gElement= new SVGElement(G, null ,null);
-        SVGElement rect= new SVGElement(RECT, null ,null);
+        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGElementImpl gElement= new SVGElementImpl(G, null ,null);
+        SVGElementImpl rect= new SVGElementImpl(RECT, null ,null);
 
         svgElement.appendChild(gElement);
         gElement.appendChild(rect);
@@ -121,5 +118,30 @@ public class SVGElementTest {
         assertThat(svgElement1.getFirstChild().getTagName(),is(G));
         assertThat(svgElement1.getFirstChild().getChildrenNodes().size(),is(1));
         assertThat(svgElement1.getFirstChild().getFirstChild().getTagName(),is(RECT));
+    }
+
+    @Test
+    public void should_find_element_by_Id(){
+        SVGElement svgElement= new SVGElementImpl(SVG);
+
+        SVGElement gElement= new SVGElementImpl(G, null);
+        SVGElement rect= new SVGElementImpl(RECT, null);
+        SVGElement rect1= new SVGElementImpl(RECT, null);
+        gElement.appendChild(rect);
+        gElement.appendChild(rect1);
+
+        SVGElement gElement1= new SVGElementImpl(G, null);
+        SVGElement rect2= new SVGElementImpl(RECT, null);
+        rect2.setId("rect2");
+
+        SVGElement rect3= new SVGElementImpl(RECT, null);
+        gElement1.appendChild(rect2);
+        gElement1.appendChild(rect3);
+
+        gElement.appendChild(gElement1);
+
+        svgElement.appendChild(gElement);
+
+        assertThat(svgElement.getElementById("rect2"),is(rect2));
     }
 }

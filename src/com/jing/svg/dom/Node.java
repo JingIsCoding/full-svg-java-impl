@@ -11,9 +11,13 @@ public interface Node<T> {
 
     public String getValue();
 
+    public void setParent(T t);
+
     public T getParent();
 
     public NodeList<T> getChildrenNodes();
+
+    public boolean hasChild();
 
     public T getFirstChild();
 
