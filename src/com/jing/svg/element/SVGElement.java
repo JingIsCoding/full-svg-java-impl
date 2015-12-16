@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.jing.svg.dataType.Constants.TagName;
-
+//To be used inside of SVG
 public class SVGElement implements Element<SVGElement>{
     //SVG Element
     private String id;
@@ -27,6 +27,10 @@ public class SVGElement implements Element<SVGElement>{
     private String value;
     private SVGElement parent;
     private NodeList<SVGElement> children;
+
+    public SVGElement(TagName tagName){
+        this(tagName, null);
+    }
 
     public SVGElement(TagName tagName, SVGSVGElement ownerSVGElement){
         this(tagName, null, ownerSVGElement ,null);
