@@ -68,8 +68,6 @@ public class SVGStyle {
         this.font.setFontVariant(fontVariant);
     }
 
-
-
     public static final class Font{
         private String fontFamily;
         private int fontSize;
