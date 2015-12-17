@@ -4,7 +4,7 @@ import com.jing.svg.dataType.Constants;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 import com.jing.svg.element.SVGElement;
-import com.jing.svg.element.SVGElementImpl;
+import com.jing.svg.element.SVGBaseElement;
 import com.jing.svg.element.SVGLangSpace;
 import com.jing.svg.element.SVGLangSpaceImpl;
 
@@ -15,7 +15,7 @@ import static com.jing.svg.dataType.Constants.TagName.SYMBOL;
 
 public class SVGSymbolElement implements SVGElement, SVGLangSpace {
 
-    private SVGElement svgElement = new SVGElementImpl(SYMBOL);
+    private SVGElement svgElement = new SVGBaseElement(SYMBOL);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
 
     @Override

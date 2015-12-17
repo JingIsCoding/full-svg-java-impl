@@ -5,8 +5,8 @@ import com.jing.svg.dataType.SVGMatrix;
 import com.jing.svg.dataType.SVGRect;
 
 public class SVGLocatable {
-    private SVGElementImpl nearestViewportElement;
-    private SVGElementImpl farthestViewportElement;
+    private SVGBaseElement nearestViewportElement;
+    private SVGBaseElement farthestViewportElement;
 
     public SVGRect getBBox(){
         return null;
@@ -17,7 +17,7 @@ public class SVGLocatable {
     public SVGMatrix getScreenCTM(){
         return null;
     }
-    public SVGMatrix getTransformToElement(SVGElementImpl element) {
+    public SVGMatrix getTransformToElement(SVGBaseElement element) {
         return null;
     }
 }

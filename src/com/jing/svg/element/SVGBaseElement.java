@@ -11,7 +11,7 @@ import java.util.Map;
 
 import static com.jing.svg.dataType.Constants.TagName;
 
-public class SVGElementImpl implements SVGElement{
+public class SVGBaseElement implements SVGElement{
     //SVG Element
     private SVGSVGElement ownerSVGElement;
     private SVGElement viewPortElement;
@@ -25,20 +25,20 @@ public class SVGElementImpl implements SVGElement{
     private SVGElement parent;
     private NodeList<SVGElement> children;
 
-    public SVGElementImpl(TagName tagName){
+    public SVGBaseElement(TagName tagName){
         this(tagName, null, null ,null);
     }
 
-    public SVGElementImpl(TagName tagName, SVGSVGElement ownerSVGElement){
+    public SVGBaseElement(TagName tagName, SVGSVGElement ownerSVGElement){
         this(tagName, null, ownerSVGElement ,null);
     }
 
 
-    public SVGElementImpl(TagName tagName, String value, SVGSVGElement ownerSVGElement){
+    public SVGBaseElement(TagName tagName, String value, SVGSVGElement ownerSVGElement){
         this(tagName,value, ownerSVGElement,null);
     }
 
-    public SVGElementImpl(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
+    public SVGBaseElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
         this.tagName = tagName;
         this.value = value;
         this.ownerSVGElement = ownerSVGElement;
@@ -165,7 +165,7 @@ public class SVGElementImpl implements SVGElement{
 
     @Override
     public SVGElement cloneNode(boolean deep) {
-        SVGElementImpl svgElement = new SVGElementImpl(this.tagName, this.value, this.ownerSVGElement, this.viewPortElement);
+        SVGBaseElement svgElement = new SVGBaseElement(this.tagName, this.value, this.ownerSVGElement, this.viewPortElement);
         svgElement.setId(getId());
         svgElement.setXmlBase(getXmlBase());
         svgElement.attributes.putAll(this.attributes);

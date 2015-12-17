@@ -4,6 +4,7 @@ import com.jing.svg.dataType.Constants;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 import com.jing.svg.element.*;
+import com.jing.svg.element.SVGBaseElement;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
 import static com.jing.svg.dataType.Constants.TagName.DESC;
 
 public class SVGDescElement implements SVGElement, SVGLangSpace {
-    private SVGElement svgElement = new SVGElementImpl(DESC);
+    private SVGElement svgElement = new SVGBaseElement(DESC);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
 
     @Override

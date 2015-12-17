@@ -2,19 +2,15 @@ package com.jing.svg;
 
 
 import com.jing.svg.dataType.Constants;
-import com.jing.svg.dataType.SVGStyle;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 import com.jing.svg.element.SVGElement;
-import com.jing.svg.element.SVGElementImpl;
+import com.jing.svg.element.SVGBaseElement;
 import com.jing.svg.element.SVGLangSpace;
 import com.jing.svg.element.SVGLangSpaceImpl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.jing.svg.dataType.Constants.TagName.DESC;
 
 
 public class SVGStyleElement implements SVGElement,SVGLangSpace {
@@ -50,7 +46,7 @@ public class SVGStyleElement implements SVGElement,SVGLangSpace {
         this.setAttribute("media", media);
     }
 
-    private SVGElement svgElement = new SVGElementImpl(Constants.TagName.STYLE, null);
+    private SVGElement svgElement = new SVGBaseElement(Constants.TagName.STYLE, null);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
 
 

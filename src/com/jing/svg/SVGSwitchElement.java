@@ -5,6 +5,7 @@ import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 import com.jing.svg.element.*;
+import com.jing.svg.element.SVGBaseElement;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import static com.jing.svg.dataType.Constants.TagName.SWITCH;
 
 
 public class SVGSwitchElement implements SVGElement, SVGTests, SVGLangSpace{
-    private SVGElement svgElement = new SVGElementImpl(SWITCH);
+    private SVGElement svgElement = new SVGBaseElement(SWITCH);
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
 

@@ -11,7 +11,7 @@ public class SVGElementTest {
 
     @Test
     public void should_set_attribute_correctly(){
-        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGBaseElement svgElement= new SVGBaseElement(SVG, null ,null);
         svgElement.setAttribute("class","what");
         svgElement.setAttribute("width","123px");
 
@@ -21,8 +21,8 @@ public class SVGElementTest {
 
     @Test
     public void should_set_parent_correctly(){
-        SVGElement svgElement= new SVGElementImpl(SVG, null ,null);
-        SVGElement rectElement= new SVGElementImpl(RECT, null ,null);
+        SVGElement svgElement= new SVGBaseElement(SVG, null ,null);
+        SVGElement rectElement= new SVGBaseElement(RECT, null ,null);
         svgElement.appendChild(rectElement);
 
         assertThat(rectElement.getParent(), is(svgElement));
@@ -30,10 +30,10 @@ public class SVGElementTest {
 
     @Test
     public void should_set_children_correctly(){
-        SVGElement svgElement= new SVGElementImpl(SVG, null ,null);
-        SVGElement rectElement1= new SVGElementImpl(RECT, null ,null);
-        SVGElement rectElement2= new SVGElementImpl(RECT, null ,null);
-        SVGElement rectElement3= new SVGElementImpl(RECT, null ,null);
+        SVGElement svgElement= new SVGBaseElement(SVG, null ,null);
+        SVGElement rectElement1= new SVGBaseElement(RECT, null ,null);
+        SVGElement rectElement2= new SVGBaseElement(RECT, null ,null);
+        SVGElement rectElement3= new SVGBaseElement(RECT, null ,null);
 
         svgElement.appendChild(rectElement1);
         svgElement.appendChild(rectElement2);
@@ -46,10 +46,10 @@ public class SVGElementTest {
 
     @Test
     public void should_get_siblings_correctly(){
-        SVGElement svgElement= new SVGElementImpl(SVG, null ,null);
-        SVGElement rectElement1= new SVGElementImpl(RECT, null ,null);
-        SVGElement rectElement2= new SVGElementImpl(RECT, null ,null);
-        SVGElement rectElement3= new SVGElementImpl(RECT, null ,null);
+        SVGElement svgElement= new SVGBaseElement(SVG, null ,null);
+        SVGElement rectElement1= new SVGBaseElement(RECT, null ,null);
+        SVGElement rectElement2= new SVGBaseElement(RECT, null ,null);
+        SVGElement rectElement3= new SVGBaseElement(RECT, null ,null);
 
         svgElement.appendChild(rectElement1);
         svgElement.appendChild(rectElement2);
@@ -62,20 +62,20 @@ public class SVGElementTest {
 
     @Test
     public void should_get_element_by_tag_name_correctly(){
-        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
-        SVGElementImpl rect= new SVGElementImpl(RECT, null ,null);
-        SVGElementImpl gElement= new SVGElementImpl(G, null ,null);
-        SVGElementImpl defsElement= new SVGElementImpl(DEFS, null ,null);
-        SVGElementImpl descElement = new SVGElementImpl(DESC, null ,null);
+        SVGBaseElement svgElement= new SVGBaseElement(SVG, null ,null);
+        SVGBaseElement rect= new SVGBaseElement(RECT, null ,null);
+        SVGBaseElement gElement= new SVGBaseElement(G, null ,null);
+        SVGBaseElement defsElement= new SVGBaseElement(DEFS, null ,null);
+        SVGBaseElement descElement = new SVGBaseElement(DESC, null ,null);
 
         svgElement.appendChild(rect);
         svgElement.appendChild(gElement);
         svgElement.appendChild(defsElement);
         svgElement.appendChild(descElement);
 
-        SVGElementImpl rect1= new SVGElementImpl(RECT, null ,null);
-        SVGElementImpl rect2= new SVGElementImpl(RECT, null ,null);
-        SVGElementImpl rect3= new SVGElementImpl(RECT, null ,null);
+        SVGBaseElement rect1= new SVGBaseElement(RECT, null ,null);
+        SVGBaseElement rect2= new SVGBaseElement(RECT, null ,null);
+        SVGBaseElement rect3= new SVGBaseElement(RECT, null ,null);
         gElement.appendChild(rect1);
         gElement.appendChild(rect2);
         gElement.appendChild(rect3);
@@ -86,7 +86,7 @@ public class SVGElementTest {
 
     @Test
     public void should_clone_node_not_deep_with_correctly_properties(){
-        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
+        SVGBaseElement svgElement= new SVGBaseElement(SVG, null ,null);
         svgElement.setId("abc");
         svgElement.setXmlBase("base");
         svgElement.setAttribute("key1",new Integer(123));
@@ -106,9 +106,9 @@ public class SVGElementTest {
 
     @Test
     public void should_clone_node_deep_with_correctly_properties(){
-        SVGElementImpl svgElement= new SVGElementImpl(SVG, null ,null);
-        SVGElementImpl gElement= new SVGElementImpl(G, null ,null);
-        SVGElementImpl rect= new SVGElementImpl(RECT, null ,null);
+        SVGBaseElement svgElement= new SVGBaseElement(SVG, null ,null);
+        SVGBaseElement gElement= new SVGBaseElement(G, null ,null);
+        SVGBaseElement rect= new SVGBaseElement(RECT, null ,null);
 
         svgElement.appendChild(gElement);
         gElement.appendChild(rect);
@@ -122,19 +122,19 @@ public class SVGElementTest {
 
     @Test
     public void should_find_element_by_Id(){
-        SVGElement svgElement= new SVGElementImpl(SVG);
+        SVGElement svgElement= new SVGBaseElement(SVG);
 
-        SVGElement gElement= new SVGElementImpl(G, null);
-        SVGElement rect= new SVGElementImpl(RECT, null);
-        SVGElement rect1= new SVGElementImpl(RECT, null);
+        SVGElement gElement= new SVGBaseElement(G, null);
+        SVGElement rect= new SVGBaseElement(RECT, null);
+        SVGElement rect1= new SVGBaseElement(RECT, null);
         gElement.appendChild(rect);
         gElement.appendChild(rect1);
 
-        SVGElement gElement1= new SVGElementImpl(G, null);
-        SVGElement rect2= new SVGElementImpl(RECT, null);
+        SVGElement gElement1= new SVGBaseElement(G, null);
+        SVGElement rect2= new SVGBaseElement(RECT, null);
         rect2.setId("rect2");
 
-        SVGElement rect3= new SVGElementImpl(RECT, null);
+        SVGElement rect3= new SVGBaseElement(RECT, null);
         gElement1.appendChild(rect2);
         gElement1.appendChild(rect3);
 
