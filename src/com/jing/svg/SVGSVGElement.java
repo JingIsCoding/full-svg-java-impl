@@ -15,44 +15,58 @@ import static com.jing.svg.dataType.Constants.Location.*;
 import static com.jing.svg.dataType.Constants.TagName.*;
 
 
-public class SVGSVGElement implements SVGElement, SVGTests, SVGLangSpace{
-    private SVGElement svgElement = new SVGBaseElement(SVG, this);
+public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSpace{
+
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
 
-    public SVGSVGElement(){
+    public SVGSVGElement() {
+        super(SVG);
     }
 
+    public SVGSVGElement(SVGSVGElement ownerSVGElement) {
+        super(SVG, ownerSVGElement);
+    }
+
+    public SVGSVGElement(String value, SVGSVGElement ownerSVGElement) {
+        super(SVG, value, ownerSVGElement);
+    }
+
+    public SVGSVGElement(String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement) {
+        super(SVG, value, ownerSVGElement, viewPortElement);
+    }
+
+
     public void setX(String x){
-        svgElement.setAttribute(X.toString(),new SVGAnimatedLength(new SVGLength(x)));
+        setAttribute(X.toString(),new SVGAnimatedLength(new SVGLength(x)));
     }
 
     public SVGAnimatedLength getX(){
-        return (SVGAnimatedLength) svgElement.getAttribute(X.toString()).getValue();
+        return (SVGAnimatedLength) getAttribute(X.toString()).getValue();
     }
 
     public void setY(String y){
-        svgElement.setAttribute(Y.toString(),new SVGAnimatedLength(new SVGLength(y)));
+        setAttribute(Y.toString(),new SVGAnimatedLength(new SVGLength(y)));
     }
 
     public SVGAnimatedLength getY(){
-        return (SVGAnimatedLength) svgElement.getAttribute(Y.toString()).getValue();
+        return (SVGAnimatedLength) getAttribute(Y.toString()).getValue();
     }
 
     public void setWidth(String width){
-        svgElement.setAttribute(WIDTH.toString(),new SVGAnimatedLength(new SVGLength(width)));
+        setAttribute(WIDTH.toString(),new SVGAnimatedLength(new SVGLength(width)));
     }
 
     public SVGAnimatedLength getWidth(){
-        return (SVGAnimatedLength) svgElement.getAttribute(WIDTH.toString()).getValue();
+        return (SVGAnimatedLength) getAttribute(WIDTH.toString()).getValue();
     }
 
     public void setHeight(String height){
-        svgElement.setAttribute(HEIGHT.toString(),new SVGAnimatedLength(new SVGLength(height)));
+        setAttribute(HEIGHT.toString(),new SVGAnimatedLength(new SVGLength(height)));
     }
 
     public SVGAnimatedLength getHeight(){
-        return (SVGAnimatedLength) svgElement.getAttribute(HEIGHT.toString()).getValue();
+        return (SVGAnimatedLength) getAttribute(HEIGHT.toString()).getValue();
     }
 
     public SVGNumber createSVGNumber(double number){
@@ -78,141 +92,6 @@ public class SVGSVGElement implements SVGElement, SVGTests, SVGLangSpace{
     }
     public SVGTransform createSVGTransformFromMatrix(SVGMatrix matrix){
         return new SVGTransform(matrix);
-    }
-
-
-    @Override
-    public void setAttribute(String name, Object value) {
-        svgElement.setAttribute(name,value);
-    }
-
-    @Override
-    public TagName getTagName() {
-        return svgElement.getTagName();
-    }
-
-    @Override
-    public String getValue() {
-        return svgElement.getValue();
-    }
-
-    @Override
-    public void setParent(SVGElement element) {
-        svgElement.setParent(element);
-    }
-
-    @Override
-    public SVGElement getParent() {
-        return svgElement.getParent();
-    }
-
-    @Override
-    public NodeList<SVGElement> getChildrenNodes() {
-        return svgElement.getChildrenNodes();
-    }
-
-    @Override
-    public boolean hasChild() {
-        return svgElement.hasChild();
-    }
-
-    @Override
-    public SVGElement getFirstChild() {
-        return svgElement.getFirstChild();
-    }
-
-    @Override
-    public SVGElement getLastChild() {
-        return svgElement.getLastChild();
-    }
-
-    @Override
-    public SVGElement getPreviousSibling() {
-        return svgElement.getPreviousSibling();
-    }
-
-    @Override
-    public SVGElement getNextSibling() {
-        return svgElement.getNextSibling();
-    }
-
-    @Override
-    public Map<String, Attribute> getAttributes() {
-        return svgElement.getAttributes();
-    }
-
-    @Override
-    public Attribute getAttribute(String name) {
-        return svgElement.getAttribute(name);
-    }
-
-    @Override
-    public boolean hasAttributes() {
-        return svgElement.hasAttributes();
-    }
-
-    @Override
-    public boolean hasOwnAttribute(String name) {
-        return svgElement.hasOwnAttribute(name);
-    }
-
-    @Override
-    public SVGElement cloneNode(boolean deep) {
-        return svgElement.cloneNode(deep);
-    }
-
-    @Override
-    public void removeAttribute(String name) {
-        svgElement.removeAttribute(name);
-    }
-
-    @Override
-    public List<SVGElement> getElementByTagName(TagName name) {
-        return svgElement.getElementByTagName(name);
-    }
-
-    public SVGElement getElementById(String elementId){
-        return svgElement.getElementById(elementId);
-    }
-
-    @Override
-    public void setId(String id) {
-        svgElement.setId(id);
-    }
-
-    @Override
-    public String getId() {
-        return svgElement.getId();
-    }
-
-    @Override
-    public void setXmlBase(String xmlBase) {
-        svgElement.setXmlBase(xmlBase);
-    }
-
-    @Override
-    public String getXmlBase() {
-        return svgElement.getXmlBase();
-    }
-
-    @Override
-    public void setOwnerSVGElement(SVGSVGElement element) {
-        svgElement.setOwnerSVGElement(element);
-    }
-
-    @Override
-    public SVGSVGElement getOwnerSVGElement() {
-        return svgElement.getOwnerSVGElement();
-    }
-
-    @Override
-    public SVGElement getViewportElement() {
-        return svgElement.getViewportElement();
-    }
-
-    @Override
-    public void appendChild(SVGElement element) {
-        svgElement.appendChild(element);
     }
 
     @Override
