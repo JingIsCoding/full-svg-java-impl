@@ -10,14 +10,12 @@ import com.jing.svg.element.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.jing.svg.dataType.Constants.TagName.DEFS;
-import static com.jing.svg.dataType.Constants.TagName.SVG;
+import static com.jing.svg.dataType.Constants.TagName.G;
 
-public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
-    private SVGElement svgElement = new SVGElementImpl(DEFS);
+public class SVGGElement implements SVGElement, SVGTests, SVGLangSpace {
+    private SVGElement svgElement = new SVGElementImpl(G);
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
-
 
 
     @Override

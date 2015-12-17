@@ -5,26 +5,26 @@ import java.util.Objects;
 /**
  * Created by jguo on 12/8/2015.
  */
-public class Attribute {
+public class Attribute<T> {
 
     public Attribute(Element ownerElement){
         this(ownerElement,null,null);
     }
 
-    public Attribute(Element ownerElement, String name, Object value) {
+    public Attribute(Element ownerElement, String name, T value) {
         this.name = name;
         this.value = value;
     }
 
     private String name;
-    private Object value;
+    private T value;
     private Element ownerElement;
 
-    public Object getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(T value) {
         this.value = value;
     }
 

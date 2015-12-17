@@ -1,23 +1,21 @@
 package com.jing.svg;
 
-
+import com.jing.svg.animated.SVGAnimatedString;
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 import com.jing.svg.element.*;
-
 import java.util.List;
 import java.util.Map;
+import static com.jing.svg.dataType.Constants.TagName.USE;
 
-import static com.jing.svg.dataType.Constants.TagName.DEFS;
-import static com.jing.svg.dataType.Constants.TagName.SVG;
+public class SVGUseElement implements SVGElement, SVGTests, SVGLangSpace,SVGURIReference{
 
-public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
-    private SVGElement svgElement = new SVGElementImpl(DEFS);
+    private SVGElement svgElement = new SVGElementImpl(USE);
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
-
+    private SVGURIReference svguriReference = new SVGURIReferenceImpl();
 
 
     @Override
@@ -207,5 +205,10 @@ public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
     @Override
     public void setXmllang(String xmllang) {
         svgLangSpace.setXmlspace(xmllang);
+    }
+
+    @Override
+    public SVGAnimatedString getHref() {
+        return svguriReference.getHref();
     }
 }

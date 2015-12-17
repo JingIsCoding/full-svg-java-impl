@@ -1,6 +1,5 @@
 package com.jing.svg;
 
-
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.Attribute;
@@ -10,15 +9,13 @@ import com.jing.svg.element.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.jing.svg.dataType.Constants.TagName.DEFS;
-import static com.jing.svg.dataType.Constants.TagName.SVG;
+import static com.jing.svg.dataType.Constants.TagName.SWITCH;
 
-public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
-    private SVGElement svgElement = new SVGElementImpl(DEFS);
+
+public class SVGSwitchElement implements SVGElement, SVGTests, SVGLangSpace{
+    private SVGElement svgElement = new SVGElementImpl(SWITCH);
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
-
-
 
     @Override
     public void setAttribute(String name, Object value) {

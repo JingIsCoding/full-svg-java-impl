@@ -5,11 +5,7 @@ import com.jing.svg.animated.SVGAnimatedString;
 /**
  * Created by jguo on 12/11/2015.
  */
-public class SVGURIReference {
+public interface SVGURIReference {
 
-    private SVGAnimatedString href;
-
-    public SVGAnimatedString getHref() {
-        return href;
-    }
+    public SVGAnimatedString getHref();
 }

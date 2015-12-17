@@ -1,6 +1,5 @@
 package com.jing.svg;
 
-
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.Attribute;
@@ -10,14 +9,11 @@ import com.jing.svg.element.*;
 import java.util.List;
 import java.util.Map;
 
-import static com.jing.svg.dataType.Constants.TagName.DEFS;
-import static com.jing.svg.dataType.Constants.TagName.SVG;
+import static com.jing.svg.dataType.Constants.TagName.DESC;
 
-public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
-    private SVGElement svgElement = new SVGElementImpl(DEFS);
-    private SVGTests svgTests = new SVGTestsImpl(this);
+public class SVGDescElement implements SVGElement, SVGLangSpace {
+    private SVGElement svgElement = new SVGElementImpl(DESC);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
-
 
 
     @Override
@@ -152,41 +148,6 @@ public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
     @Override
     public void appendChild(SVGElement element) {
         svgElement.appendChild(element);
-    }
-
-    @Override
-    public SVGStringList getSystemLanguage() {
-        return svgTests.getSystemLanguage();
-    }
-
-    @Override
-    public void setSystemLanguage(SVGStringList systemLanguage) {
-        svgTests.setSystemLanguage(systemLanguage);
-    }
-
-    @Override
-    public SVGStringList getRequiredFeatures() {
-        return svgTests.getRequiredFeatures();
-    }
-
-    @Override
-    public void setRequiredFeatures(SVGStringList requiredFeatures) {
-        svgTests.setRequiredFeatures(requiredFeatures);
-    }
-
-    @Override
-    public SVGStringList getRequiredExtensions() {
-        return svgTests.getRequiredExtensions();
-    }
-
-    @Override
-    public void setRequiredExtensions(SVGStringList requiredExtensions) {
-        svgTests.setRequiredFeatures(requiredExtensions);
-    }
-
-    @Override
-    public boolean hasExtension(String extension) {
-        return svgTests.hasExtension(extension);
     }
 
     @Override

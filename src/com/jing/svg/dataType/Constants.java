@@ -8,8 +8,13 @@ public class Constants {
         RECT("rect"),
         G("g"),
         DEFS("defs"),
+        USE("use"),
         DESC("desc"),
-        STYLE("style");
+        SYMBOL("symbol"),
+        STYLE("style"),
+        IMAGE("image"),
+        SWITCH("switch"),
+        TITLE("title");
         private String name;
         TagName(String name){
             this.name = name;
