@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.jing.svg.dataType.Constants.TagName.DEFS;
-import static com.jing.svg.dataType.Constants.TagName.SVG;
 
 public class SVGDefsElement implements SVGElement, SVGTests, SVGLangSpace {
     private SVGElement svgElement = new SVGElementImpl(DEFS);

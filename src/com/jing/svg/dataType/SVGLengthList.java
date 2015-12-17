@@ -5,13 +5,13 @@ import java.util.List;
 
 public class SVGLengthList {
 
-    List<SVGLength> svgLengths;
+    private List<SVGLength> svgLengths;
 
     SVGLengthList(){
         this(new SVGLength[0]);
     }
 
-    SVGLengthList(SVGLength[] svgLengths){
+    private SVGLengthList(SVGLength[] svgLengths){
         this.svgLengths = new ArrayList<>();
         for(SVGLength s : svgLengths){
             this.svgLengths.add(s);

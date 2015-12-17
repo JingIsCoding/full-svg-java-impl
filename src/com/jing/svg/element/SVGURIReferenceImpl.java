@@ -10,13 +10,13 @@ public class SVGURIReferenceImpl implements SVGURIReference{
     private SVGAnimatedString href;
 
     public void setHref(String href){
-        if(href == null){
+        if(href != null){
             this.href = new SVGAnimatedString(href);
         }
     }
 
     public void setHref(String href,String aniHref){
-        if(href == null){
+        if(href != null){
             this.href = new SVGAnimatedString(href,aniHref);
         }
     }

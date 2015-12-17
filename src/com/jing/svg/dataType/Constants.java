@@ -18,7 +18,7 @@ public class Constants {
         private String name;
         TagName(String name){
             this.name = name;
-        };
+        }
 
         @Override
         public String toString(){
@@ -35,7 +35,8 @@ public class Constants {
         private String name;
         Location(String name){
             this.name = name;
-        };
+        }
+
         @Override
         public String toString(){
             return this.name;
@@ -50,7 +51,8 @@ public class Constants {
         private String name;
         Tests(String name){
             this.name = name;
-        };
+        }
+
         @Override
         public String toString(){
             return this.name;

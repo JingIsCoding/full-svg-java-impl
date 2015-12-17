@@ -1,39 +1,38 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.Constants.TagName;
 
 import java.util.Map;
 
 public interface Node<T> {
 
-    public TagName getTagName();
+    TagName getTagName();
 
-    public String getValue();
+    String getValue();
 
-    public void setParent(T t);
+    void setParent(T t);
 
-    public T getParent();
+    T getParent();
 
-    public NodeList<T> getChildrenNodes();
+    NodeList<T> getChildrenNodes();
 
-    public boolean hasChild();
+    boolean hasChild();
 
-    public T getFirstChild();
+    T getFirstChild();
 
-    public T getLastChild();
+    T getLastChild();
 
-    public T getPreviousSibling();
+    T getPreviousSibling();
 
-    public T getNextSibling();
+    T getNextSibling();
 
-    public Map<String, Attribute> getAttributes();
+    Map<String, Attribute> getAttributes();
 
-    public Attribute getAttribute(String name);
+    Attribute getAttribute(String name);
 
-    public boolean hasAttributes();
+    boolean hasAttributes();
 
-    public boolean hasOwnAttribute(String name);
+    boolean hasOwnAttribute(String name);
 
-    public T cloneNode(boolean deep);
+    T cloneNode(boolean deep);
 }

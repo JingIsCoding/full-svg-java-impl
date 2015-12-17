@@ -5,20 +5,20 @@ import com.jing.svg.SVGSVGElement;
 import com.jing.svg.dom.Element;
 
 public interface SVGElement extends Element<SVGElement> {
-    public void setId(String id);
+    void setId(String id);
 
-    public String getId();
+    String getId();
 
-    public void setXmlBase(String xmlBase);
+    void setXmlBase(String xmlBase);
 
-    public String getXmlBase();
+    String getXmlBase();
 
-    public void setOwnerSVGElement(SVGSVGElement element);
+    void setOwnerSVGElement(SVGSVGElement element);
 
-    public SVGSVGElement getOwnerSVGElement();
+    SVGSVGElement getOwnerSVGElement();
 
-    public SVGElement getViewportElement();
+    SVGElement getViewportElement();
 
-    public void appendChild(SVGElement element);
+    void appendChild(SVGElement element);
 
 }

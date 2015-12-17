@@ -7,5 +7,5 @@ import com.jing.svg.animated.SVGAnimatedString;
  */
 public interface SVGURIReference {
 
-    public SVGAnimatedString getHref();
+    SVGAnimatedString getHref();
 }

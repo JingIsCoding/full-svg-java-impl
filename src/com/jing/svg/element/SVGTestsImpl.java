@@ -1,6 +1,5 @@
 package com.jing.svg.element;
 
-import com.jing.svg.SVGSVGElement;
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 

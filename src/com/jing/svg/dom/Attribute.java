@@ -1,10 +1,5 @@
 package com.jing.svg.dom;
 
-import java.util.Objects;
-
-/**
- * Created by jguo on 12/8/2015.
- */
 public class Attribute<T> {
 
     public Attribute(Element ownerElement){

@@ -2,8 +2,6 @@ package com.jing.svg.dataType;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class SVGAnimatedBooleanTest {
 
     @Test

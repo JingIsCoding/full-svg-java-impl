@@ -2,11 +2,11 @@ package com.jing.svg.element;
 
 public interface SVGLangSpace {
 
-    public String getXmlspace();
+    String getXmlspace();
 
-    public void setXmlspace(String xmlspace);
+    void setXmlspace(String xmlspace);
 
-    public String getXmllang();
+    String getXmllang();
 
-    public void setXmllang(String xmllang);
+    void setXmllang(String xmllang);
 }

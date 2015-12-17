@@ -176,7 +176,7 @@ public class RGBColor {
             rangeError = true;
             badComponentString = badComponentString + " Blue";
         }
-        if ( rangeError == true ) {
+        if ( rangeError ) {
             throw new IllegalArgumentException("Color parameter outside of expected range:"
                     + badComponentString);
         }

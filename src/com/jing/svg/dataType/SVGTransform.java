@@ -31,7 +31,8 @@ public class SVGTransform {
 
     public void setMatrix(SVGMatrix matrix){
         this.matrix = matrix;
-    };
+    }
+
     public void setTranslate(float tx, float ty){
         setMatrix(matrix.translate(tx,ty));
     }
@@ -55,7 +56,7 @@ public class SVGTransform {
         SVG_TRANSFORM_SCALE,
         SVG_TRANSFORM_ROTATE,
         SVG_TRANSFORM_SKEWX,
-        SVG_TRANSFORM_SKEWY;
+        SVG_TRANSFORM_SKEWY
     }
 
 }

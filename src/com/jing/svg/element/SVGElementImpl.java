@@ -2,7 +2,6 @@ package com.jing.svg.element;
 
 import com.jing.svg.SVGSVGElement;
 import com.jing.svg.dom.Attribute;
-import com.jing.svg.dom.Element;
 import com.jing.svg.dom.NodeList;
 
 import java.util.ArrayList;

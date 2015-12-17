@@ -4,17 +4,17 @@ import com.jing.svg.dataType.SVGStringList;
 
 public interface SVGTests {
 
-    public SVGStringList getSystemLanguage();
+    SVGStringList getSystemLanguage();
 
-    public void setSystemLanguage(SVGStringList systemLanguage);
+    void setSystemLanguage(SVGStringList systemLanguage);
 
-    public SVGStringList getRequiredFeatures();
+    SVGStringList getRequiredFeatures();
 
-    public void setRequiredFeatures(SVGStringList requiredFeatures);
+    void setRequiredFeatures(SVGStringList requiredFeatures);
 
-    public SVGStringList getRequiredExtensions();
+    SVGStringList getRequiredExtensions();
 
-    public void setRequiredExtensions(SVGStringList requiredExtensions);
+    void setRequiredExtensions(SVGStringList requiredExtensions);
 
-    public boolean hasExtension(String extension);
+    boolean hasExtension(String extension);
 }

@@ -1,7 +1,5 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.dataType.Constants;
-
 import java.util.List;
 
 import static com.jing.svg.dataType.Constants.*;

@@ -1,16 +1,16 @@
 package com.jing.svg.element;
 
 public class SVGLangSpaceImpl implements SVGLangSpace {
-    SVGElement svgElement;
+    private SVGElement svgElement;
 
-    public static final String XMLLang = "xml:lang";
-    public static final String XMLSpace = "xml:space";
+    private static final String XMLLang = "xml:lang";
+    private static final String XMLSpace = "xml:space";
 
     public SVGLangSpaceImpl(SVGElement svgElement){
         this(svgElement,null,null);
     }
 
-    public SVGLangSpaceImpl(SVGElement svgElement,String xmllang, String xmlspace) {
+    private SVGLangSpaceImpl(SVGElement svgElement, String xmllang, String xmlspace) {
         this.svgElement = svgElement;
         svgElement.setAttribute(XMLLang,xmllang);
         svgElement.setAttribute(XMLSpace,xmlspace);

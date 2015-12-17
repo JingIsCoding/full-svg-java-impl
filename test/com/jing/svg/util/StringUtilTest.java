@@ -1,6 +1,5 @@
 package com.jing.svg.util;
 
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.*;
