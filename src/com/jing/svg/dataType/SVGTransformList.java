@@ -3,49 +3,46 @@ package com.jing.svg.dataType;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jguo on 12/11/2015.
- */
 public class SVGTransformList {
 
-    List<SVGTransform> numbers;
+    List<SVGTransform> transforms;
 
     SVGTransformList(){
         this(new SVGTransform[0]);
     }
 
-    SVGTransformList(SVGTransform[] numbers){
-        this.numbers = new ArrayList<>();
-        for(SVGTransform s : numbers){
-            this.numbers.add(s);
+    SVGTransformList(SVGTransform[] transforms){
+        this.transforms = new ArrayList<>();
+        for(SVGTransform s : transforms){
+            this.transforms.add(s);
         }
     }
 
     public void clear(){
-        this.numbers.clear();
+        this.transforms.clear();
     }
 
     public void insertItemAt(int pos, SVGTransform value){
-        this.numbers.add(pos,value);
+        this.transforms.add(pos,value);
     }
 
     public void insertItem(SVGTransform value){
-        this.numbers.add(value);
+        this.transforms.add(value);
     }
 
     public void removeItem(int pos){
-        this.numbers.remove(pos);
+        this.transforms.remove(pos);
     }
 
     public SVGTransform getItem(int pos){
-        return numbers.get(pos);
+        return transforms.get(pos);
     }
 
     public List<SVGTransform> getAll(){
-        return numbers;
+        return transforms;
     }
 
     public int getSize(){
-        return numbers.size();
+        return transforms.size();
     }
 }

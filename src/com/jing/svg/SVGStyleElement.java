@@ -1,18 +1,58 @@
 package com.jing.svg;
 
+
 import com.jing.svg.dataType.Constants;
+import com.jing.svg.dataType.SVGStyle;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
-import com.jing.svg.element.*;
+import com.jing.svg.element.SVGElement;
+import com.jing.svg.element.SVGElementImpl;
+import com.jing.svg.element.SVGLangSpace;
+import com.jing.svg.element.SVGLangSpaceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.jing.svg.dataType.Constants.TagName.DESC;
 
-public class SVGDescElement implements SVGElement, SVGLangSpace {
-    private SVGElement svgElement = new SVGElementImpl(DESC);
+
+public class SVGStyleElement implements SVGElement,SVGLangSpace {
+    public void setId(String id){
+        this.setAttribute("id", id);
+    }
+
+    public String getId(String id){
+        return this.getAttribute("id").getValue().toString();
+    }
+
+    public String getTitle() {
+        return this.getAttribute("title").getValue().toString();
+    }
+
+    public void setTitle(String title) {
+        this.setAttribute("title", title);
+    }
+
+    public String getType() {
+        return this.getAttribute("type").getValue().toString();
+    }
+
+    public void setType(String type) {
+        this.setAttribute("type", type);
+    }
+
+    public String getMedia() {
+        return this.getAttribute("media").getValue().toString();
+    }
+
+    public void setMedia(String media) {
+        this.setAttribute("media", media);
+    }
+
+    private SVGElement svgElement = new SVGElementImpl(Constants.TagName.STYLE, null);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
+
 
     @Override
     public void setAttribute(String name, Object value) {
@@ -106,11 +146,6 @@ public class SVGDescElement implements SVGElement, SVGLangSpace {
 
     public SVGElement getElementById(String elementId){
         return svgElement.getElementById(elementId);
-    }
-
-    @Override
-    public void setId(String id) {
-        svgElement.setId(id);
     }
 
     @Override

@@ -11,11 +11,11 @@ public class SVGStringList {
         this(new String[0]);
     }
 
-    SVGStringList(String value,String splitter){
+    public SVGStringList(String value,String splitter){
         this(value.split(splitter));
     }
 
-    SVGStringList(String[] initStrings){
+    public SVGStringList(String[] initStrings){
         this.strings = new ArrayList<>();
         for(String s : initStrings){
             strings.add(s);

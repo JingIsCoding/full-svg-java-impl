@@ -1,7 +1,14 @@
 package com.jing.svg.element;
 
-/**
- * Created by jguo on 12/9/2015.
- */
+import com.jing.svg.dataType.SVGStringList;
+import com.jing.svg.dom.CSSValue;
+
 public interface SVGStylable  {
+
+    public String getClassName();
+
+    public SVGStringList getClassNames();
+
+    public CSSValue getPresentationAttribute(String name);
+
 }

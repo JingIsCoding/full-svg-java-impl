@@ -1,8 +1,5 @@
 package com.jing.svg.dataType;
 
-/**
- * Created by jguo on 12/11/2015.
- */
 public class SVGTransform {
 
     private SVGTransformType transformType;

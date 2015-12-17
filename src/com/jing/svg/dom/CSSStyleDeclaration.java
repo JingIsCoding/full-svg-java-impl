@@ -3,7 +3,7 @@ package com.jing.svg.dom;
 import java.util.HashMap;
 import java.util.Map;
 
-class CSSStyleDeclaration {
+public class CSSStyleDeclaration {
     private String cssText;
     private Map<String,Attribute<CSSValue>> attributeMap = new HashMap<>();
 

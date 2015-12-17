@@ -13,8 +13,6 @@ import static com.jing.svg.dataType.Constants.TagName;
 
 public class SVGElementImpl implements SVGElement{
     //SVG Element
-    private String id;
-    private String xmlBase;
     private SVGSVGElement ownerSVGElement;
     private SVGElement viewPortElement;
 
@@ -49,21 +47,20 @@ public class SVGElementImpl implements SVGElement{
     }
 
 
-
     public void setId(String id) {
-        this.id = id;
+        this.setAttribute("id",id);
     }
 
     public String getId() {
-        return this.id;
+        return (String) this.getAttribute("id").getValue();
     }
 
     public void setXmlBase(String xmlBase) {
-        this.xmlBase=xmlBase;
+        this.setAttribute("xml:base",xmlBase);
     }
 
     public String getXmlBase() {
-        return xmlBase;
+        return (String) this.getAttribute("xml:base").getValue();
     }
 
     @Override
@@ -95,6 +92,7 @@ public class SVGElementImpl implements SVGElement{
         return value;
     }
 
+    @Override
     public void setParent(SVGElement parent){
         this.parent = parent;
         if(!parent.getChildrenNodes().hasChild(this)){
@@ -152,7 +150,7 @@ public class SVGElementImpl implements SVGElement{
 
     @Override
     public Attribute getAttribute(String name) {
-        return this.attributes.get(name);
+        return this.attributes.get(name) == null ? new Attribute(this,null,null) : this.attributes.get(name);
     }
 
     @Override
@@ -168,8 +166,8 @@ public class SVGElementImpl implements SVGElement{
     @Override
     public SVGElement cloneNode(boolean deep) {
         SVGElementImpl svgElement = new SVGElementImpl(this.tagName, this.value, this.ownerSVGElement, this.viewPortElement);
-        svgElement.setId(this.id);
-        svgElement.setXmlBase(this.xmlBase);
+        svgElement.setId(getId());
+        svgElement.setXmlBase(getXmlBase());
         svgElement.attributes.putAll(this.attributes);
 
         if(deep) {
