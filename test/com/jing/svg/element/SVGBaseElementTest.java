@@ -7,7 +7,7 @@ import static com.jing.svg.dataType.Constants.TagName.*;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class SVGElementTest {
+public class SVGBaseElementTest {
 
     @Test
     public void should_set_attribute_correctly(){
@@ -91,17 +91,22 @@ public class SVGElementTest {
         svgElement.setXmlBase("base");
         svgElement.setAttribute("key1",new Integer(123));
         svgElement.setAttribute("key2",new Integer(321));
-
+        svgElement.setContent("Just some thing in the content");
         SVGElement svgElement1 = svgElement.cloneNode(false);
+
+
         assertThat(svgElement1.getId(),is("abc"));
         assertThat(svgElement1.getXmlBase(),is("base"));
+        assertThat(svgElement1.getContent(),is("Just some thing in the content"));
         assertThat((Integer)svgElement1.getAttribute("key1").getValue(),is(new Integer(123)));
         assertThat((Integer)svgElement1.getAttribute("key2").getValue(),is(new Integer(321)));
 
         svgElement1.setAttribute("key1",new Double(123.123d));
+        svgElement.setContent("changed the content");
 
         assertThat((Double)svgElement1.getAttribute("key1").getValue(),is(new Double(123.123d)));
         assertThat((Integer)svgElement.getAttribute("key1").getValue(),is(new Integer(123)));
+        assertThat(svgElement1.getContent(),is("Just some thing in the content"));
     }
 
     @Test

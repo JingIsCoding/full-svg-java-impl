@@ -1,8 +1,8 @@
 package com.jing.svg.util;
 
-/**
- * Created by jing on 12/15/2015.
- */
+import com.jing.svg.dataType.SVGStringList;
+import com.jing.svg.element.SVGElement;
+
 public class StringUtil {
 
     public static String[] splitIntoNumberAndUnit(String input){
@@ -17,5 +17,19 @@ public class StringUtil {
             }
         }
         return new String[]{num.toString(),unit.toString()};
+    }
+
+    public static SVGStringList getSVGStringListValue(SVGElement svgElement, String key, String siplliter){
+        Object value = svgElement.getAttribute(key).getValue();
+        if(value == null)
+            return null;
+        if(value instanceof String){
+            SVGStringList svgStringList = new SVGStringList((String) value, siplliter);
+            svgElement.setAttribute(key,svgStringList);
+            return svgStringList;
+        }
+        else{
+            return (SVGStringList) value;
+        }
     }
 }

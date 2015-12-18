@@ -5,10 +5,8 @@ import com.jing.svg.dom.CSSValue;
 
 public interface SVGStylable  {
 
-    public String getClassName();
+    SVGStringList getClassNames();
 
-    public SVGStringList getClassNames();
-
-    public CSSValue getPresentationAttribute(String name);
+    CSSValue getPresentationAttribute(String name);
 
 }

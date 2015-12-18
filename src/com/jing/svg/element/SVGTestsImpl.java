@@ -2,8 +2,12 @@ package com.jing.svg.element;
 
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
+import com.jing.svg.util.StringUtil;
 
+import static com.jing.svg.dataType.Constants.*;
 import static com.jing.svg.dataType.Constants.Tests.REQUIRED_EXTENSIONS;
+import static com.jing.svg.dataType.Constants.Tests.SYSTEM_LANGUAGE;
+import static com.jing.svg.util.StringUtil.*;
 
 public class SVGTestsImpl implements SVGTests {
 
@@ -14,32 +18,19 @@ public class SVGTestsImpl implements SVGTests {
     }
 
     public SVGStringList getSystemLanguage() {
-        return getSVGStringListValue(Constants.Tests.SYSTEM_LANGUAGE.toString());
+        return getSVGStringListValue(svgElement, SYSTEM_LANGUAGE.toString(),BY_SPACE);
     }
 
     public SVGStringList getRequiredFeatures() {
-        return getSVGStringListValue(Constants.Tests.REQUIRED_FEATURES.toString());
+        return getSVGStringListValue(svgElement, Tests.REQUIRED_FEATURES.toString(),BY_SPACE);
     }
 
     public SVGStringList getRequiredExtensions() {
-        return getSVGStringListValue(Constants.Tests.REQUIRED_EXTENSIONS.toString());
+        return getSVGStringListValue(svgElement, Tests.REQUIRED_EXTENSIONS.toString(),BY_SPACE);
     }
 
     public boolean hasExtension(String extension){
         return getRequiredExtensions() == null ? false : getRequiredExtensions().contains(extension);
     }
 
-    private SVGStringList getSVGStringListValue(String key){
-        Object value = svgElement.getAttribute(key).getValue();
-        if(value == null)
-            return null;
-        if(value instanceof String){
-            SVGStringList svgStringList = new SVGStringList((String) value, "\\s+");
-            svgElement.setAttribute(key,svgStringList);
-            return svgStringList;
-        }
-        else{
-            return (SVGStringList) value;
-        }
-    }
 }

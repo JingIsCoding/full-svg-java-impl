@@ -5,12 +5,8 @@ import com.jing.svg.animated.SVGAnimatedTransformList;
 /**
  * Created by jguo on 12/11/2015.
  */
-public class SVGTransformable extends SVGLocatable {
+public interface SVGTransformable extends SVGLocatable {
 
-    SVGAnimatedTransformList transforms;
-
-    public SVGAnimatedTransformList getTransforms(){
-        return transforms;
-    }
+    SVGAnimatedTransformList getTransforms();
 
 }

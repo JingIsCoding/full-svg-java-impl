@@ -1,21 +1,16 @@
 package com.jing.svg;
 
 
-import com.jing.svg.dataType.Constants;
-import com.jing.svg.dom.Attribute;
-import com.jing.svg.dom.NodeList;
-import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGBaseElement;
+import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGLangSpace;
 import com.jing.svg.element.SVGLangSpaceImpl;
 
-import java.util.List;
-import java.util.Map;
-
 import static com.jing.svg.dataType.Constants.TagName.STYLE;
 
-
 public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
+    private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
+
     public SVGStyleElement() {
         super(STYLE);
     }
@@ -52,12 +47,10 @@ public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
         return (String) this.getAttribute("media").getValue();
     }
 
+
     public void setMedia(String media) {
         this.setAttribute("media", media);
     }
-
-
-    private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
 
     @Override
     public String getXmlspace() {

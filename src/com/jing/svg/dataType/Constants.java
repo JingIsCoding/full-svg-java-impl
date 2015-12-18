@@ -141,4 +141,6 @@ public class Constants {
         }
     }
 
+    public static final String BY_SPACE = "\\s+";
+
 }

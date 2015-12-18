@@ -8,7 +8,9 @@ public interface Node<T> {
 
     TagName getTagName();
 
-    String getValue();
+    String getContent();
+
+    void setContent(String content);
 
     void setParent(T t);
 

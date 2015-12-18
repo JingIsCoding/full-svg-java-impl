@@ -17,11 +17,11 @@ public class CSSValue<T> {
         return value;
     }
 
-    private void setImportant(boolean important){
+    public void setImportant(boolean important){
         this.important = important;
     }
 
-    private boolean isImportant(){
+    public boolean isImportant(){
         return important;
     }
 }

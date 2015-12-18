@@ -2,9 +2,12 @@ package com.jing.svg;
 
 
 import com.jing.svg.dataType.Constants;
+import com.jing.svg.dom.CSSStyleSheet;
 import com.jing.svg.element.SVGElement;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SVGDocument {
@@ -13,6 +16,8 @@ public class SVGDocument {
     private String domain;
     private String URL;
     private SVGSVGElement rootSvgElement;
+
+    private List<CSSStyleSheet> cssStyleSheets = new ArrayList<>();
 
     public SVGDocument(){
     }
@@ -78,4 +83,6 @@ public class SVGDocument {
             throw new IllegalArgumentException();
         }
     }
+
+
 }

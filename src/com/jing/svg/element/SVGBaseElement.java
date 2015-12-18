@@ -21,7 +21,8 @@ public class SVGBaseElement implements SVGElement{
 
     //Node
     private TagName tagName;
-    private String value;
+
+    private String content;
     private SVGElement parent;
     private NodeList<SVGElement> children;
 
@@ -34,13 +35,13 @@ public class SVGBaseElement implements SVGElement{
     }
 
 
-    public SVGBaseElement(TagName tagName, String value, SVGSVGElement ownerSVGElement){
-        this(tagName,value, ownerSVGElement,null);
+    public SVGBaseElement(TagName tagName, String content, SVGSVGElement ownerSVGElement){
+        this(tagName, content, ownerSVGElement,null);
     }
 
-    public SVGBaseElement(TagName tagName, String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
+    public SVGBaseElement(TagName tagName, String content, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
         this.tagName = tagName;
-        this.value = value;
+        this.content = content;
         this.ownerSVGElement = ownerSVGElement;
         this.viewPortElement = viewPortElement;
         this.children = new NodeList<>();
@@ -87,9 +88,12 @@ public class SVGBaseElement implements SVGElement{
         return tagName;
     }
 
-    @Override
-    public String getValue() {
-        return value;
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     @Override
@@ -165,10 +169,9 @@ public class SVGBaseElement implements SVGElement{
 
     @Override
     public SVGElement cloneNode(boolean deep) {
-        SVGBaseElement svgElement = new SVGBaseElement(this.tagName, this.value, this.ownerSVGElement, this.viewPortElement);
-        svgElement.setId(getId());
-        svgElement.setXmlBase(getXmlBase());
+        SVGBaseElement svgElement = new SVGBaseElement(this.tagName, this.content, this.ownerSVGElement, this.viewPortElement);
         svgElement.attributes.putAll(this.attributes);
+        svgElement.setContent(this.content);
 
         if(deep) {
             recCloneNode(svgElement, this.children);
