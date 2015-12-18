@@ -15,10 +15,17 @@ public class Constants {
         SWITCH("switch"),
         TITLE("title");
 
-
         private String name;
         TagName(String name){
             this.name = name;
+        }
+
+        public static String[] getNames(){
+            String[] names = new String[values().length];
+            for(int i = 0 ; i < values().length ; i++){
+                names[i] = values()[i].name;
+            }
+            return names;
         }
 
         @Override
