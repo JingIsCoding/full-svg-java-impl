@@ -36,17 +36,7 @@ public class SVGDescElement extends SVGBaseElement implements SVGLangSpace {
     }
 
     @Override
-    public void setXmlspace(String xmlspace) {
-        svgLangSpace.setXmlspace(xmlspace);
-    }
-
-    @Override
     public String getXmllang() {
         return svgLangSpace.getXmllang();
-    }
-
-    @Override
-    public void setXmllang(String xmllang) {
-        svgLangSpace.setXmlspace(xmllang);
     }
 }

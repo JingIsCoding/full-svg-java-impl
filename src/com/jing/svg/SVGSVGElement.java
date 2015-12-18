@@ -100,18 +100,8 @@ public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSp
     }
 
     @Override
-    public void setSystemLanguage(SVGStringList systemLanguage) {
-        svgTests.setSystemLanguage(systemLanguage);
-    }
-
-    @Override
     public SVGStringList getRequiredFeatures() {
         return svgTests.getRequiredFeatures();
-    }
-
-    @Override
-    public void setRequiredFeatures(SVGStringList requiredFeatures) {
-        svgTests.setRequiredFeatures(requiredFeatures);
     }
 
     @Override
@@ -119,10 +109,6 @@ public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSp
         return svgTests.getRequiredExtensions();
     }
 
-    @Override
-    public void setRequiredExtensions(SVGStringList requiredExtensions) {
-        svgTests.setRequiredFeatures(requiredExtensions);
-    }
 
     @Override
     public boolean hasExtension(String extension) {
@@ -135,17 +121,7 @@ public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSp
     }
 
     @Override
-    public void setXmlspace(String xmlspace) {
-        svgLangSpace.setXmlspace(xmlspace);
-    }
-
-    @Override
     public String getXmllang() {
         return svgLangSpace.getXmllang();
-    }
-
-    @Override
-    public void setXmllang(String xmllang) {
-        svgLangSpace.setXmlspace(xmllang);
     }
 }

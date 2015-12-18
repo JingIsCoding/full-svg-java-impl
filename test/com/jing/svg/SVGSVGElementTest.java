@@ -28,5 +28,4 @@ public class SVGSVGElementTest {
 
         assertThat(elementByTagName.size(), Is.is(2));
     }
-
 }

@@ -40,29 +40,16 @@ public class SVGImageElement extends SVGBaseElement implements SVGTests, SVGLang
         return svgTests.getSystemLanguage();
     }
 
-    @Override
-    public void setSystemLanguage(SVGStringList systemLanguage) {
-        svgTests.setSystemLanguage(systemLanguage);
-    }
 
     @Override
     public SVGStringList getRequiredFeatures() {
         return svgTests.getRequiredFeatures();
     }
 
-    @Override
-    public void setRequiredFeatures(SVGStringList requiredFeatures) {
-        svgTests.setRequiredFeatures(requiredFeatures);
-    }
 
     @Override
     public SVGStringList getRequiredExtensions() {
         return svgTests.getRequiredExtensions();
-    }
-
-    @Override
-    public void setRequiredExtensions(SVGStringList requiredExtensions) {
-        svgTests.setRequiredFeatures(requiredExtensions);
     }
 
     @Override
@@ -75,19 +62,10 @@ public class SVGImageElement extends SVGBaseElement implements SVGTests, SVGLang
         return svgLangSpace.getXmlspace();
     }
 
-    @Override
-    public void setXmlspace(String xmlspace) {
-        svgLangSpace.setXmlspace(xmlspace);
-    }
 
     @Override
     public String getXmllang() {
         return svgLangSpace.getXmllang();
-    }
-
-    @Override
-    public void setXmllang(String xmllang) {
-        svgLangSpace.setXmlspace(xmllang);
     }
 
     @Override

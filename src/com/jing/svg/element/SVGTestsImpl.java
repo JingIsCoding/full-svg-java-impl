@@ -5,9 +5,6 @@ import com.jing.svg.dataType.SVGStringList;
 
 import static com.jing.svg.dataType.Constants.Tests.REQUIRED_EXTENSIONS;
 
-/**
- * Created by jguo on 12/16/2015.
- */
 public class SVGTestsImpl implements SVGTests {
 
     SVGElement svgElement;
@@ -17,30 +14,32 @@ public class SVGTestsImpl implements SVGTests {
     }
 
     public SVGStringList getSystemLanguage() {
-        return (SVGStringList)svgElement.getAttribute(Constants.Tests.SYSTEM_LANGUAGE.toString()).getValue();
-    }
-
-    public void setSystemLanguage(SVGStringList systemLanguage) {
-        svgElement.setAttribute(Constants.Tests.SYSTEM_LANGUAGE.toString(),systemLanguage);
+        return getSVGStringListValue(Constants.Tests.SYSTEM_LANGUAGE.toString());
     }
 
     public SVGStringList getRequiredFeatures() {
-        return (SVGStringList)svgElement.getAttribute(Constants.Tests.REQUIRED_FEATURES.toString()).getValue();
-    }
-
-    public void setRequiredFeatures(SVGStringList requiredFeatures) {
-        this.svgElement.setAttribute(Constants.Tests.REQUIRED_FEATURES.toString(),requiredFeatures);
+        return getSVGStringListValue(Constants.Tests.REQUIRED_FEATURES.toString());
     }
 
     public SVGStringList getRequiredExtensions() {
-        return (SVGStringList)svgElement.getAttribute(REQUIRED_EXTENSIONS.toString()).getValue();
-    }
-
-    public void setRequiredExtensions(SVGStringList requiredExtensions) {
-        this.svgElement.setAttribute(REQUIRED_EXTENSIONS.toString(),requiredExtensions);
+        return getSVGStringListValue(Constants.Tests.REQUIRED_EXTENSIONS.toString());
     }
 
     public boolean hasExtension(String extension){
-        return ((SVGStringList)svgElement.getAttribute(REQUIRED_EXTENSIONS.toString()).getValue()).contains(extension);
+        return getRequiredExtensions() == null ? false : getRequiredExtensions().contains(extension);
+    }
+
+    private SVGStringList getSVGStringListValue(String key){
+        Object value = svgElement.getAttribute(key).getValue();
+        if(value == null)
+            return null;
+        if(value instanceof String){
+            SVGStringList svgStringList = new SVGStringList((String) value, "\\s+");
+            svgElement.setAttribute(key,svgStringList);
+            return svgStringList;
+        }
+        else{
+            return (SVGStringList) value;
+        }
     }
 }

@@ -20,15 +20,7 @@ public class SVGLangSpaceImpl implements SVGLangSpace {
         return (String)svgElement.getAttribute(XMLSpace).getValue();
     }
 
-    public void setXmlspace(String xmlspace) {
-        svgElement.setAttribute(XMLSpace,xmlspace);
-    }
-
     public String getXmllang() {
         return (String)svgElement.getAttribute(XMLLang).getValue();
-    }
-
-    public void setXmllang(String xmllang) {
-        svgElement.setAttribute(XMLLang,xmllang);
     }
 }
