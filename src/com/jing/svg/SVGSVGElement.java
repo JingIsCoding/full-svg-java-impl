@@ -1,24 +1,18 @@
 package com.jing.svg;
 
-import com.jing.svg.animated.SVGAnimatedLength;
 import com.jing.svg.dataType.*;
-import com.jing.svg.dom.Attribute;
-import com.jing.svg.dom.NodeList;
+import com.jing.svg.dom.CSSStyleDeclaration;
+import com.jing.svg.dom.CSSValue;
 import com.jing.svg.element.*;
-import com.jing.svg.element.SVGBaseElement;
 
-import java.util.List;
-import java.util.Map;
-
-import static com.jing.svg.dataType.Constants.*;
-import static com.jing.svg.dataType.Constants.Location.*;
-import static com.jing.svg.dataType.Constants.TagName.*;
+import static com.jing.svg.dataType.Constants.TagName.SVG;
 
 
-public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSpace{
+public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests, SVGLangSpace, SVGStylable{
 
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
+    private SVGStylable svgStylable = new SVGStylableImpl(this);
 
     public SVGSVGElement() {
         super(SVG);
@@ -34,39 +28,6 @@ public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSp
 
     public SVGSVGElement(String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement) {
         super(SVG, value, ownerSVGElement, viewPortElement);
-    }
-
-
-    public void setX(String x){
-        setAttribute(X.toString(),new SVGAnimatedLength(new SVGLength(x)));
-    }
-
-    public SVGAnimatedLength getX(){
-        return (SVGAnimatedLength) getAttribute(X.toString()).getValue();
-    }
-
-    public void setY(String y){
-        setAttribute(Y.toString(),new SVGAnimatedLength(new SVGLength(y)));
-    }
-
-    public SVGAnimatedLength getY(){
-        return (SVGAnimatedLength) getAttribute(Y.toString()).getValue();
-    }
-
-    public void setWidth(String width){
-        setAttribute(WIDTH.toString(),new SVGAnimatedLength(new SVGLength(width)));
-    }
-
-    public SVGAnimatedLength getWidth(){
-        return (SVGAnimatedLength) getAttribute(WIDTH.toString()).getValue();
-    }
-
-    public void setHeight(String height){
-        setAttribute(HEIGHT.toString(),new SVGAnimatedLength(new SVGLength(height)));
-    }
-
-    public SVGAnimatedLength getHeight(){
-        return (SVGAnimatedLength) getAttribute(HEIGHT.toString()).getValue();
     }
 
     public SVGNumber createSVGNumber(double number){
@@ -123,5 +84,25 @@ public class SVGSVGElement extends SVGBaseElement implements SVGTests, SVGLangSp
     @Override
     public String getXmllang() {
         return svgLangSpace.getXmllang();
+    }
+
+    @Override
+    public SVGStringList getClassNames() {
+        return this.svgStylable.getClassNames();
+    }
+
+    @Override
+    public CSSValue getPresentationAttribute(String name) {
+        return this.svgStylable.getPresentationAttribute(name);
+    }
+
+    @Override
+    public CSSStyleDeclaration getStyle() {
+        return this.svgStylable.getStyle();
+    }
+
+    @Override
+    public CSSStyleDeclaration getComputedStyleDeclarationStyle() {
+        return this.svgStylable.getComputedStyleDeclarationStyle();
     }
 }

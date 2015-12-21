@@ -13,8 +13,8 @@ import static org.junit.Assert.*;
 public class SVGSVGElementTest {
 
     @Test
-    public void should_get_all_style_element(){
-        SVGSVGElement svgsvgElement= new SVGSVGElement();
+    public void should_get_all_style_element() {
+        SVGSVGElement svgsvgElement = new SVGSVGElement();
         SVGStyleElement svgStyleElement = new SVGStyleElement();
 
         SVGGElement svggElement = new SVGGElement();
@@ -28,4 +28,5 @@ public class SVGSVGElementTest {
 
         assertThat(elementByTagName.size(), Is.is(2));
     }
+
 }

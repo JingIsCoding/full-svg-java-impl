@@ -17,7 +17,7 @@ public class SVGImageElement extends SVGBaseElement implements SVGTests, SVGLang
 
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
-    private SVGURIReference svguriReference = new SVGURIReferenceImpl();
+    private SVGURIReference svguriReference = new SVGURIReferenceImpl(this);
 
     public SVGImageElement() {
         super(IMAGE);

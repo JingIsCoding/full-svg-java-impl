@@ -1,6 +1,7 @@
 package com.jing.svg.element;
 
 import com.jing.svg.SVGSVGElement;
+import com.jing.svg.dataType.Constants;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 
@@ -26,20 +27,20 @@ public class SVGBaseElement implements SVGElement{
     private SVGElement parent;
     private NodeList<SVGElement> children;
 
-    public SVGBaseElement(TagName tagName){
+    protected SVGBaseElement(TagName tagName){
         this(tagName, null, null ,null);
     }
 
-    public SVGBaseElement(TagName tagName, SVGSVGElement ownerSVGElement){
+    protected SVGBaseElement(TagName tagName, SVGSVGElement ownerSVGElement){
         this(tagName, null, ownerSVGElement ,null);
     }
 
 
-    public SVGBaseElement(TagName tagName, String content, SVGSVGElement ownerSVGElement){
+    protected SVGBaseElement(TagName tagName, String content, SVGSVGElement ownerSVGElement){
         this(tagName, content, ownerSVGElement,null);
     }
 
-    public SVGBaseElement(TagName tagName, String content, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
+    protected SVGBaseElement(TagName tagName, String content, SVGSVGElement ownerSVGElement, SVGElement viewPortElement){
         this.tagName = tagName;
         this.content = content;
         this.ownerSVGElement = ownerSVGElement;
@@ -81,6 +82,11 @@ public class SVGBaseElement implements SVGElement{
     public void setAttribute(String name, Object value) {
         Attribute attribute = new Attribute(this, name, value);
         attributes.put(name,attribute);
+    }
+
+    @Override
+    public Attribute getAttribute(Constants.ElementAttributeNames name) {
+        return name!= null ? getAttribute(name.toString()) : null;
     }
 
     @Override
@@ -155,6 +161,11 @@ public class SVGBaseElement implements SVGElement{
     @Override
     public Attribute getAttribute(String name) {
         return this.attributes.get(name) == null ? new Attribute(this,null,null) : this.attributes.get(name);
+    }
+
+    @Override
+    public Object getAttributeValue(Constants.ElementAttributeNames name) {
+        return this.getAttribute(name.toString()) != null ? this.getAttribute(name.toString()).getValue() : null;
     }
 
     @Override

@@ -12,26 +12,40 @@ public class SVGLength {
 
     public SVGLength(@NotNull String lengthString){
         try{
+            this.valueAsString = lengthString;
             String[] numberAndUnit = StringUtil.splitIntoNumberAndUnit(lengthString);
             setValueWithSpecifiedUnits(SVGLengthUnit.findByName(numberAndUnit[1]),Double.parseDouble(numberAndUnit[0]));
         }catch (Exception e)
         {
-            throw e;
+            value = 0;
+            unit = SVGLengthUnit.SVG_LENGTHTYPE_PX;
         }
     }
 
-    public void setValueWithSpecifiedUnits(@NotNull String unit,@NotNull double value){
+    private void setValueWithSpecifiedUnits(@NotNull String unit,@NotNull double value){
         setValueWithSpecifiedUnits(SVGLengthUnit.findByName(unit),value);
     }
 
-    public void setValueWithSpecifiedUnits(SVGLengthUnit unit,double value){
-        this.unit = unit;
+    private void setValueWithSpecifiedUnits(SVGLengthUnit unit,double value){
+        this.unit = unit == null ? SVGLengthUnit.SVG_LENGTHTYPE_PX : unit;
         this.value = value;
-        this.valueAsString = value + unit.toString();
+        this.valueAsString = value + this.unit.toString();
     }
 
     public void convertToSpecifiedUnits(SVGLengthUnit unit){
         //TODO
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public SVGLengthUnit getUnit() {
+        return unit;
+    }
+
+    public String getValueAsString() {
+        return valueAsString;
     }
 
 
@@ -60,7 +74,7 @@ public class SVGLength {
 
         private static SVGLengthUnit findByName(String name){
             for(SVGLengthUnit unit : values()){
-                if(unit.toString().equals(name.trim().toLowerCase())){
+                if(unit.unitName.equals(name.trim().toLowerCase())){
                     return unit;
                 }
             }

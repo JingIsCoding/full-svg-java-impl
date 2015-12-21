@@ -34,14 +34,13 @@ public class Constants {
         }
     }
 
-    public enum Location{
-        X("x"),
-        Y("y"),
-        WIDTH("width"),
-        HEIGHT("height");
+    public enum Tests{
+        REQUIRED_FEATURES("requiredFeatures"),
+        REQUIRED_EXTENSIONS("requiredExtensions"),
+        SYSTEM_LANGUAGE("systemLanguage");
 
         private String name;
-        Location(String name){
+        Tests(String name){
             this.name = name;
         }
 
@@ -51,13 +50,15 @@ public class Constants {
         }
     }
 
-    public enum Tests{
-        REQUIRED_FEATURES("requiredFeatures"),
-        REQUIRED_EXTENSIONS("requiredExtensions"),
-        SYSTEM_LANGUAGE("systemLanguage");
-
+    public enum ElementAttributeNames{
+        X("x"),
+        Y("y"),
+        WIDTH("width"),
+        HEIGHT("height"),
+        STYLE("style"),
+        XLINK_HREF("xlink:href");
         private String name;
-        Tests(String name){
+        ElementAttributeNames(String name){
             this.name = name;
         }
 

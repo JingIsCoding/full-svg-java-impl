@@ -4,6 +4,8 @@ package com.jing.svg;
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.Attribute;
+import com.jing.svg.dom.CSSStyleDeclaration;
+import com.jing.svg.dom.CSSValue;
 import com.jing.svg.dom.NodeList;
 import com.jing.svg.element.*;
 import com.jing.svg.element.SVGBaseElement;
@@ -13,9 +15,10 @@ import java.util.Map;
 
 import static com.jing.svg.dataType.Constants.TagName.DEFS;
 
-public class SVGDefsElement extends SVGBaseElement implements SVGTests, SVGLangSpace {
+public class SVGDefsElement extends SVGBaseElement implements SVGTests, SVGLangSpace,SVGStylable {
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
+    private SVGStylable svgStylable = new SVGStylableImpl(this);
 
     public SVGDefsElement() {
         super(DEFS);
@@ -64,5 +67,25 @@ public class SVGDefsElement extends SVGBaseElement implements SVGTests, SVGLangS
     @Override
     public String getXmllang() {
         return svgLangSpace.getXmllang();
+    }
+
+    @Override
+    public SVGStringList getClassNames() {
+        return svgStylable.getClassNames();
+    }
+
+    @Override
+    public CSSValue getPresentationAttribute(String name) {
+        return svgStylable.getPresentationAttribute(name);
+    }
+
+    @Override
+    public CSSStyleDeclaration getStyle() {
+        return svgStylable.getStyle();
+    }
+
+    @Override
+    public CSSStyleDeclaration getComputedStyleDeclarationStyle() {
+        return svgStylable.getComputedStyleDeclarationStyle();
     }
 }
