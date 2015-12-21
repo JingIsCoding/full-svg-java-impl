@@ -44,11 +44,11 @@ public class SVGBaseCoordinatedElement extends SVGBaseElement{
 
     private SVGAnimatedLength convertAnimatedLength(ElementAttributeNames name){
         if(hasOwnAttribute(name.toString())){
-            if(getAttributeValue(name) instanceof SVGAnimatedLength)
+            if(getAttributeValue(name.toString()) instanceof SVGAnimatedLength)
             {
-                return (SVGAnimatedLength) getAttributeValue(name);
+                return (SVGAnimatedLength) getAttributeValue(name.toString());
             }else{
-                SVGLength svgLength = new SVGLength(getAttributeValue(name).toString());
+                SVGLength svgLength = new SVGLength(getAttributeValue(name.toString()).toString());
                 SVGAnimatedLength svgAnimatedLength = new SVGAnimatedLength(svgLength);
                 setAttribute(name.toString(),svgAnimatedLength);
                 return svgAnimatedLength;

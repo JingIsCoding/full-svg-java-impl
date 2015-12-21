@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import static com.jing.svg.dataType.Constants.TagName.USE;
 
-public class SVGUseElement extends SVGBaseElement implements SVGTests, SVGLangSpace,SVGURIReference,SVGStylable{
+public class SVGUseElement extends SVGBaseCoordinatedElement implements SVGTests, SVGLangSpace,SVGURIReference,SVGStylable{
 
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);

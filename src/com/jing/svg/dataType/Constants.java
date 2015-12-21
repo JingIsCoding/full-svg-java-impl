@@ -56,6 +56,9 @@ public class Constants {
         WIDTH("width"),
         HEIGHT("height"),
         STYLE("style"),
+        TITLE("title"),
+        TYPE("type"),
+        MEDIA("media"),
         XLINK_HREF("xlink:href");
         private String name;
         ElementAttributeNames(String name){

@@ -5,10 +5,7 @@ import com.jing.svg.dataType.Constants;
 import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.jing.svg.dataType.Constants.TagName;
 
@@ -82,11 +79,6 @@ public class SVGBaseElement implements SVGElement{
     public void setAttribute(String name, Object value) {
         Attribute attribute = new Attribute(this, name, value);
         attributes.put(name,attribute);
-    }
-
-    @Override
-    public Attribute getAttribute(Constants.ElementAttributeNames name) {
-        return name!= null ? getAttribute(name.toString()) : null;
     }
 
     @Override
@@ -164,8 +156,8 @@ public class SVGBaseElement implements SVGElement{
     }
 
     @Override
-    public Object getAttributeValue(Constants.ElementAttributeNames name) {
-        return this.getAttribute(name.toString()) != null ? this.getAttribute(name.toString()).getValue() : null;
+    public Object getAttributeValue(String name) {
+        return this.getAttribute(name.toString()).getValue();
     }
 
     @Override

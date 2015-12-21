@@ -6,7 +6,9 @@ import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGLangSpace;
 import com.jing.svg.element.SVGLangSpaceImpl;
 
+import static com.jing.svg.dataType.Constants.ElementAttributeNames.*;
 import static com.jing.svg.dataType.Constants.TagName.STYLE;
+
 
 public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
@@ -28,28 +30,15 @@ public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
     }
 
     public String getTitle() {
-        return (String) this.getAttribute("title").getValue();
-    }
-
-    public void setTitle(String title) {
-        this.setAttribute("title", title);
+        return (String) this.getAttributeValue(TITLE.toString());
     }
 
     public String getType() {
-        return (String) this.getAttribute("type").getValue();
-    }
-
-    public void setType(String type) {
-        this.setAttribute("type", type);
+        return (String) this.getAttributeValue(TYPE.toString());
     }
 
     public String getMedia() {
-        return (String) this.getAttribute("media").getValue();
-    }
-
-
-    public void setMedia(String media) {
-        this.setAttribute("media", media);
+        return (String) this.getAttributeValue(MEDIA.toString());
     }
 
     @Override
