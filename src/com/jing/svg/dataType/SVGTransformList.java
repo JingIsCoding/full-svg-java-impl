@@ -12,7 +12,7 @@ public class SVGTransformList {
     }
 
     public SVGTransformList(String transforms){
-        SVGStringList svgStringList = new SVGStringList(transforms, Constants.BY_SPACE);
+        SVGStringList svgStringList = splitTransformString(transforms);
         for(int i = 0; i <svgStringList.getSize() ; i++ ){
             this.transforms.add(new SVGTransform(svgStringList.getItem(i)));
         }
@@ -22,6 +22,19 @@ public class SVGTransformList {
         for(SVGTransform s : transforms){
             this.transforms.add(s);
         }
+    }
+
+    private SVGStringList splitTransformString(String transforms){
+        SVGStringList svgStringList = new SVGStringList();
+        int fromIndex = 0;
+        int index = transforms.indexOf(')',fromIndex);
+        while(index != -1){
+            String transform = transforms.substring(fromIndex,index + 1);
+            svgStringList.insertItem(transform);
+            fromIndex = index + 1;
+            index = transforms.indexOf(')',fromIndex);
+        }
+        return svgStringList;
     }
 
     public void clear(){

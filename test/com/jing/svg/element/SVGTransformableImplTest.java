@@ -3,6 +3,7 @@ package com.jing.svg.element;
 import com.jing.svg.SVGGElement;
 import com.jing.svg.animated.SVGAnimatedTransformList;
 import com.jing.svg.dataType.Constants;
+import com.jing.svg.dataType.SVGTransform;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
@@ -21,6 +22,9 @@ public class SVGTransformableImplTest {
         SVGAnimatedTransformList transforms = transformable.getTransforms();
 
         assertThat(transforms.getBaseVal().getSize(), Is.is(2));
+        assertThat(transforms.getBaseVal().getItem(0).getTransformType(), Is.is(SVGTransform.SVGTransformType.SVG_TRANSFORM_ROTATE));
+        assertThat(transforms.getBaseVal().getItem(1).getTransformType(), Is.is(SVGTransform.SVGTransformType.SVG_TRANSFORM_TRANSLATE));
+
     }
 
 }
