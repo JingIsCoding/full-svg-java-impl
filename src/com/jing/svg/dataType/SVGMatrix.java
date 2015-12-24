@@ -7,13 +7,13 @@ public class SVGMatrix {
      * [b d f]
      * [0 0 1]
      * */
-    private float[][] matrix = new float[3][3];
+    private double[][] matrix = new double[3][3];
 
     public SVGMatrix(){
-        this(new float[]{1,0,0,0,1,0});
+        this(new double[]{1,0,0,0,1,0});
     }
 
-    public SVGMatrix(float[] values){
+    public SVGMatrix(double[] values){
         if(values.length < 6){
             throw new IllegalArgumentException();
         }
@@ -32,7 +32,7 @@ public class SVGMatrix {
     }
 
     public SVGMatrix multiply(SVGMatrix secondMatrix){
-        float[][] newMatrix = new float[3][3];
+        double[][] newMatrix = new double[3][3];
         for(int column=0;column<3;column++){
             for(int row=0;row<3;row++){
                 newMatrix[row][column] = claMatrixColumnAndRow(this,secondMatrix,row,column);
@@ -43,16 +43,16 @@ public class SVGMatrix {
         return svgMatrix;
     }
 
-    private float claMatrixColumnAndRow(SVGMatrix first, SVGMatrix second,int r,int c){
-        float[] column = new float[3];
+    private double claMatrixColumnAndRow(SVGMatrix first, SVGMatrix second,int r,int c){
+        double[] column = new double[3];
         column[0] = first.matrix[0][c];
         column[1] = first.matrix[1][c];
         column[2] = first.matrix[2][c];
 
-        float[] row = new float[3];
-        column[0] = second.matrix[r][0];
-        column[1] = second.matrix[r][1];
-        column[2] = second.matrix[r][2];
+        double[] row = new double[3];
+        row[0] = second.matrix[r][0];
+        row[1] = second.matrix[r][1];
+        row[2] = second.matrix[r][2];
 
         return column[0]*row[0] + column[1]*row[1] + column[2]*row[2];
     }
@@ -62,19 +62,20 @@ public class SVGMatrix {
         return null;
     }
     public SVGMatrix translate(float x, float y){
-        return this.multiply(new SVGMatrix(new float[]{1, 0 ,x, 0 , 1, y}));
+        return this.multiply(new SVGMatrix(new double[]{1, 0 ,x, 0 , 1, y}));
     }
 
     public SVGMatrix scale(float scaleFactor){
         return this.scaleNonUniform(scaleFactor,scaleFactor);
     }
     public SVGMatrix scaleNonUniform(float scaleFactorX, float scaleFactorY){
-        return this.multiply(new SVGMatrix(new float[]{scaleFactorX , 0 , 0, 0 ,scaleFactorX , 0}));
+        return this.multiply(new SVGMatrix(new double[]{scaleFactorX , 0 , 0, 0 ,scaleFactorY , 0}));
     }
     public SVGMatrix rotate(SVGAngle angle){
-        return null;
+        double svgAngle = angle.getRadius();
+        return this.multiply(new SVGMatrix(new double[]{Math.cos(svgAngle) ,-Math.sin(svgAngle) , 0, Math.sin(svgAngle) ,Math.cos(svgAngle) , 0}));
     }
-    public SVGMatrix rotateFromVector(float x,float y){
+    public SVGMatrix rotateFromVector(double x,double y){
         return null;
     }
     public SVGMatrix flipX(){
@@ -83,14 +84,14 @@ public class SVGMatrix {
     public SVGMatrix flipY(){
         return null;
     }
-    public SVGMatrix skewX(float angle){
+    public SVGMatrix skewX(double angle){
         return null;
     }
-    public SVGMatrix skewY(float angle){
+    public SVGMatrix skewY(double angle){
         return null;
     }
 
-    public float[] getValues(){
-        return new float[]{this.matrix[0][0],this.matrix[0][1],this.matrix[0][2],this.matrix[1][0],this.matrix[1][1],this.matrix[1][2]};
+    public double[] getValues(){
+        return new double[]{this.matrix[0][0],this.matrix[0][1],this.matrix[0][2],this.matrix[1][0],this.matrix[1][1],this.matrix[1][2]};
     }
 }

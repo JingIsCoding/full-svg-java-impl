@@ -1,20 +1,35 @@
 package com.jing.svg.dataType;
 
+import com.jing.svg.util.StringUtil;
 import com.sun.istack.internal.NotNull;
 
 public class SVGAngle {
+
+
     private SVGAngelType unit;
     private double value;
     private String valueAsString;
 
-    public SVGAngle(){}
-
     public SVGAngle(@NotNull String angle){
-        char[] chars = angle.toCharArray();
-        //TODO
-        float value;
-        String unitName;
+        String[] strings = StringUtil.splitIntoNumberAndUnit(angle);
+        try{
+            value = Double.parseDouble(strings[0]);
+            unit = SVGAngelType.findByName(strings[1].toLowerCase().trim());
+            if(unit == null){
+                unit = SVGAngelType.SVG_ANGLETYPE_DEG;
+            }
+        }catch (Exception e){
+            value = 0;
+            unit = SVGAngelType.SVG_ANGLETYPE_RAD;
+        }
+    }
 
+    public SVGAngelType getUnit() {
+        return unit;
+    }
+
+    public String getValueAsString() {
+        return valueAsString;
     }
 
     public SVGAngle(@NotNull SVGAngelType unit,@NotNull float value){
@@ -31,33 +46,15 @@ public class SVGAngle {
         this.valueAsString = value + unit.toString();
     }
 
-    public SVGAngle convertToSpecifiedUnits(SVGAngelType unit){
-        if(unit != SVGAngelType.SVG_ANGLETYPE_UNKNOWN && unit != SVGAngelType.SVG_ANGLETYPE_UNSPECIFIED && unit != this.unit){
-            switch (this.unit){
-                case SVG_ANGLETYPE_DEG:
-                    if(unit == SVGAngelType.SVG_ANGLETYPE_GRAD){
-
-                    }else{
-
-                    }
-                    break;
-                case SVG_ANGLETYPE_RAD:
-                    if(unit == SVGAngelType.SVG_ANGLETYPE_GRAD){
-
-                    }else{
-
-                    }
-                    break;
-                case SVG_ANGLETYPE_GRAD:
-                    if(unit == SVGAngelType.SVG_ANGLETYPE_RAD){
-
-                    }else{
-
-                    }
-                    break;
-            }
+    public double getRadius(){
+        if(unit == SVGAngelType.SVG_ANGLETYPE_DEG){
+            return Math.toRadians(value);
         }
-        return this;
+        return this.getValue();
+    }
+
+    public double getValue() {
+        return value;
     }
 
     public enum SVGAngelType {
