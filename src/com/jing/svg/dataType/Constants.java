@@ -59,7 +59,8 @@ public class Constants {
         TITLE("title"),
         TYPE("type"),
         MEDIA("media"),
-        XLINK_HREF("xlink:href");
+        XLINK_HREF("xlink:href"),
+        PRESERVE_ASPECT_RATIO("preserveAspectRatio");
         private String name;
         ElementAttributeNames(String name){
             this.name = name;

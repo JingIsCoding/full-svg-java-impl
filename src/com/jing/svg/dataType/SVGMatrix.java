@@ -28,7 +28,12 @@ public class SVGMatrix {
     }
 
     public SVGMatrix(SVGMatrix svgMatrix){
-        this.matrix = svgMatrix.matrix;
+       this(new double[]{svgMatrix.getValues()[0],
+                svgMatrix.getValues()[1],
+                svgMatrix.getValues()[2],
+                svgMatrix.getValues()[3],
+                svgMatrix.getValues()[4],
+                svgMatrix.getValues()[5]});
     }
 
     public SVGMatrix multiply(SVGMatrix secondMatrix){
@@ -61,22 +66,23 @@ public class SVGMatrix {
 
         return null;
     }
-    public SVGMatrix translate(float x, float y){
+    public SVGMatrix translate(double x, double y){
         return this.multiply(new SVGMatrix(new double[]{1, 0 ,x, 0 , 1, y}));
     }
 
-    public SVGMatrix scale(float scaleFactor){
+    public SVGMatrix scale(double scaleFactor){
         return this.scaleNonUniform(scaleFactor,scaleFactor);
     }
-    public SVGMatrix scaleNonUniform(float scaleFactorX, float scaleFactorY){
+    public SVGMatrix scaleNonUniform(double scaleFactorX, double scaleFactorY){
         return this.multiply(new SVGMatrix(new double[]{scaleFactorX , 0 , 0, 0 ,scaleFactorY , 0}));
     }
     public SVGMatrix rotate(SVGAngle angle){
         double svgAngle = angle.getRadius();
         return this.multiply(new SVGMatrix(new double[]{Math.cos(svgAngle) ,-Math.sin(svgAngle) , 0, Math.sin(svgAngle) ,Math.cos(svgAngle) , 0}));
     }
-    public SVGMatrix rotateFromVector(double x,double y){
-        return null;
+    public SVGMatrix rotateFromVector(SVGAngle angle,double x,double y){
+
+        return this.translate(-x,-y).rotate(angle).translate(x, y);
     }
     public SVGMatrix flipX(){
         return null;
@@ -84,11 +90,11 @@ public class SVGMatrix {
     public SVGMatrix flipY(){
         return null;
     }
-    public SVGMatrix skewX(double angle){
-        return null;
+    public SVGMatrix skewX(SVGAngle angle){
+        return this.multiply(new SVGMatrix(new double[]{1, Math.tan(angle.getRadius()) ,0, 0 , 1, 0}));
     }
-    public SVGMatrix skewY(double angle){
-        return null;
+    public SVGMatrix skewY(SVGAngle angle){
+        return this.multiply(new SVGMatrix(new double[]{1, 0 ,0, Math.tan(angle.getRadius()) , 1, 0}));
     }
 
     public double[] getValues(){
