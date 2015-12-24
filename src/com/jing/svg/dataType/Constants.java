@@ -60,6 +60,7 @@ public class Constants {
         TYPE("type"),
         MEDIA("media"),
         XLINK_HREF("xlink:href"),
+        TRANSFORM("transform"),
         PRESERVE_ASPECT_RATIO("preserveAspectRatio");
         private String name;
         ElementAttributeNames(String name){

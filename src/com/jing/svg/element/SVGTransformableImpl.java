@@ -1,13 +1,16 @@
 package com.jing.svg.element;
 
 import com.jing.svg.animated.SVGAnimatedTransformList;
+import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGMatrix;
 import com.jing.svg.dataType.SVGRect;
+import com.jing.svg.dataType.SVGTransformList;
+
+import static com.jing.svg.dataType.Constants.ElementAttributeNames.TRANSFORM;
 
 public class SVGTransformableImpl implements SVGTransformable {
 
     SVGElement svgElement = null;
-    SVGAnimatedTransformList transforms;
     SVGLocatable svgLocatable;
 
     public SVGTransformableImpl(SVGElement svgElement){
@@ -16,7 +19,18 @@ public class SVGTransformableImpl implements SVGTransformable {
     }
 
     public SVGAnimatedTransformList getTransforms(){
-        return transforms;
+         if(!svgElement.hasOwnAttribute(TRANSFORM.toString())){
+             return null;
+         }
+        if(svgElement.getAttributeValue(TRANSFORM.toString()) instanceof String){
+            SVGAnimatedTransformList svgAnimatedTransformList = new SVGAnimatedTransformList(new SVGTransformList((String) svgElement.getAttributeValue(TRANSFORM.toString())));
+            svgElement.setAttribute(TRANSFORM.toString(),svgAnimatedTransformList);
+            return svgAnimatedTransformList;
+        }
+        else if(svgElement.getAttributeValue(TRANSFORM.toString()) instanceof SVGAnimatedTransformList){
+            return (SVGAnimatedTransformList) svgElement.getAttributeValue(TRANSFORM.toString());
+        }
+        return null;
     }
 
     @Override

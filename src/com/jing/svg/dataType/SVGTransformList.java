@@ -5,14 +5,20 @@ import java.util.List;
 
 public class SVGTransformList {
 
-    List<SVGTransform> transforms;
+    List<SVGTransform> transforms = new ArrayList<>();
 
-    SVGTransformList(){
+    public SVGTransformList(){
         this(new SVGTransform[0]);
     }
 
+    public SVGTransformList(String transforms){
+        SVGStringList svgStringList = new SVGStringList(transforms, Constants.BY_SPACE);
+        for(int i = 0; i <svgStringList.getSize() ; i++ ){
+            this.transforms.add(new SVGTransform(svgStringList.getItem(i)));
+        }
+    }
+
     SVGTransformList(SVGTransform[] transforms){
-        this.transforms = new ArrayList<>();
         for(SVGTransform s : transforms){
             this.transforms.add(s);
         }
