@@ -32,8 +32,9 @@ public class SVGLength {
         this.valueAsString = value + this.unit.toString();
     }
 
-    public void convertToSpecifiedUnits(SVGLengthUnit unit){
-        //TODO
+    public void convertToSpecifiedUnits(SVGLengthUnit unit,float dpi){
+
+
     }
 
     public double getValue() {

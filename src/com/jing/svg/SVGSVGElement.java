@@ -1,5 +1,7 @@
 package com.jing.svg;
 
+import com.jing.svg.animated.SVGAnimatedPreserveAspectRatio;
+import com.jing.svg.animated.SVGAnimatedRect;
 import com.jing.svg.dataType.*;
 import com.jing.svg.dom.CSSStyleDeclaration;
 import com.jing.svg.dom.CSSValue;
@@ -7,12 +9,11 @@ import com.jing.svg.element.*;
 
 import static com.jing.svg.dataType.Constants.TagName.SVG;
 
-
-public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests, SVGLangSpace, SVGStylable{
-
+public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests, SVGLangSpace, SVGStylable,SVGFitToViewBox{
     private SVGTests svgTests = new SVGTestsImpl(this);
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
     private SVGStylable svgStylable = new SVGStylableImpl(this);
+    private SVGFitToViewBox svgFitToViewBox = new SVGFitToViewBoxImpl(this);
 
     public SVGSVGElement() {
         super(SVG);
@@ -104,5 +105,15 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     @Override
     public CSSStyleDeclaration getComputedStyleDeclarationStyle() {
         return this.svgStylable.getComputedStyleDeclarationStyle();
+    }
+
+    @Override
+    public SVGAnimatedPreserveAspectRatio getPreserveAspectRatio() {
+        return svgFitToViewBox.getPreserveAspectRatio();
+    }
+
+    @Override
+    public SVGAnimatedRect getViewBox() {
+        return svgFitToViewBox.getViewBox();
     }
 }

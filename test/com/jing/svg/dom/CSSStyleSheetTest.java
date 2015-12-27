@@ -25,8 +25,11 @@ public class CSSStyleSheetTest {
                 "  color: black;\n" +
                 "  background-color: #dfdfdf; \n" +
                 "}");
-        assertThat( cssStyleSheet.getCssStyleRules().size(), is(2));
+        assertThat(cssStyleSheet.getCssStyleRules().size(), is(2));
         assertThat(cssStyleSheet.getCssStyleRules().get(0).getSelector(),is("H4"));
+        assertThat((String)cssStyleSheet.getCssStyleRules().get(0).getStyle().getFont().getFontFamily().getValue(),is("sans-serif"));
+        assertThat(cssStyleSheet.getCssStyleRules().get(0).getStyle().getColor().getValue(),is("black"));
+        assertThat(cssStyleSheet.getCssStyleRules().get(1).getSelector(),is(".idl-code"));
     }
 
 

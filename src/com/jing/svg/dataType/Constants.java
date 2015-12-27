@@ -55,12 +55,14 @@ public class Constants {
         Y("y"),
         WIDTH("width"),
         HEIGHT("height"),
+        CLASS("class"),
         STYLE("style"),
         TITLE("title"),
         TYPE("type"),
         MEDIA("media"),
         XLINK_HREF("xlink:href"),
         TRANSFORM("transform"),
+        VIEW_BOX("viewBox"),
         PRESERVE_ASPECT_RATIO("preserveAspectRatio");
         private String name;
         ElementAttributeNames(String name){

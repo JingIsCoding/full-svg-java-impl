@@ -1,9 +1,6 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.dataType.Constants;
-import com.jing.svg.dataType.Constants.StyleName;
-import com.jing.svg.dataType.RGBColor;
-import com.jing.svg.dataType.SVGLength;
+import com.sun.istack.internal.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,25 +12,29 @@ public class CSSStyleDeclaration {
     private Map<String,Attribute<CSSValue>> attributeMap = new HashMap<>();
     private Font font = new Font(attributeMap);
 
-    public CSSStyleDeclaration(String style){
-        cssText = style;
-        parseStyles(style);
+    public CSSStyleDeclaration(){
+        cssText = "";
     }
 
-    private void
-    parseStyles(String style) {
+    public CSSStyleDeclaration(@NotNull String style){
+            cssText = style;
+            parseStyles(style);
+    }
+
+    private void parseStyles(String style) {
         String[] styles = style.split(";");
         for(String s : styles){
             String[] nameAndValue = s.split(":");
-
+            if(nameAndValue.length != 2)
+            {
+                continue;
+            }
             int importantIndex = nameAndValue[1].lastIndexOf("!important");
             String value = importantIndex == -1 ? nameAndValue[1].trim() : nameAndValue[1].substring(0, importantIndex).trim();
-
             CSSValue<String> cssValue = new CSSValue<>(value);
             if(importantIndex > -1){
                 cssValue.setImportant(true);
             }
-
             attributeMap.put(nameAndValue[0].trim(),new Attribute<CSSValue>(null,nameAndValue[0].trim(),cssValue));
         }
     }
@@ -62,7 +63,7 @@ public class CSSStyleDeclaration {
         return getValue(GLYPH_ORIENTATION_VERTICAL.toString());
     }
 
-    public CSSValue<RGBColor> getColor(){
+    public CSSValue<String> getColor(){
         return getValue(COLOR.toString());
     }
 
@@ -302,7 +303,13 @@ public class CSSStyleDeclaration {
             Attribute<CSSValue> cssValueAttribute = attributeMap.get(name);
             return cssValueAttribute != null ? cssValueAttribute.getValue() : null;
         }
+    }
 
+    public CSSStyleDeclaration mergetStyleDeclaration(CSSStyleDeclaration cssStyleDeclaration){
+        CSSStyleDeclaration cssStyleDeclaration1 = new CSSStyleDeclaration();
+        cssStyleDeclaration1.attributeMap.putAll(cssStyleDeclaration.attributeMap);
+        cssStyleDeclaration1.attributeMap.putAll(this.attributeMap);
+        return cssStyleDeclaration;
     }
 
 }
