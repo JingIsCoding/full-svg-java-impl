@@ -51,6 +51,7 @@ public class Constants {
     }
 
     public enum ElementAttributeNames{
+        ID("id"),
         X("x"),
         Y("y"),
         WIDTH("width"),

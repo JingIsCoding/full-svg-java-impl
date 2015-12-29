@@ -305,11 +305,11 @@ public class CSSStyleDeclaration {
         }
     }
 
-    public CSSStyleDeclaration mergetStyleDeclaration(CSSStyleDeclaration cssStyleDeclaration){
-        CSSStyleDeclaration cssStyleDeclaration1 = new CSSStyleDeclaration();
-        cssStyleDeclaration1.attributeMap.putAll(cssStyleDeclaration.attributeMap);
-        cssStyleDeclaration1.attributeMap.putAll(this.attributeMap);
-        return cssStyleDeclaration;
+    public CSSStyleDeclaration mergeStyleDeclaration(CSSStyleDeclaration cssStyleDeclaration){
+        CSSStyleDeclaration mergedStyle = new CSSStyleDeclaration();
+        mergedStyle.attributeMap.putAll(cssStyleDeclaration.attributeMap);
+        mergedStyle.attributeMap.putAll(this.attributeMap);
+        return mergedStyle;
     }
 
 }

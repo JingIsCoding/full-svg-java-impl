@@ -1,6 +1,7 @@
 package com.jing.svg;
 
 
+import com.jing.svg.dom.CSSStyleSheet;
 import com.jing.svg.element.SVGBaseElement;
 import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGLangSpace;
@@ -12,7 +13,7 @@ import static com.jing.svg.dataType.Constants.TagName.STYLE;
 
 public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
     private SVGLangSpace svgLangSpace = new SVGLangSpaceImpl(this);
-
+    private CSSStyleSheet cssStyleSheet;
     public SVGStyleElement() {
         super(STYLE);
     }
@@ -49,5 +50,12 @@ public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
     @Override
     public String getXmllang() {
         return svgLangSpace.getXmllang();
+    }
+
+    protected void consolidateStyle() {
+        if(cssStyleSheet == null){
+            cssStyleSheet = new CSSStyleSheet(this.getContent());
+        }
+        cssStyleSheet.apply(this.getOwnerSVGElement());
     }
 }

@@ -1,6 +1,5 @@
 package com.jing.svg.element;
 
-import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.Constants.StyleName;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.CSSStyleDeclaration;
@@ -13,7 +12,6 @@ import static com.jing.svg.dataType.Constants.ElementAttributeNames.STYLE;
 
 public class SVGStylableImpl implements SVGStylable{
     private CSSStyleDeclaration styleDeclaration;
-    private CSSStyleDeclaration computedStyleDeclaration;
     private SVGElement svgElement;
 
     public SVGStylableImpl(SVGElement svgElement){
@@ -54,6 +52,7 @@ public class SVGStylableImpl implements SVGStylable{
         while(styleElement != null && !(styleElement instanceof SVGStylable)){
             styleElement = styleElement.getParent();
         }
-        return styleElement != null ? this.getStyle().mergetStyleDeclaration(((SVGStylable)styleElement).getComputedStyleDeclarationStyle()) : this.getStyle();
+        CSSStyleDeclaration mergedStyle =  styleElement != null ? this.getStyle().mergeStyleDeclaration(((SVGStylable)styleElement).getComputedStyleDeclarationStyle()) : this.getStyle();
+        return mergedStyle;
     }
 }

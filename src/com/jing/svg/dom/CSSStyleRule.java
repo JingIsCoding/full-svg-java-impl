@@ -1,8 +1,6 @@
 package com.jing.svg.dom;
 
 
-import java.util.List;
-
 public class CSSStyleRule {
     private String selector;
     private CSSStyleRule parentRule;

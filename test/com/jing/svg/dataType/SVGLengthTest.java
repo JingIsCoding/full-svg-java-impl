@@ -14,7 +14,7 @@ public class SVGLengthTest {
         SVGLength svgLength = new SVGLength("123.32px");
 
         assertThat(svgLength.getValue(), Is.is(123.32));
-        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTHTYPE_PX));
+        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTH_TYPE_PX));
     }
 
     @Test
@@ -23,7 +23,7 @@ public class SVGLengthTest {
         SVGLength svgLength = new SVGLength("123.32 cm");
 
         assertThat(svgLength.getValue(), Is.is(123.32));
-        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTHTYPE_CM));
+        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTH_TYPE_CM));
     }
 
     @Test
@@ -32,13 +32,13 @@ public class SVGLengthTest {
         SVGLength svgLength = new SVGLength("123");
 
         assertThat(svgLength.getValue(), Is.is(123d));
-        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTHTYPE_PX));
+        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTH_TYPE_PX));
     }
 
     @Test
     public void should_set_the_length_unit_to_0_px_if_the_input_is_incorrectly(){
         SVGLength svgLength = new SVGLength("gsgdfsg");
         assertThat(svgLength.getValue(), Is.is(0d));
-        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTHTYPE_PX));
+        assertThat(svgLength.getUnit(), Is.is(SVGLength.SVGLengthUnit.SVG_LENGTH_TYPE_PX));
     }
 }

@@ -1,11 +1,8 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.dataType.Constants;
-
-import java.util.Enumeration;
 import java.util.List;
 
-import static com.jing.svg.dataType.Constants.*;
+import static com.jing.svg.dataType.Constants.TagName;
 
 public interface Element<T> extends Node<T>{
 

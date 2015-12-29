@@ -1,5 +1,6 @@
 package com.jing.svg.util;
 
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.*;
@@ -32,5 +33,19 @@ public class StringUtilTest {
         String[] strings = StringUtil.splitIntoNumberAndUnit(length);
         assertThat(strings[0], is("-133.31"));
         assertThat(strings[1], is("cm"));
+    }
+
+    @Test
+    public void should_crop_string(){
+        String origin = "what has happened";
+        String s = StringUtil.cropString(origin, 3, 5);
+        assertThat(s, IsEqual.equalTo("whaas happened"));
+    }
+
+    @Test
+    public void should_crop_string_when_end_larger_than_length(){
+        String origin = "what?";
+        String s = StringUtil.cropString(origin, -1, 100);
+        assertThat(s, IsEqual.equalTo(""));
     }
 }

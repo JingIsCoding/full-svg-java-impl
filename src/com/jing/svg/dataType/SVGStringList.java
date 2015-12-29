@@ -7,7 +7,7 @@ public class SVGStringList {
 
     List<String> strings;
 
-    SVGStringList(){
+    public SVGStringList(){
         this(new String[0]);
     }
 

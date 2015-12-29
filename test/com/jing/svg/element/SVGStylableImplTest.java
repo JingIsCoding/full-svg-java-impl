@@ -79,8 +79,8 @@ public class SVGStylableImplTest {
         svgsvgElement.setAttribute(STYLE.toString(),"font-family: abc; stroke: #122312; stoke-width: 13px; fill:#123132");
 
         SVGGElement svggElement = new SVGGElement();
-        svgsvgElement.setAttribute(STYLE.toString(),"font-family: def; stroke: #122312; stoke-width: 13px;");
-        svgsvgElement.setAttribute(FILL.toString(),"#aabbcc");
+        svggElement.setAttribute(STYLE.toString(),"font-family: def; stroke: #122312; stoke-width: 13px;");
+        svggElement.setAttribute(FILL.toString(),"#aabbcc");
 
         SVGGElement childGElment = new SVGGElement();
         childGElment.setAttribute(STYLE.toString(),"font-family: gij; stroke: #321312;");
@@ -91,7 +91,7 @@ public class SVGStylableImplTest {
         CSSStyleDeclaration computedStyleDeclarationStyle = childGElment.getComputedStyleDeclarationStyle();
 
         assertThat(computedStyleDeclarationStyle.getFill().getValue(),is("#aabbcc"));
-//        assertThat(computedStyleDeclarationStyle.getFont().getFontFamily().getValue().toString(),is("gij"));
+        assertThat(computedStyleDeclarationStyle.getFont().getFontFamily().getValue().toString(),is("gij"));
         assertThat(computedStyleDeclarationStyle.getStroke().getValue().toString(),is("#321312"));
     }
 

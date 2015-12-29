@@ -7,6 +7,8 @@ import com.jing.svg.dom.CSSStyleDeclaration;
 import com.jing.svg.dom.CSSValue;
 import com.jing.svg.element.*;
 
+import java.util.List;
+
 import static com.jing.svg.dataType.Constants.TagName.SVG;
 
 public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests, SVGLangSpace, SVGStylable,SVGFitToViewBox{
@@ -115,5 +117,10 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     @Override
     public SVGAnimatedRect getViewBox() {
         return svgFitToViewBox.getViewBox();
+    }
+
+    protected void consolidateStyle(){
+        List<SVGElement> svgStyleElement = this.getElementByTagName(Constants.TagName.STYLE);
+        ((SVGStyleElement)svgStyleElement).consolidateStyle();
     }
 }

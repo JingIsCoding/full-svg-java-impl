@@ -2,9 +2,10 @@ package com.jing.svg.util;
 
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.element.SVGElement;
+import org.w3c.dom.css.CSSStyleSheet;
 
 public class StringUtil {
-
+    CSSStyleSheet a;
     public static String[] splitIntoNumberAndUnit(String input){
         StringBuilder num = new StringBuilder();
         StringBuilder unit = new StringBuilder();
@@ -17,6 +18,26 @@ public class StringUtil {
             }
         }
         return new String[]{num.toString(),unit.toString()};
+    }
+
+    public static String cropString(String origin, int start, int end){
+        if(start > end){
+            return "";
+        }
+        if(start < 0){
+            start = 0;
+        }else if(start > origin.length() -1){
+            start = origin.length() -1;
+        }
+        if(end < 0){
+            end = 0;
+        }else if(end > origin.length() -1){
+            end = origin.length() -1;
+        }
+
+        String startString = origin.substring(0,start);
+        String endString = origin.substring(end + 1, origin.length());
+        return startString + endString;
     }
 
     public static SVGStringList getSVGStringListValue(SVGElement svgElement, String key, String siplliter){
