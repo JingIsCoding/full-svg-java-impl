@@ -117,6 +117,7 @@ public class Matcher {
     }
 
     private boolean matchStatus(SVGElement svgElement){
+        NodeList<SVGElement> typeChildren;
         for(int i = 0 ;i <statusOperators.size();i++){
             StatusOperatorHolder statusOperatorHolder = statusOperators.get(i);
             switch (statusOperatorHolder.statusOperator){
@@ -134,7 +135,7 @@ public class Matcher {
                     if(svgElement.getParent() == null){
                         return false;
                     }
-                    if(getTypeChildren(svgElement.getParent().getChildrenNodes(),svgElement.getTagName().toString()).get(0) != svgElement)
+                    if(getTypeChildren(svgElement.getParent().getChildrenNodes(),svgElement.getTagName().toString()).getItem(0) != svgElement)
                         return false;
                     break;
                 case LAST_CHILD:
@@ -145,12 +146,21 @@ public class Matcher {
                     break;
                 case LAST_OF_TYPE:
                     if(svgElement.getParent() == null)
+                    {
                         return false;
-                    List<SVGElement> typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
-                    if(typeChildren.get(typeChildren.size() - 1) != svgElement)
+                    }
+                    typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
+                    if(typeChildren.getItem(typeChildren.size() - 1) != svgElement)
+                    {
                         return false;
+                    }
                     break;
                 case NOT:
+                    Matcher matcher = new Matcher(statusOperatorHolder.parameter);
+                    if(matcher.match(svgElement))
+                    {
+                        return false;
+                    }
                     break;
                 case NTH_CHILD:
                     if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
@@ -159,18 +169,50 @@ public class Matcher {
                     }
                     break;
                 case NTH_LAST_CHILD:
-                    if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    if(svgElement.getParent() == null)
+                    {
+                        return false;
+                    }
+                    NodeList<SVGElement> childrenNodes = svgElement.getParent().getChildrenNodes();
+                    if(childrenNodes.getItem(childrenNodes.size() - 1 - getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    break;
+                case NTH_LAST_OF_TYPE:
+                    if(svgElement.getParent() == null)
+                    {
+                        return false;
+                    }
+                    typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
+                    if(typeChildren.getItem(typeChildren.size() - 1 - getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
                     {
                         return false;
                     }
                     break;
-                case NTH_LAST_OF_TYPE:
-                    break;
                 case NTH_OF_TYPE:
+                    if(svgElement.getParent() == null)
+                    {
+                        return false;
+                    }
+                    typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
+                    if(typeChildren.getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    {
+                        return false;
+                    }
                     break;
                 case ONLY_TYPE:
+                    if(svgElement.getParent() == null)
+                    {
+                        return false;
+                    }
+                    if(getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString()).size() != 1)
+                    {
+                        return false;
+                    }
                     break;
                 case ONLY_CHILD:
+                    if(svgElement.getParent() == null)
+                    {
+                        return false;
+                    }
                     if(svgElement.getParent().getChildrenNodes().size() != 1)
                         return false;
                     break;
@@ -181,11 +223,15 @@ public class Matcher {
         return true;
     }
 
-    private List<SVGElement> getTypeChildren(NodeList<SVGElement> childrenNodes,String tagName){
-        List<SVGElement> result = new ArrayList<>();
+    private boolean matchTypeChildAtIndex(NodeList<SVGElement> typeChildren, int index, SVGElement svgElement){
+        return typeChildren.getItem(index) == svgElement;
+    }
+
+    private NodeList<SVGElement> getTypeChildren(NodeList<SVGElement> childrenNodes,String tagName){
+        NodeList<SVGElement> result = new NodeList<>();
         for(SVGElement element : childrenNodes){
-            if(element.getTagName().equals(tagName)){
-                result.add(element);
+            if(element.getTagName().toString().equals(tagName)){
+                result.appendChild(element);
             }
         }
         return result;
@@ -196,7 +242,7 @@ public class Matcher {
             int n =  Integer.parseInt(number);
             return n - 1;
         }catch (Exception e){
-            return -1;
+            return Integer.MIN_VALUE;
         }
     }
 
@@ -276,7 +322,6 @@ public class Matcher {
         SelectorType(char startCharacter){
             this.startCharacter = startCharacter;
         }
-
     }
 
     public enum AttributeOperator{
@@ -347,7 +392,7 @@ public class Matcher {
 
         public static StatusOperator getOperator(String query){
             for(StatusOperator statusOperator : values()){
-                if(query.contains(statusOperator.toString())){
+                if(query.startsWith(statusOperator.toString())){
                     return statusOperator;
                 }
             }
