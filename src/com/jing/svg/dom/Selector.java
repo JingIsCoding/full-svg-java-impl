@@ -1,20 +1,19 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.dataType.Constants;
 import com.jing.svg.element.SVGElement;
 import com.sun.istack.internal.NotNull;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.jing.svg.dataType.Constants.*;
 import static com.jing.svg.dom.Selector.RelationType.getRelationType;
 
 public class Selector {
 
-    private HashSet<SVGElement> selecterElement = new HashSet<>();
-    private List<Pair<Matcher,RelationType>> parentElement = new ArrayList<>();
+    private HashSet<SVGElement> selectedElement = new HashSet<>();
+    private List<MatcherRelation> matcherRelations = new ArrayList<>();
     private int specificity = 0;
     private Matcher currentMatcher;
 
@@ -29,9 +28,65 @@ public class Selector {
         parseSelector(selector);
     }
 
+    public boolean match(SVGElement svgElement){
+        boolean match;
+        match = currentMatcher.match(svgElement);
+        for(int i = matcherRelations.size() -1 ; i >= 0 ; i--){
+            MatcherRelation matcherRelation = this.matcherRelations.get(i);
+            switch (matcherRelation.relationType){
+                case INSIDE:
+                    match = matchInside(matcherRelation.matcher, svgElement);
+                    break;
+                case OR:
+                    match = matchOr(matcherRelation.matcher, svgElement);
+                    break;
+                case PARENT_IS:
+                    match = matchParent(matcherRelation.matcher, svgElement);
+                    break;
+                case IMMEDIATELY_AFTER:
+                    match = matchAfter(matcherRelation.matcher, svgElement);
+                    break;
+                case PRECEDED_BY:
+                    match = matchPreceded(matcherRelation.matcher, svgElement);
+            }
+        }
+
+        return match;
+    }
+
+    private boolean matchPreceded(Matcher matcher, SVGElement svgElement) {
+        return matcher.match(svgElement.getNextSibling());
+    }
+
+    private boolean matchAfter(Matcher matcher, SVGElement svgElement) {
+        return matcher.match(svgElement.getPreviousSibling());
+    }
+
+    private boolean matchParent(Matcher matcher, SVGElement svgElement) {
+        if(svgElement.getParent() == null)
+            return false;
+        return matcher.match(svgElement.getParent());
+    }
+
+    private boolean matchInside(Matcher matcher, SVGElement svgElement) {
+        SVGElement parent = svgElement.getParent();
+        while(parent != null){
+            if(matcher.match(parent)){
+                return true;
+            }
+            parent = parent.getParent();
+        }
+        return false;
+    }
+
+    private boolean matchOr(Matcher matcher, SVGElement svgElement) {
+        return matcher.match(svgElement);
+    }
+
     private void parseSelector(String selector) {
         String symbolWithSpace = addSpaceToSelector(selector);
-        String[] parts = symbolWithSpace.split(Constants.BY_SPACE);
+        String[] parts = symbolWithSpace.split(BY_SPACE);
+
         for(int i = 0 ; i< parts.length; i++){
             if(i == parts.length - 1)
             {
@@ -40,17 +95,16 @@ public class Selector {
             else{
                 RelationType relationType = getRelationType(parts[i + 1]);
                 if(relationType != null){
-                    parentElement.add(new Pair<>(new Matcher(parts[i]),relationType));
+                    matcherRelations.add(new MatcherRelation(new Matcher(parts[i]),relationType));
                     i++;
                 }
                 else{
-                    parentElement.add(new Pair<>(new Matcher(parts[i]),RelationType.INSIDE));
+                    matcherRelations.add(new MatcherRelation(new Matcher(parts[i]),RelationType.INSIDE));
                 }
             }
         }
+
     }
-
-
 
     private String addSpaceToSelector(String selector) {
         StringBuilder stringBuilder = new StringBuilder(selector);
@@ -72,11 +126,12 @@ public class Selector {
     }
 
     public boolean hasSelectedElement(SVGElement svgElement){
-        return this.selecterElement.contains(svgElement);
+        return this.selectedElement.contains(svgElement);
     }
 
     public enum RelationType{
-        INSIDE(Constants.BY_SPACE),
+        INSIDE(BY_SPACE),
+        OR(","),
         PARENT_IS(">"),
         IMMEDIATELY_AFTER("+"),
         PRECEDED_BY("~");
@@ -99,5 +154,16 @@ public class Selector {
         public String toString(){
             return symbol;
         }
+    }
+
+    private class MatcherRelation {
+        Matcher matcher;
+        RelationType relationType;
+
+        MatcherRelation(Matcher matcher, RelationType relationType) {
+            this.matcher = matcher;
+            this.relationType = relationType;
+        }
+
     }
 }

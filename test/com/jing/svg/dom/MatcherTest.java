@@ -8,6 +8,8 @@ import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 
 public class MatcherTest {
 
@@ -17,7 +19,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.ID.toString(),"123456");
 
         Matcher matcher = new Matcher("#abcdef");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(false));
+        assertThat(matcher.match(svgsvgElement), Is.is(false));
     }
 
     @Test
@@ -26,7 +28,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.ID.toString(),"123456");
 
         Matcher matcher = new Matcher("svg");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(true));
+        assertThat(matcher.match(svgsvgElement), Is.is(true));
     }
 
     @Test
@@ -35,7 +37,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.CLASS.toString(),"what has happened");
 
         Matcher matcher = new Matcher(".what.has");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(true));
+        assertThat(matcher.match(svgsvgElement), Is.is(true));
     }
 
     @Test
@@ -44,7 +46,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.CLASS.toString(),"what has happened");
 
         Matcher matcher = new Matcher(".what.the");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(false));
+        assertThat(matcher.match(svgsvgElement), Is.is(false));
     }
 
     @Test
@@ -53,7 +55,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.CLASS.toString(),"what has happened");
 
         Matcher matcher = new Matcher("rect.what.has");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(false));
+        assertThat(matcher.match(svgsvgElement), Is.is(false));
     }
 
     @Test
@@ -62,7 +64,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.CLASS.toString(),"what has happened");
         svgsvgElement.setAttribute(Constants.StyleName.FILL.toString(),"#abcdef");
         Matcher matcher = new Matcher("svg[fill=\"#abcdef\"]");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(true));
+        assertThat(matcher.match(svgsvgElement), Is.is(true));
     }
 
     @Test
@@ -71,7 +73,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.CLASS.toString(),"what has happened");
         svgsvgElement.setAttribute(Constants.StyleName.FILL.toString(),"#abcdef");
         Matcher matcher = new Matcher("svg[fill=#abcedf]");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(false));
+        assertThat(matcher.match(svgsvgElement), Is.is(false));
     }
 
     @Test
@@ -81,7 +83,7 @@ public class MatcherTest {
         svgsvgElement.setAttribute(Constants.StyleName.FILL.toString(),"#abcdef");
         svgsvgElement.setAttribute(Constants.ElementAttributeNames.X.toString(),"200px");
         Matcher matcher = new Matcher("svg[x|=200]");
-        Assert.assertThat(matcher.match(svgsvgElement), Is.is(false));
+        assertThat(matcher.match(svgsvgElement), Is.is(false));
     }
 
     @Test
@@ -93,7 +95,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svggElement2);
 
         Matcher matcher = new Matcher("g:nth-child(2)");
-        Assert.assertThat(matcher.match(svggElement2), Is.is(true));
+        assertThat(matcher.match(svggElement2), Is.is(true));
     }
 
     @Test
@@ -110,7 +112,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svggElement4);
 
         Matcher matcher = new Matcher("g:nth-last-child(2)");
-        Assert.assertThat(matcher.match(svggElement3), Is.is(true));
+        assertThat(matcher.match(svggElement3), Is.is(true));
     }
 
     @Test
@@ -127,7 +129,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svggElement4);
 
         Matcher matcher = new Matcher("g:last-child:nth-child(4)");
-        Assert.assertThat(matcher.match(svggElement4), Is.is(true));
+        assertThat(matcher.match(svggElement4), Is.is(true));
     }
 
     @Test
@@ -144,7 +146,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svggElement4);
 
         Matcher matcher = new Matcher(":only-child");
-        Assert.assertThat(matcher.match(svggElement4), Is.is(false));
+        assertThat(matcher.match(svggElement4), Is.is(false));
     }
 
     @Test
@@ -163,7 +165,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svggElement4);
 
         Matcher matcher = new Matcher("g:first-of-type");
-        Assert.assertThat(matcher.match(svggElement1), Is.is(true));
+        assertThat(matcher.match(svggElement1), Is.is(true));
     }
 
     @Test
@@ -186,7 +188,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svgUseElement3);
 
         Matcher matcher = new Matcher("g:last-of-type");
-        Assert.assertThat(matcher.match(svggElement4), Is.is(true));
+        assertThat(matcher.match(svggElement4), Is.is(true));
     }
 
     @Test
@@ -209,7 +211,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svgUseElement3);
 
         Matcher matcher = new Matcher("g:nth-of-type(3)");
-        Assert.assertThat(matcher.match(svggElement3), Is.is(true));
+        assertThat(matcher.match(svggElement3), Is.is(true));
     }
 
     @Test
@@ -232,7 +234,7 @@ public class MatcherTest {
         svgsvgElement.appendChild(svgUseElement3);
 
         Matcher matcher = new Matcher("g:nth-last-of-type(1)");
-        Assert.assertThat(matcher.match(svggElement4), Is.is(true));
+        assertThat(matcher.match(svggElement4), Is.is(true));
     }
 
     @Test
@@ -257,7 +259,15 @@ public class MatcherTest {
         svgsvgElement.appendChild(svgUseElement3);
 
         Matcher matcher = new Matcher("g:not(.not_me)");
-        Assert.assertThat(matcher.match(svggElement3), Is.is(false));
+        assertThat(matcher.match(svggElement3), Is.is(false));
+    }
+
+    @Test
+    public void should_calculate_specificity(){
+        Matcher matcher = new Matcher("g.class1.class2.#abc");
+        int specificity = 1 + (1 << 8) + (1 << 8) + (1 << 16);
+
+        assertThat(matcher.getSpecificity(),Is.is(specificity));
     }
 }
 

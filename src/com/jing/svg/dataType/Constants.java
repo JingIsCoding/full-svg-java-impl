@@ -64,7 +64,9 @@ public class Constants {
         XLINK_HREF("xlink:href"),
         TRANSFORM("transform"),
         VIEW_BOX("viewBox"),
-        PRESERVE_ASPECT_RATIO("preserveAspectRatio");
+        PRESERVE_ASPECT_RATIO("preserveAspectRatio"),
+        XML_LANG("xml:lang"),
+        XML_SPACE("xml:space");
         private String name;
         ElementAttributeNames(String name){
             this.name = name;

@@ -1,5 +1,6 @@
 package com.jing.svg.dom;
 
+import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGStylable;
@@ -16,8 +17,10 @@ public class Matcher {
     private SVGStringList attributeName = new SVGStringList();
     private SVGStringList attributeValue = new SVGStringList();
 
+    private int specificity = 0;
+
     List<AttributeOperator> attributeOperators = new ArrayList<>();
-    List<StatusOperatorHolder> statusOperators = new ArrayList<>();
+    List<PseudoClassHolder> pseudoClassHolders = new ArrayList<>();
 
     public Matcher(String elementMatch){
         matchString = elementMatch == null ? "" : elementMatch;
@@ -50,6 +53,10 @@ public class Matcher {
     }
 
     public boolean match(SVGElement svgElement){
+        if(svgElement == null)
+        {
+            return false;
+        }
 
         if(elementName != null && !svgElement.getTagName().toString().equalsIgnoreCase(elementName))
         {
@@ -109,18 +116,18 @@ public class Matcher {
             }
         }
 
-        if(statusOperators.size() > 0 && !matchStatus(svgElement)){
+        if(pseudoClassHolders.size() > 0 && !matchPseudoClass(svgElement)){
                 return false;
         }
 
         return true;
     }
 
-    private boolean matchStatus(SVGElement svgElement){
+    private boolean matchPseudoClass(SVGElement svgElement){
         NodeList<SVGElement> typeChildren;
-        for(int i = 0 ;i <statusOperators.size();i++){
-            StatusOperatorHolder statusOperatorHolder = statusOperators.get(i);
-            switch (statusOperatorHolder.statusOperator){
+        for(int i = 0; i < pseudoClassHolders.size(); i++){
+            PseudoClassHolder pseudoClassHolder = pseudoClassHolders.get(i);
+            switch (pseudoClassHolder.pseudoClass){
                 case EMPTY:
                     if(svgElement.hasChild() || svgElement.getContent() != null)
                         return false;
@@ -156,14 +163,14 @@ public class Matcher {
                     }
                     break;
                 case NOT:
-                    Matcher matcher = new Matcher(statusOperatorHolder.parameter);
+                    Matcher matcher = new Matcher(pseudoClassHolder.parameter);
                     if(matcher.match(svgElement))
                     {
                         return false;
                     }
                     break;
                 case NTH_CHILD:
-                    if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(getIndexNumber(pseudoClassHolder.parameter)) != svgElement)
                     {
                         return false;
                     }
@@ -174,7 +181,7 @@ public class Matcher {
                         return false;
                     }
                     NodeList<SVGElement> childrenNodes = svgElement.getParent().getChildrenNodes();
-                    if(childrenNodes.getItem(childrenNodes.size() - 1 - getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    if(childrenNodes.getItem(childrenNodes.size() - 1 - getIndexNumber(pseudoClassHolder.parameter)) != svgElement)
                     break;
                 case NTH_LAST_OF_TYPE:
                     if(svgElement.getParent() == null)
@@ -182,7 +189,7 @@ public class Matcher {
                         return false;
                     }
                     typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
-                    if(typeChildren.getItem(typeChildren.size() - 1 - getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    if(typeChildren.getItem(typeChildren.size() - 1 - getIndexNumber(pseudoClassHolder.parameter)) != svgElement)
                     {
                         return false;
                     }
@@ -193,7 +200,7 @@ public class Matcher {
                         return false;
                     }
                     typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
-                    if(typeChildren.getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    if(typeChildren.getItem(getIndexNumber(pseudoClassHolder.parameter)) != svgElement)
                     {
                         return false;
                     }
@@ -217,14 +224,16 @@ public class Matcher {
                         return false;
                     break;
                 case LANG:
+                    if(!svgElement.hasOwnAttribute(Constants.ElementAttributeNames.XML_LANG.toString())){
+                        return false;
+                    }
+                    if(!svgElement.getAttributeValue(Constants.ElementAttributeNames.XML_LANG.toString()).toString().equals(pseudoClassHolder.parameter)){
+                        return false;
+                    }
                     break;
             }
         }
         return true;
-    }
-
-    private boolean matchTypeChildAtIndex(NodeList<SVGElement> typeChildren, int index, SVGElement svgElement){
-        return typeChildren.getItem(index) == svgElement;
     }
 
     private NodeList<SVGElement> getTypeChildren(NodeList<SVGElement> childrenNodes,String tagName){
@@ -250,35 +259,40 @@ public class Matcher {
         switch (selectorType){
             case CLASS:
                 addClass(value);
+                specificity += 1 << 8;
                 break;
             case ID:
                 id = value;
+                specificity += 1 << 16;
                 break;
             case ATTRIBUTE:
                 addAttribute(value);
+                specificity += 1 << 8;
                 break;
-            case STATUS:
+            case PSEUDO_CLASS:
                 addStatus(value);
+                specificity += 1 << 8;
                 break;
             case TAG_NAME:
                 this.elementName = value;
+                specificity += 1;
                 break;
         }
     }
 
     private void addStatus(String value) {
-        StatusOperator statusOperator = StatusOperator.getOperator(value);
-        if(statusOperator != null){
+        PseudoClass pseudoClass = PseudoClass.getOperator(value);
+        if(pseudoClass != null){
             int start = value.indexOf("(");
             int end = value.indexOf(")");
             if((start > -1 && end > -1)&& start < end){
                 try {
-                    statusOperators.add(new StatusOperatorHolder(statusOperator,value.substring(start+1,end).trim()));
+                    pseudoClassHolders.add(new PseudoClassHolder(pseudoClass,value.substring(start+1,end).trim()));
                 }
                 catch (Exception e){
                 }
             }else{
-                statusOperators.add(new StatusOperatorHolder(statusOperator));
+                pseudoClassHolders.add(new PseudoClassHolder(pseudoClass));
             }
         }
 
@@ -303,11 +317,16 @@ public class Matcher {
         classNames.insertItem(value);
     }
 
+    public int getSpecificity() {
+        return specificity;
+    }
+
     public enum SelectorType{
+        ALL('*'),
         CLASS('.'),
         ID('#'),
         ATTRIBUTE('['),
-        STATUS(':'),
+        PSEUDO_CLASS(':'),
         TAG_NAME('\0');
         char startCharacter;
 
@@ -351,21 +370,21 @@ public class Matcher {
         }
     }
 
-    private class StatusOperatorHolder{
-        StatusOperator statusOperator;
+    private class PseudoClassHolder {
+        PseudoClass pseudoClass;
         String parameter;
 
-         StatusOperatorHolder(StatusOperator statusOperator) {
-            this.statusOperator = statusOperator;
+         PseudoClassHolder(PseudoClass pseudoClass) {
+            this.pseudoClass = pseudoClass;
         }
 
-         StatusOperatorHolder(StatusOperator statusOperator, String parameter) {
-            this.statusOperator = statusOperator;
+         PseudoClassHolder(PseudoClass pseudoClass, String parameter) {
+            this.pseudoClass = pseudoClass;
             this.parameter = parameter;
         }
     }
 
-    public enum StatusOperator{
+    public enum PseudoClass {
         EMPTY("empty"),
         FIRST_CHILD("first-child"),
         FIRST_OF_TYPE("first-of-type"),
@@ -381,19 +400,14 @@ public class Matcher {
         LANG("lang");
 
         String operator;
-        int n;
-        StatusOperator(String operator){
+        PseudoClass(String operator){
             this.operator = operator;
         }
 
-        public void setN(int n){
-            this.n = n;
-        }
-
-        public static StatusOperator getOperator(String query){
-            for(StatusOperator statusOperator : values()){
-                if(query.startsWith(statusOperator.toString())){
-                    return statusOperator;
+        public static PseudoClass getOperator(String query){
+            for(PseudoClass pseudoClass : values()){
+                if(query.startsWith(pseudoClass.toString())){
+                    return pseudoClass;
                 }
             }
             return null;
