@@ -184,7 +184,7 @@ public class SVGBaseElement implements SVGElement{
     }
 
     private void recCloneNode(SVGElement root, NodeList<SVGElement> children){
-        for(SVGElement child : children.getList()){
+        for(SVGElement child : children){
             SVGElement newChild = child.cloneNode(false);
             root.appendChild(newChild);
 
@@ -206,7 +206,7 @@ public class SVGBaseElement implements SVGElement{
 
     private List<SVGElement> recFindElementByName(TagName name, NodeList<SVGElement> children){
         List<SVGElement> result = new ArrayList<>();
-        for(SVGElement element : children.getList()){
+        for(SVGElement element : children){
             if(element.getTagName() == name){
                 result.add(element);
             }
@@ -230,7 +230,7 @@ public class SVGBaseElement implements SVGElement{
                 return root;
             }else{
                 if(!root.getChildrenNodes().isEmpty()){
-                    for(SVGElement element : root.getChildrenNodes().getList()){
+                    for(SVGElement element : root.getChildrenNodes()){
                         SVGElement elementWithId = recGetElementById(element,id);
                         if(elementWithId !=null){
                             return elementWithId;

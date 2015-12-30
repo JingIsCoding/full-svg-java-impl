@@ -3,6 +3,7 @@ package com.jing.svg.dom;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGStylable;
+import com.jing.svg.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,26 +21,29 @@ public class Matcher {
 
     public Matcher(String elementMatch){
         matchString = elementMatch == null ? "" : elementMatch;
-        parseString(matchString);
-
+        parseMatcher(matchString);
     }
 
-    private void parseString(String matchString) {
-        SelectorType previousType = SelectorType.TAG_NAME;
+    private void parseMatcher(String matchString) {
+        SelectorType type = SelectorType.TAG_NAME;
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0 ; i < matchString.length() ;i++){
             char c = matchString.charAt(i);
             SelectorType selectorType = SelectorType.getSelectorType(c);
-            if(selectorType != null){
+            if(selectorType != null && type != SelectorType.ATTRIBUTE){
                 if(stringBuilder.length() > 0){
-                    createSelector(previousType,stringBuilder.toString());
+                    createSelector(type,stringBuilder.toString());
                 }
-                previousType = selectorType;
+                type = selectorType;
                 stringBuilder = new StringBuilder();
             }else{
-                stringBuilder.append(c);
+                if(c==']' && type == SelectorType.ATTRIBUTE){
+                    createSelector(type,stringBuilder.toString());
+                }else{
+                    stringBuilder.append(c);
+                }
                 if(i == matchString.length() -1){
-                    createSelector(previousType,stringBuilder.toString());
+                    createSelector(type,stringBuilder.toString());
                 }
             }
         }
@@ -68,29 +72,36 @@ public class Matcher {
 
         if(this.attributeOperators.size() > 0){
             for(int i = 0 ; i < this.attributeOperators.size(); i++){
+                String name = attributeName.getItem(i);
+                String value = attributeValue.getItem(i);
+
+                if(!svgElement.hasOwnAttribute(name))
+                {
+                    return false;
+                }
                 switch (this.attributeOperators.get(i)){
                     case Equal:
-                        if(!svgElement.getAttributeValue(attributeName.getItem(i)).toString().equals(attributeValue.getItem(i))){
+                        if(!svgElement.getAttributeValue(name).toString().equals(value)){
                             return false;
                         }
                         break;
                     case StartsWith:
-                        if(!svgElement.getAttributeValue(attributeName.getItem(i)).toString().startsWith(attributeValue.getItem(i))){
+                        if(!svgElement.getAttributeValue(name).toString().startsWith(value)){
                             return false;
                         }
                         break;
                     case EndWith:
-                        if(!svgElement.getAttributeValue(attributeName.getItem(i)).toString().endsWith(attributeValue.getItem(i))){
+                        if(!svgElement.getAttributeValue(name).toString().endsWith(value)){
                             return false;
                         }
                         break;
                     case Contains:
-                        if(!svgElement.getAttributeValue(attributeName.getItem(i)).toString().contains(attributeValue.getItem(i))){
+                        if(!svgElement.getAttributeValue(name).toString().contains(value)){
                             return false;
                         }
                         break;
                     case Has:
-                        if(!svgElement.hasOwnAttribute(attributeName.getItem(i))){
+                        if(!svgElement.hasOwnAttribute(name)){
                             return false;
                         }
                         break;
@@ -98,66 +109,95 @@ public class Matcher {
             }
         }
 
-        if(statusOperators.size() > 0){
-            for(int i = 0 ;i <statusOperators.size();i++){
-                StatusOperatorHolder statusOperatorHolder = statusOperators.get(i);
-                switch (statusOperatorHolder.statusOperator){
-                    case EMPTY:
-                        if(svgElement.hasChild() || svgElement.getContent() != null)
-                            return false;
-                        break;
-                    case FIRST_CHILD:
-                        if(svgElement.getParent() == null || svgElement.getParent().getFirstChild() != svgElement)
-                        {
-                            return false;
-                        }
-                        break;
-                    case FIRST_OF_TYPE:
-                        if(svgElement.getParent() == null){
-                            return false;
-                        }
-
-                        break;
-                    case LAST_CHILD:
-                        if(svgElement.getParent() == null || svgElement.getParent().getLastChild() != svgElement)
-                        {
-                            return false;
-                        }
-                        break;
-                    case LAST_OF_TYPE:
-                        break;
-                    case NOT:
-                        break;
-                    case NTH_CHILD:
-                        if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(Integer.parseInt(statusOperatorHolder.parameter)) != svgElement)
-                        {
-                            return false;
-                        }
-                        break;
-                    case NTH_LAST_CHILD:
-                        if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(Integer.parseInt(statusOperatorHolder.parameter)) != svgElement)
-                        {
-                            return false;
-                        }
-                        break;
-                    case NTH_LAST_OF_TYPE:
-                        break;
-                    case NTH_OF_TYPE:
-                        break;
-                    case ONLY_TYPE:
-                        break;
-                    case ONLY_CHILD:
-                        if(svgElement.getParent().getChildrenNodes().size() != 1)
-                            return false;
-                        break;
-                    case LANG:
-                        break;
-                }
-
-            }
+        if(statusOperators.size() > 0 && !matchStatus(svgElement)){
+                return false;
         }
 
         return true;
+    }
+
+    private boolean matchStatus(SVGElement svgElement){
+        for(int i = 0 ;i <statusOperators.size();i++){
+            StatusOperatorHolder statusOperatorHolder = statusOperators.get(i);
+            switch (statusOperatorHolder.statusOperator){
+                case EMPTY:
+                    if(svgElement.hasChild() || svgElement.getContent() != null)
+                        return false;
+                    break;
+                case FIRST_CHILD:
+                    if(svgElement.getParent() == null || svgElement.getParent().getFirstChild() != svgElement)
+                    {
+                        return false;
+                    }
+                    break;
+                case FIRST_OF_TYPE:
+                    if(svgElement.getParent() == null){
+                        return false;
+                    }
+                    if(getTypeChildren(svgElement.getParent().getChildrenNodes(),svgElement.getTagName().toString()).get(0) != svgElement)
+                        return false;
+                    break;
+                case LAST_CHILD:
+                    if(svgElement.getParent() == null || svgElement.getParent().getLastChild() != svgElement)
+                    {
+                        return false;
+                    }
+                    break;
+                case LAST_OF_TYPE:
+                    if(svgElement.getParent() == null)
+                        return false;
+                    List<SVGElement> typeChildren = getTypeChildren(svgElement.getParent().getChildrenNodes(), svgElement.getTagName().toString());
+                    if(typeChildren.get(typeChildren.size() - 1) != svgElement)
+                        return false;
+                    break;
+                case NOT:
+                    break;
+                case NTH_CHILD:
+                    if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    {
+                        return false;
+                    }
+                    break;
+                case NTH_LAST_CHILD:
+                    if(svgElement.getParent() == null || svgElement.getParent().getChildrenNodes().getItem(getIndexNumber(statusOperatorHolder.parameter)) != svgElement)
+                    {
+                        return false;
+                    }
+                    break;
+                case NTH_LAST_OF_TYPE:
+                    break;
+                case NTH_OF_TYPE:
+                    break;
+                case ONLY_TYPE:
+                    break;
+                case ONLY_CHILD:
+                    if(svgElement.getParent().getChildrenNodes().size() != 1)
+                        return false;
+                    break;
+                case LANG:
+                    break;
+            }
+        }
+        return true;
+    }
+
+    private List<SVGElement> getTypeChildren(NodeList<SVGElement> childrenNodes,String tagName){
+        List<SVGElement> result = new ArrayList<>();
+        for(SVGElement element : childrenNodes){
+            if(element.getTagName().equals(tagName)){
+                result.add(element);
+            }
+        }
+        return result;
+    }
+
+    private int getIndexNumber(String number){
+        try{
+            int n =  Integer.parseInt(number);
+            return n - 1;
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     private void createSelector(SelectorType selectorType,String value){
@@ -187,7 +227,7 @@ public class Matcher {
             int end = value.indexOf(")");
             if((start > -1 && end > -1)&& start < end){
                 try {
-                    statusOperators.add(new StatusOperatorHolder(statusOperator,value.substring(start,end -1)));
+                    statusOperators.add(new StatusOperatorHolder(statusOperator,value.substring(start+1,end).trim()));
                 }
                 catch (Exception e){
                 }
@@ -198,16 +238,16 @@ public class Matcher {
 
     }
 
-    private void addAttribute(String value) {
-        if(value.charAt(value.length() -1) == ']'){
-            value = value.substring(0,value.length() -1);
-        }
-        AttributeOperator operator = AttributeOperator.getOperator(value);
+    private void addAttribute(String attribute) {
+        AttributeOperator operator = AttributeOperator.getOperator(attribute);
         if(operator != null){
-            String[] split = value.split(operator.toString());
+            String[] split = attribute.split(operator.toString());
             if(split.length == 2){
-                attributeName.insertItem(split[0]);
-                attributeValue.insertItem(split[1]);
+                String name = split[0];
+                String value = split[1];
+                value = StringUtil.cleanQuotes(value);
+                attributeName.insertItem(name);
+                attributeValue.insertItem(value);
                 attributeOperators.add(operator);
             }
         }

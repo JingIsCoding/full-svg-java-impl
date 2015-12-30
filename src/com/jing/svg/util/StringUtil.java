@@ -40,6 +40,18 @@ public class StringUtil {
         return startString + endString;
     }
 
+    public static String cleanQuotes(String input){
+        char firstChar = input.charAt(0);
+        char lastChat = input.charAt(input.length() -1);
+        if(firstChar =='"' && lastChat =='"'){
+            return input.substring(1,input.length() -1);
+        }
+        else if(firstChar =='\'' && lastChat =='\''){
+            return input.substring(1,input.length() -1);
+        }
+        return input;
+    }
+
     public static SVGStringList getSVGStringListValue(SVGElement svgElement, String key, String siplliter){
         Object value = svgElement.getAttribute(key).getValue();
         if(value == null)

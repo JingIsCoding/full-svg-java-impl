@@ -1,17 +1,14 @@
 package com.jing.svg.dom;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class NodeList<T> {
-    List<T> nodes = new ArrayList<>();
+public class NodeList<T> implements Iterable<T>{
+    private final List<T> nodes = new ArrayList<>();
 
     public T getItem(int index){
-        return index < nodes.size() ? nodes.get(index) : null;
-    }
-
-    public List<T> getList(){
-        return this.nodes;
+        return index >=0 && index < nodes.size() ? nodes.get(index) : null;
     }
 
     public void removeChild(T t){
@@ -54,4 +51,11 @@ public class NodeList<T> {
     public T getNextSiblingOf(T element) {
         return hasChild(element) && nodes.indexOf(element) < nodes.size() - 1 ? nodes.get(nodes.indexOf(element) + 1) : null;
     }
+
+    @Override
+    public Iterator<T> iterator() {
+        return nodes.iterator();
+    }
+
+
 }

@@ -43,6 +43,24 @@ public class StringUtilTest {
     }
 
     @Test
+    public void should_clean_up_double_quote(){
+        String origin = "\"what\"";
+        assertThat(StringUtil.cleanQuotes(origin), is("what"));
+    }
+
+    @Test
+    public void should_clean_up_single_quote(){
+        String origin = "''";
+        assertThat(StringUtil.cleanQuotes(origin), is(""));
+    }
+
+    @Test
+    public void should_not_clean_up_quote_when_quote_doesnt_match(){
+        String origin = "'what\"";
+        assertThat(StringUtil.cleanQuotes(origin), is("'what\""));
+    }
+
+    @Test
     public void should_crop_string_when_end_larger_than_length(){
         String origin = "what?";
         String s = StringUtil.cropString(origin, -1, 100);
