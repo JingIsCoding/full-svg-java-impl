@@ -1,12 +1,11 @@
 package com.jing.svg;
 
 
-import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.CSSStyleDeclaration;
+import com.jing.svg.dom.CSSStyleRule;
 import com.jing.svg.dom.CSSValue;
 import com.jing.svg.element.*;
-import com.jing.svg.element.SVGBaseElement;
 
 import static com.jing.svg.dataType.Constants.TagName.G;
 
@@ -80,5 +79,10 @@ public class SVGGElement extends SVGBaseElement implements SVGTests, SVGLangSpac
     @Override
     public CSSStyleDeclaration getComputedStyleDeclarationStyle() {
         return svgStylable.getComputedStyleDeclarationStyle();
+    }
+
+    @Override
+    public void addStyleRule(CSSStyleRule cssStyleRule) {
+        this.svgStylable.addStyleRule(cssStyleRule);
     }
 }

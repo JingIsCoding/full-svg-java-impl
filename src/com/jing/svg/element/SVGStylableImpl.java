@@ -1,23 +1,28 @@
 package com.jing.svg.element;
 
-import com.jing.svg.dataType.Constants.StyleName;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.CSSStyleDeclaration;
+import com.jing.svg.dom.CSSStyleRule;
 import com.jing.svg.dom.CSSValue;
 import com.jing.svg.util.StringUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.jing.svg.dataType.Constants.BY_SPACE;
 import static com.jing.svg.dataType.Constants.ElementAttributeNames.CLASS;
 import static com.jing.svg.dataType.Constants.ElementAttributeNames.STYLE;
 
 public class SVGStylableImpl implements SVGStylable{
-    private CSSStyleDeclaration styleDeclaration;
+    private List<CSSStyleRule> cssRules;
     private SVGElement svgElement;
+    private CSSStyleDeclaration cssStyleDeclaration;
 
     public SVGStylableImpl(SVGElement svgElement){
         this.svgElement = svgElement;
+        cssRules = new ArrayList<>();
         if(svgElement.hasOwnAttribute(STYLE.toString())){
-            styleDeclaration = new CSSStyleDeclaration(svgElement.getAttribute(STYLE.toString()).getValue().toString());
+            cssRules = new ArrayList<>();
         }
     }
 
@@ -33,17 +38,7 @@ public class SVGStylableImpl implements SVGStylable{
 
     @Override
     public CSSStyleDeclaration getStyle() {
-        if(styleDeclaration == null){
-            styleDeclaration  = !svgElement.hasOwnAttribute(STYLE.toString()) ?  new CSSStyleDeclaration() :  new CSSStyleDeclaration((String) svgElement.getAttributeValue(STYLE.toString()));
-            for(StyleName styleName : StyleName.values()){
-                if(svgElement.hasOwnAttribute(styleName.toString())){
-                    if(styleDeclaration.getPropertyCSSValue(styleName.toString()) == null){
-                        styleDeclaration.setAttribute(styleName.toString(),new CSSValue(svgElement.getAttribute(styleName.toString()).getValue()));
-                    }
-                }
-            }
-        }
-        return styleDeclaration;
+        return null;
     }
 
     @Override
@@ -54,5 +49,10 @@ public class SVGStylableImpl implements SVGStylable{
         }
         CSSStyleDeclaration mergedStyle =  styleElement != null ? this.getStyle().mergeStyleDeclaration(((SVGStylable)styleElement).getComputedStyleDeclarationStyle()) : this.getStyle();
         return mergedStyle;
+    }
+
+    @Override
+    public void addStyleRule(CSSStyleRule cssStyleRule) {
+        cssRules.add(cssStyleRule);
     }
 }

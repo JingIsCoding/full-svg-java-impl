@@ -4,6 +4,7 @@ import com.jing.svg.animated.SVGAnimatedPreserveAspectRatio;
 import com.jing.svg.animated.SVGAnimatedRect;
 import com.jing.svg.dataType.*;
 import com.jing.svg.dom.CSSStyleDeclaration;
+import com.jing.svg.dom.CSSStyleRule;
 import com.jing.svg.dom.CSSValue;
 import com.jing.svg.element.*;
 
@@ -110,6 +111,11 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     }
 
     @Override
+    public void addStyleRule(CSSStyleRule cssStyleRule) {
+        this.svgStylable.addStyleRule(cssStyleRule);
+    }
+
+    @Override
     public SVGAnimatedPreserveAspectRatio getPreserveAspectRatio() {
         return svgFitToViewBox.getPreserveAspectRatio();
     }
@@ -119,8 +125,4 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
         return svgFitToViewBox.getViewBox();
     }
 
-    protected void consolidateStyle(){
-        List<SVGElement> svgStyleElement = this.getElementByTagName(Constants.TagName.STYLE);
-        ((SVGStyleElement)svgStyleElement).consolidateStyle();
-    }
 }

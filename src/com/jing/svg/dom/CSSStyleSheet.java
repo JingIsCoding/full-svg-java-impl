@@ -1,7 +1,5 @@
 package com.jing.svg.dom;
 
-import com.jing.svg.SVGSVGElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +23,5 @@ public class CSSStyleSheet {
 
     public List<CSSStyleRule> getCssStyleRules() {
         return cssStyleRules;
-    }
-
-    public void apply(SVGSVGElement ownerSVGElement) {
-
     }
 }

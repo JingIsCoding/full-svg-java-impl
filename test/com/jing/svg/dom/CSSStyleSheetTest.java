@@ -1,10 +1,8 @@
 package com.jing.svg.dom;
 
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.*;
-import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 
 

@@ -5,6 +5,7 @@ import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGStylable;
 import com.jing.svg.util.StringUtil;
+import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Matcher {
     List<AttributeOperator> attributeOperators = new ArrayList<>();
     List<PseudoClassHolder> pseudoClassHolders = new ArrayList<>();
 
-    public Matcher(String elementMatch){
+    Matcher(@NotNull String elementMatch){
         matchString = elementMatch == null ? "" : elementMatch;
         parseMatcher(matchString);
     }

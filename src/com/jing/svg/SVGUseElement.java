@@ -3,10 +3,7 @@ package com.jing.svg;
 import com.jing.svg.animated.SVGAnimatedString;
 import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.SVGStringList;
-import com.jing.svg.dom.Attribute;
-import com.jing.svg.dom.CSSStyleDeclaration;
-import com.jing.svg.dom.CSSValue;
-import com.jing.svg.dom.NodeList;
+import com.jing.svg.dom.*;
 import com.jing.svg.element.*;
 import com.jing.svg.element.SVGBaseElement;
 
@@ -91,5 +88,10 @@ public class SVGUseElement extends SVGBaseCoordinatedElement implements SVGTests
     @Override
     public CSSStyleDeclaration getComputedStyleDeclarationStyle() {
         return null;
+    }
+
+    @Override
+    public void addStyleRule(CSSStyleRule cssStyleRule) {
+        this.svgStylable.addStyleRule(cssStyleRule);
     }
 }

@@ -4,133 +4,124 @@ import com.jing.svg.element.SVGElement;
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 
-import static com.jing.svg.dataType.Constants.*;
 import static com.jing.svg.dom.Selector.RelationType.getRelationType;
 
 public class Selector {
-
-    private HashSet<SVGElement> selectedElement = new HashSet<>();
+    /**
+     * The approach is to split svg>.class1+#id into three matches [svg,.class1 #id] and connected by relations [SPACE , >, +, ~]
+     * */
     private List<MatcherRelation> matcherRelations = new ArrayList<>();
-    private int specificity = 0;
-    private Matcher currentMatcher;
-
     public Selector(){
     }
 
     public int getSpecificity(){
+        int specificity = 0;
+        for(MatcherRelation matcherRelation : this.matcherRelations){
+            specificity += matcherRelation.matcher.getSpecificity();
+        }
         return specificity;
     }
 
-    public Selector(@NotNull String selector){
-        parseSelector(selector);
+    Selector(@NotNull String selector){
+        String removeUselessSpaceSelector = removeUselessSpace(new StringBuilder(selector));
+        createMatchRelations(removeUselessSpaceSelector);
     }
 
     public boolean match(SVGElement svgElement){
-        boolean match;
-        match = currentMatcher.match(svgElement);
+        SVGElement matchOnElement = svgElement;
         for(int i = matcherRelations.size() -1 ; i >= 0 ; i--){
-            MatcherRelation matcherRelation = this.matcherRelations.get(i);
-            switch (matcherRelation.relationType){
-                case INSIDE:
-                    match = matchInside(matcherRelation.matcher, svgElement);
-                    break;
-                case OR:
-                    match = matchOr(matcherRelation.matcher, svgElement);
-                    break;
-                case PARENT_IS:
-                    match = matchParent(matcherRelation.matcher, svgElement);
-                    break;
-                case IMMEDIATELY_AFTER:
-                    match = matchAfter(matcherRelation.matcher, svgElement);
-                    break;
-                case PRECEDED_BY:
-                    match = matchPreceded(matcherRelation.matcher, svgElement);
+
+            matchOnElement = this.matcherRelations.get(i).matchElement(matchOnElement);
+
+            if(matchOnElement == null){
+                return false;
             }
         }
-
-        return match;
+        return matchOnElement != null;
     }
 
-    private boolean matchPreceded(Matcher matcher, SVGElement svgElement) {
-        return matcher.match(svgElement.getNextSibling());
-    }
-
-    private boolean matchAfter(Matcher matcher, SVGElement svgElement) {
-        return matcher.match(svgElement.getPreviousSibling());
-    }
-
-    private boolean matchParent(Matcher matcher, SVGElement svgElement) {
-        if(svgElement.getParent() == null)
-            return false;
-        return matcher.match(svgElement.getParent());
-    }
-
-    private boolean matchInside(Matcher matcher, SVGElement svgElement) {
-        SVGElement parent = svgElement.getParent();
-        while(parent != null){
-            if(matcher.match(parent)){
-                return true;
+    private void createMatchRelations(String selector) {
+        String cleanSelector = removeUselessSpace(new StringBuilder(selector));
+        List<String> selectorStrings = new ArrayList<>();
+        Stack<String> symbol = new Stack<>();
+        int start = 0;
+        for(int i = 0 ; i  < cleanSelector.length() ; i++){
+            char c = selector.charAt(i);
+            if(inBracketOrQuote(symbol, c)){
+                continue;
             }
-            parent = parent.getParent();
-        }
-        return false;
-    }
+            RelationType relationType = RelationType.getRelationType("" + c);
+            if(relationType != null){
+                selectorStrings.add(cleanSelector.substring(start,i));
+                if(relationType == RelationType.OR){
 
-    private boolean matchOr(Matcher matcher, SVGElement svgElement) {
-        return matcher.match(svgElement);
-    }
-
-    private void parseSelector(String selector) {
-        String symbolWithSpace = addSpaceToSelector(selector);
-        String[] parts = symbolWithSpace.split(BY_SPACE);
-
-        for(int i = 0 ; i< parts.length; i++){
-            if(i == parts.length - 1)
-            {
-                currentMatcher = new Matcher(parts[i]);
-            }
-            else{
-                RelationType relationType = getRelationType(parts[i + 1]);
-                if(relationType != null){
-                    matcherRelations.add(new MatcherRelation(new Matcher(parts[i]),relationType));
-                    i++;
+                }else{
+                    if(selectorStrings.size() > 1){
+                        matcherRelations.add(new MatcherRelation(selectorStrings));
+                        selectorStrings.clear();
+                    }else{
+                        matcherRelations.add(new MatcherRelation(cleanSelector.substring(start,i),relationType));
+                    }
                 }
-                else{
-                    matcherRelations.add(new MatcherRelation(new Matcher(parts[i]),RelationType.INSIDE));
+                start = i + 1;
+            }
+            if(i == cleanSelector.length() -1){
+                    matcherRelations.add(new MatcherRelation(cleanSelector.substring(start,cleanSelector.length()),null));
+            }
+        }
+    }
+
+    private String removeUselessSpace(StringBuilder selector){
+        Stack<String> symbol = new Stack<>();
+        for(int i = 0 ; i  < selector.length() ; i++){
+            char c = selector.charAt(i);
+            if(inBracketOrQuote(symbol, c)){
+                continue;
+            }
+            if(RelationType.getRelationType("" + c) != null){
+                while(selector.charAt(i -1) ==' '){
+                    selector.deleteCharAt(i -1);
+                    i--;
+                }
+                while(selector.charAt(i+1) ==' '){
+                    selector.deleteCharAt(i + 1);
                 }
             }
         }
-
+        return selector.toString();
     }
 
-    private String addSpaceToSelector(String selector) {
-        StringBuilder stringBuilder = new StringBuilder(selector);
-        boolean shouldAddSpace = true;
-        for (int i = 0 ; i < stringBuilder.length() ; i++){
-            char c = stringBuilder.charAt(i);
-            if(c == '['){
-                shouldAddSpace = false;
-            }
-            else if(c == ']'){
-                shouldAddSpace = true;
-            }
-            if(RelationType.getRelationType(""+c) != null && shouldAddSpace){
-                stringBuilder.insert(i,' ');
-                stringBuilder.insert(i+=2,' ');
+    private boolean inBracketOrQuote(Stack<String> symbol, char c) {
+        if(c == '[' || c=='(')
+        {
+            symbol.push(""+c);
+        }
+        else if(c==']' || c == ')'){
+            if((c==']' && symbol.peek().equals("[")) || (c==')' && symbol.peek().equals("("))){
+                symbol.pop();
             }
         }
-        return stringBuilder.toString();
-    }
-
-    public boolean hasSelectedElement(SVGElement svgElement){
-        return this.selectedElement.contains(svgElement);
+        if(c == '"'){
+            if(symbol.peek().equals("\"")){
+                symbol.pop();
+            }else{
+                symbol.push(""+c);
+            }
+        }else if(c == '\''){
+            if(symbol.peek().equals("'")){
+                symbol.pop();
+            }else{
+                symbol.push(""+c);
+            }
+        }
+        return symbol.size() > 0;
     }
 
     public enum RelationType{
-        INSIDE(BY_SPACE),
+        INSIDE(" "),
         OR(","),
         PARENT_IS(">"),
         IMMEDIATELY_AFTER("+"),
@@ -159,11 +150,73 @@ public class Selector {
     private class MatcherRelation {
         Matcher matcher;
         RelationType relationType;
+        //For OR relation
+        List<Matcher> matchers;
 
-        MatcherRelation(Matcher matcher, RelationType relationType) {
-            this.matcher = matcher;
+        MatcherRelation(String selector, RelationType relationType) {
+            this.matcher = new Matcher(selector);
             this.relationType = relationType;
         }
 
+        MatcherRelation(List<String> selectors) {
+            this.matchers = new ArrayList<>();
+            for(String part : selectors){
+                matchers.add(new Matcher(part));
+            }
+            this.relationType = RelationType.OR;
+        }
+
+        SVGElement matchElement(SVGElement svgElement){
+            if(relationType == null){
+                return matcher.match(svgElement)? svgElement : null;
+            }
+
+            switch (relationType){
+                case INSIDE:
+                    return matchInside(svgElement);
+                case OR:
+                    return matchOr(svgElement);
+                case PARENT_IS:
+                    return matchParent(svgElement);
+                case IMMEDIATELY_AFTER:
+                    return matchAfter(svgElement);
+                case PRECEDED_BY:
+                    return matchPreceded(svgElement);
+            }
+            return null;
+        }
+
+        private SVGElement matchPreceded(SVGElement svgElement) {
+            return matcher.match(svgElement.getNextSibling()) ? svgElement.getNextSibling() : null;
+        }
+
+        private SVGElement matchAfter(SVGElement svgElement) {
+            return matcher.match(svgElement.getPreviousSibling()) ? svgElement.getPreviousSibling() : null;
+        }
+
+        private SVGElement matchParent(SVGElement svgElement) {
+            return matcher.match(svgElement.getParent()) ? svgElement.getParent() : null;
+        }
+
+        private SVGElement matchInside(SVGElement svgElement) {
+            SVGElement parent = svgElement.getParent();
+            while(parent != null){
+                if(matcher.match(parent)){
+                    return parent;
+                }
+                parent = parent.getParent();
+            }
+            return null;
+        }
+
+        private SVGElement matchOr(SVGElement svgElement) {
+            for(Matcher matcher : matchers){
+                if(matcher.match(svgElement))
+                {
+                    return svgElement;
+                }
+            }
+            return null;
+        }
     }
 }

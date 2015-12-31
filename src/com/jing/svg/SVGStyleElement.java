@@ -52,10 +52,10 @@ public class SVGStyleElement extends SVGBaseElement implements SVGLangSpace {
         return svgLangSpace.getXmllang();
     }
 
-    protected void consolidateStyle() {
-        if(cssStyleSheet == null){
-            cssStyleSheet = new CSSStyleSheet(this.getContent());
+    protected CSSStyleSheet getCssStyleSheet(){
+        if(this.cssStyleSheet==null && this.getContent() != null){
+            this.cssStyleSheet = new CSSStyleSheet(this.getContent());
         }
-        cssStyleSheet.apply(this.getOwnerSVGElement());
+        return this.cssStyleSheet;
     }
 }
