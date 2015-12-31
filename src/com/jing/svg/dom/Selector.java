@@ -20,7 +20,7 @@ public class Selector {
     public int getSpecificity(){
         int specificity = 0;
         for(MatcherRelation matcherRelation : this.matcherRelations){
-            specificity += matcherRelation.matcher.getSpecificity();
+            specificity += matcherRelation.getSpecificity();
         }
         return specificity;
     }
@@ -33,7 +33,6 @@ public class Selector {
     public boolean match(SVGElement svgElement){
         SVGElement matchOnElement = svgElement;
         for(int i = matcherRelations.size() -1 ; i >= 0 ; i--){
-
             matchOnElement = this.matcherRelations.get(i).matchElement(matchOnElement);
 
             if(matchOnElement == null){
@@ -60,7 +59,7 @@ public class Selector {
 
                 }else{
                     if(selectorStrings.size() > 1){
-                        matcherRelations.add(new MatcherRelation(selectorStrings));
+                        matcherRelations.add(new MatcherRelation(selectorStrings,relationType));
                         selectorStrings.clear();
                     }else{
                         matcherRelations.add(new MatcherRelation(cleanSelector.substring(start,i),relationType));
@@ -148,34 +147,30 @@ public class Selector {
     }
 
     private class MatcherRelation {
-        Matcher matcher;
         RelationType relationType;
-        //For OR relation
-        List<Matcher> matchers;
+        List<Matcher> matchers = new ArrayList<>();
 
         MatcherRelation(String selector, RelationType relationType) {
-            this.matcher = new Matcher(selector);
+            matchers.add(new Matcher(selector));
             this.relationType = relationType;
         }
 
-        MatcherRelation(List<String> selectors) {
-            this.matchers = new ArrayList<>();
+        MatcherRelation(List<String> selectors, RelationType relationType) {
             for(String part : selectors){
                 matchers.add(new Matcher(part));
             }
-            this.relationType = RelationType.OR;
+            this.relationType = relationType;
         }
 
         SVGElement matchElement(SVGElement svgElement){
             if(relationType == null){
-                return matcher.match(svgElement)? svgElement : null;
+                   if(matchOr(svgElement)){
+                       return svgElement;
+                   }
             }
-
             switch (relationType){
                 case INSIDE:
                     return matchInside(svgElement);
-                case OR:
-                    return matchOr(svgElement);
                 case PARENT_IS:
                     return matchParent(svgElement);
                 case IMMEDIATELY_AFTER:
@@ -187,21 +182,21 @@ public class Selector {
         }
 
         private SVGElement matchPreceded(SVGElement svgElement) {
-            return matcher.match(svgElement.getNextSibling()) ? svgElement.getNextSibling() : null;
+            return matchOr(svgElement.getNextSibling()) ? svgElement.getNextSibling() : null;
         }
 
         private SVGElement matchAfter(SVGElement svgElement) {
-            return matcher.match(svgElement.getPreviousSibling()) ? svgElement.getPreviousSibling() : null;
+            return matchOr(svgElement.getPreviousSibling()) ? svgElement.getPreviousSibling() : null;
         }
 
         private SVGElement matchParent(SVGElement svgElement) {
-            return matcher.match(svgElement.getParent()) ? svgElement.getParent() : null;
+            return matchOr(svgElement.getParent()) ? svgElement.getParent() : null;
         }
 
         private SVGElement matchInside(SVGElement svgElement) {
             SVGElement parent = svgElement.getParent();
             while(parent != null){
-                if(matcher.match(parent)){
+                if(matchOr(parent)){
                     return parent;
                 }
                 parent = parent.getParent();
@@ -209,14 +204,22 @@ public class Selector {
             return null;
         }
 
-        private SVGElement matchOr(SVGElement svgElement) {
+        private int getSpecificity(){
+            int specificity = 0;
+            for(Matcher matcher : matchers){
+                specificity += matcher.getSpecificity();
+            }
+            return specificity;
+        }
+
+        private boolean matchOr(SVGElement svgElement) {
             for(Matcher matcher : matchers){
                 if(matcher.match(svgElement))
                 {
-                    return svgElement;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
     }
 }

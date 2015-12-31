@@ -7,6 +7,7 @@ import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import static com.jing.svg.dataType.Constants.ElementAttributeNames.CLASS;
+import static com.jing.svg.dataType.Constants.ElementAttributeNames.TITLE;
 import static org.hamcrest.core.Is.*;
 import static org.junit.Assert.*;
 
@@ -58,7 +59,7 @@ public class SelectorTest {
 
     @Test
     public void should_match_g_element_parent_is_either_svg_g(){
-        Selector selector = new Selector("svg,g>g");
+        Selector selector = new Selector("svg  ,  g     g");
 
         SVGSVGElement svgsvgElement = new SVGSVGElement();
         svgsvgElement.setAttribute(CLASS.toString(),"svg-root svg-root1");
@@ -71,5 +72,22 @@ public class SelectorTest {
 
         assertThat(selector.match(svggElement), is(true));
         assertThat(selector.match(svggElement1), is(true));
+    }
+
+    @Test
+    public void should_match_g_element_parent_is_either_svg_g_with_attribute(){
+        Selector selector = new Selector("svg[title=This is a different string],g>g");
+
+        SVGSVGElement svgsvgElement = new SVGSVGElement();
+        svgsvgElement.setAttribute(CLASS.toString(),"svg-root svg-root1");
+        svgsvgElement.setAttribute(TITLE.toString(),"This is a title for svg, hopefully it will not break the test~");
+
+        SVGGElement svggElement = new SVGGElement();
+        SVGGElement svggElement1 = new SVGGElement();
+        svgsvgElement.appendChild(svggElement);
+
+        svggElement.appendChild(svggElement1);
+
+        assertThat(selector.match(svggElement), is(false));
     }
 }
