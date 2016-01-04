@@ -38,7 +38,6 @@ public class SVGStylableImplTest {
         svgsvgElement.setAttribute(FILL.toString(),"#ababab");
         assertThat(svgsvgElement.getStyle().getFont().getFontFamily().getValue().toString(), Is.is("abc"));
         assertThat(svgsvgElement.getStyle().getFill().getValue().toString(), Is.is("#ababab"));
-
     }
 
     @Test
@@ -81,12 +80,15 @@ public class SVGStylableImplTest {
         svggElement.setId("123");
         svggElement.setAttribute(CLASS.toString(),"class1 class2");
         CSSStyleRule classStyle = new CSSStyleRule(".class1","fill:#ababab;stroke-width:10px;",null,null);
+        CSSStyleRule higherClassStyle = new CSSStyleRule(".class1.class2","fill:#efefef;stroke-width:15px;",null,null);
         CSSStyleRule idStyle = new CSSStyleRule("#123","fill:#565656;",null,null);
-        svggElement.addStyleRule(classStyle );
-        svggElement.addStyleRule(idStyle );
+
+        svggElement.addStyleRule(classStyle);
+        svggElement.addStyleRule(idStyle);
+        svggElement.addStyleRule(higherClassStyle);
 
         assertThat(svggElement.getStyle().getFill().getValue() , is("#565656"));
-        assertThat(svggElement.getStyle().getStrokeWidth().getValue() , is("10px"));
+        assertThat(svggElement.getStyle().getStrokeWidth().getValue() , is("15px"));
         assertThat(svggElement.getStyle().getFont().getFontFamily().getValue() , is("abc"));
     }
 
