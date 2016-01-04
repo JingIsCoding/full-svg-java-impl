@@ -10,7 +10,7 @@ import static com.jing.svg.dataType.Constants.StyleName.*;
 public class CSSStyleDeclaration {
     private String cssText;
     private Map<String,Attribute<CSSValue>> attributeMap = new HashMap<>();
-    private Font font = new Font(attributeMap);
+    private Font font = new Font();
 
     public CSSStyleDeclaration(){
         cssText = "";
@@ -19,6 +19,10 @@ public class CSSStyleDeclaration {
     public CSSStyleDeclaration(@NotNull String style){
             cssText = style;
             parseStyles(style);
+    }
+
+    public CSSStyleDeclaration(@NotNull Map<String,Attribute<CSSValue>> attributeMap){
+       this.attributeMap = attributeMap;
     }
 
     private void parseStyles(String style) {
@@ -264,38 +268,35 @@ public class CSSStyleDeclaration {
         return font;
     }
 
-    public static final class Font{
-        private Map<String, Attribute<CSSValue>> attributeMap;
+    public final class Font{
 
-        public Font(Map<String, Attribute<CSSValue>> attributeMap) {
-            this.attributeMap = attributeMap;
-        }
+        public Font() {}
 
-        public CSSValue getFontFamily() {
+        public CSSValue<String> getFontFamily() {
             return getValue(FONT_FAMILY.toString());
         }
 
-        public CSSValue getFontSize() {
+        public CSSValue<String> getFontSize() {
             return getValue(FONT_SIZE.toString());
         }
 
-        public CSSValue getFontSizeAdjust() {
+        public CSSValue<String> getFontSizeAdjust() {
                 return getValue(FONT_SIZE.toString());
         }
 
-        public CSSValue getFontStretch() {
+        public CSSValue<String> getFontStretch() {
             return getValue(FONT_STRETCH.toString());
         }
 
-        public CSSValue getFontStyle() {
+        public CSSValue<String> getFontStyle() {
             return getValue(FONT_STYLE.toString());
         }
 
-        public CSSValue getFontWeight() {
+        public CSSValue<String> getFontWeight() {
             return getValue(FONT_WEIGHT.toString());
         }
 
-        public CSSValue getFontVariant() {
+        public CSSValue<String> getFontVariant() {
             return getValue(FONT_VARIANT.toString());
         }
 

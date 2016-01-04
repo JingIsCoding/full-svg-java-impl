@@ -1,13 +1,15 @@
 package com.jing.svg.element;
 
+import com.jing.svg.dataType.Constants;
+import com.jing.svg.dataType.Constants.StyleName;
 import com.jing.svg.dataType.SVGStringList;
+import com.jing.svg.dom.Attribute;
 import com.jing.svg.dom.CSSStyleDeclaration;
 import com.jing.svg.dom.CSSStyleRule;
 import com.jing.svg.dom.CSSValue;
 import com.jing.svg.util.StringUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.jing.svg.dataType.Constants.BY_SPACE;
 import static com.jing.svg.dataType.Constants.ElementAttributeNames.CLASS;
@@ -21,8 +23,12 @@ public class SVGStylableImpl implements SVGStylable{
     public SVGStylableImpl(SVGElement svgElement){
         this.svgElement = svgElement;
         cssRules = new ArrayList<>();
+    }
+
+    private void setupInlineStyle() {
         if(svgElement.hasOwnAttribute(STYLE.toString())){
-            cssRules = new ArrayList<>();
+            CSSStyleRule inlineStyle = new CSSStyleRule((String)svgElement.getAttributeValue(STYLE.toString()),null);
+            this.addStyleRule(inlineStyle);
         }
     }
 
@@ -38,7 +44,39 @@ public class SVGStylableImpl implements SVGStylable{
 
     @Override
     public CSSStyleDeclaration getStyle() {
-        return null;
+        if(cssStyleDeclaration == null){
+            setupInlineStyle();
+            Map<String,Attribute<CSSValue>> attributeMap = new HashMap<>();
+            for(StyleName styleName : StyleName.values()){
+                CSSValue valueFromRules = getValueFromRules(styleName);
+                if(valueFromRules != null)
+                {
+                    attributeMap.put(styleName.toString(),new Attribute<>(svgElement,styleName.toString(),valueFromRules));
+                }else if(svgElement.hasOwnAttribute(styleName.toString())){
+                    CSSValue cssValue = new CSSValue(svgElement.getAttributeValue(styleName.toString()));
+                    attributeMap.put(styleName.toString(),new Attribute<>(svgElement,styleName.toString(),cssValue));
+                }
+            }
+            cssStyleDeclaration = new CSSStyleDeclaration(attributeMap);
+        }
+        return cssStyleDeclaration;
+    }
+
+    private CSSValue getValueFromRules(StyleName styleName) {
+        CSSValue result = null;
+        for(int i = cssRules.size() - 1 ; i >=0; i--){
+            CSSStyleRule cssStyleRule = cssRules.get(i);
+            CSSValue value = cssStyleRule.getStyle().getValue(styleName.toString());
+            if(value != null){
+                if(value.isImportant()){
+                    return value;
+                }
+                if(result == null){
+                    result = value;
+                }
+            }
+        }
+        return result;
     }
 
     @Override
@@ -51,8 +89,23 @@ public class SVGStylableImpl implements SVGStylable{
         return mergedStyle;
     }
 
+    public List<CSSStyleRule> getCssRules() {
+        return cssRules;
+    }
+
+
     @Override
     public void addStyleRule(CSSStyleRule cssStyleRule) {
-        cssRules.add(cssStyleRule);
+        if(cssRules.isEmpty()){
+            cssRules.add(cssStyleRule);
+            return;
+        }
+        for(int i = cssRules.size() - 1 ; i >=0; i--){
+            if(cssStyleRule.getSpecificity() >= cssRules.get(i).getSpecificity()){
+                cssRules.add(i+1,cssStyleRule);
+                return;
+            }
+        }
+        cssRules.add(0,cssStyleRule);
     }
 }

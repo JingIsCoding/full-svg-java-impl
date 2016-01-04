@@ -41,6 +41,8 @@ public class StringUtil {
     }
 
     public static String cleanQuotes(String input){
+        if(input == null || input.isEmpty())
+            return input;
         char firstChar = input.charAt(0);
         char lastChat = input.charAt(input.length() -1);
         if(firstChar =='"' && lastChat =='"'){
@@ -63,6 +65,47 @@ public class StringUtil {
         }
         else{
             return (SVGStringList) value;
+        }
+    }
+
+    public static class LogicSkipper {
+        private String[] openers;
+        private String[] closers;
+        private int openerIndex = -1;
+        private boolean shouldSkip = false;
+        public LogicSkipper(String...symbols)
+        {
+            if(symbols.length % 2 != 0){
+                throw new IllegalArgumentException("Symbols have to be in pairs");
+            }
+            openers = new String[symbols.length /2];
+            closers = new String[symbols.length /2];
+
+            for(int i = 0 ; i < symbols.length ;i+=2){
+                openers[i/2] = symbols[i];
+                closers[i/2] = symbols[i+1];
+            }
+        }
+
+        public boolean shouldSkip(String word){
+            if(openerIndex == -1){
+                for(int i = 0 ; i < openers.length ;i++){
+                    if(openers[i].equals(word)){
+                        openerIndex = i;
+                        this.shouldSkip = true;
+                        return false;
+                    }
+                }
+            }
+            else{
+                for(int i = 0 ; i < closers.length ;i++){
+                    if(closers[i].equals(word) && i == openerIndex){
+                        openerIndex = -1;
+                        this.shouldSkip = false;
+                    }
+                }
+            }
+            return shouldSkip;
         }
     }
 }

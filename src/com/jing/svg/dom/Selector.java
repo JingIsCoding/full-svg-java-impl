@@ -11,10 +11,16 @@ import static com.jing.svg.dom.Selector.RelationType.getRelationType;
 
 public class Selector {
     /**
-     * The approach is to split svg>.class1+#id into three matches [svg,.class1 #id] and connected by relations [SPACE , >, +, ~]
+     * The matching approach is to split svg>.class1+#id into three matches [svg,.class1 #id] and connected by relations [SPACE , >, +, ~]
      * */
     private List<MatcherRelation> matcherRelations = new ArrayList<>();
     public Selector(){
+        Matcher matcher = new Matcher();
+    }
+
+    Selector(@NotNull String selector){
+        String removeUselessSpaceSelector = removeUselessSpace(new StringBuilder(selector));
+        createMatchRelations(removeUselessSpaceSelector);
     }
 
     public int getSpecificity(){
@@ -23,11 +29,6 @@ public class Selector {
             specificity += matcherRelation.getSpecificity();
         }
         return specificity;
-    }
-
-    Selector(@NotNull String selector){
-        String removeUselessSpaceSelector = removeUselessSpace(new StringBuilder(selector));
-        createMatchRelations(removeUselessSpaceSelector);
     }
 
     public boolean match(SVGElement svgElement){
@@ -52,7 +53,7 @@ public class Selector {
             if(inBracketOrQuote(symbol, c)){
                 continue;
             }
-            RelationType relationType = RelationType.getRelationType("" + c);
+            RelationType relationType = RelationType.getRelationType(c);
             if(relationType != null){
                 selectorStrings.add(cleanSelector.substring(start,i));
                 if(relationType == RelationType.OR){
@@ -80,7 +81,7 @@ public class Selector {
             if(inBracketOrQuote(symbol, c)){
                 continue;
             }
-            if(RelationType.getRelationType("" + c) != null){
+            if(RelationType.getRelationType(c) != null){
                 while(selector.charAt(i -1) ==' '){
                     selector.deleteCharAt(i -1);
                     i--;
@@ -120,20 +121,20 @@ public class Selector {
     }
 
     public enum RelationType{
-        INSIDE(" "),
-        OR(","),
-        PARENT_IS(">"),
-        IMMEDIATELY_AFTER("+"),
-        PRECEDED_BY("~");
+        INSIDE(' '),
+        OR(','),
+        PARENT_IS('>'),
+        IMMEDIATELY_AFTER('+'),
+        PRECEDED_BY('~');
 
-        String symbol;
-        RelationType(String symbol){
+        char symbol;
+        RelationType(char symbol){
             this.symbol = symbol;
         }
 
-        protected static RelationType getRelationType(String symbol){
+        protected static RelationType getRelationType(char symbol){
            for(RelationType relationType : values()){
-               if(relationType.toString().equals(symbol)){
+               if(relationType.symbol == symbol){
                    return relationType;
                }
            }
@@ -142,7 +143,7 @@ public class Selector {
 
         @Override
         public String toString(){
-            return symbol;
+            return ""+symbol;
         }
     }
 
@@ -207,7 +208,9 @@ public class Selector {
         private int getSpecificity(){
             int specificity = 0;
             for(Matcher matcher : matchers){
-                specificity += matcher.getSpecificity();
+                if(matcher.getSpecificity() > specificity){
+                    specificity = matcher.getSpecificity();
+                }
             }
             return specificity;
         }

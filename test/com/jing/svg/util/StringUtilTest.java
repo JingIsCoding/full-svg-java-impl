@@ -66,4 +66,15 @@ public class StringUtilTest {
         String s = StringUtil.cropString(origin, -1, 100);
         assertThat(s, IsEqual.equalTo(""));
     }
+
+    @Test
+    public void should_skip_logic_when_between_quote(){
+        StringUtil.LogicSkipper logicSkipper = new StringUtil.LogicSkipper("[","]","(",")","'","'");
+        assertThat(logicSkipper.shouldSkip("["),is(false));
+        assertThat(logicSkipper.shouldSkip("w"),is(true));
+        assertThat(logicSkipper.shouldSkip("h"),is(true));
+        assertThat(logicSkipper.shouldSkip("a"),is(true));
+        assertThat(logicSkipper.shouldSkip("]"),is(false));
+
+    }
 }

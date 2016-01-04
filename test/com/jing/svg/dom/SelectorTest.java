@@ -90,4 +90,22 @@ public class SelectorTest {
 
         assertThat(selector.match(svggElement), is(false));
     }
+
+    @Test
+    public void should_cal_specificity(){
+        Selector selector = new Selector("svg, g, rect");
+        assertThat(selector.getSpecificity(), Is.is(1));
+    }
+
+    @Test
+    public void should_cal_specificity_with_class(){
+        Selector selector = new Selector("svg, g, rect.class1");
+        assertThat(selector.getSpecificity(), Is.is(1 + (1 << 8)));
+    }
+
+    @Test
+    public void should_cal_specificity_with_class_and_attribute(){
+        Selector selector = new Selector("svg,g rect.class1[fill='#ababab'] #abc");
+        assertThat(selector.getSpecificity(), Is.is(2 + (2 << 8) + (1 << 16)));
+    }
 }

@@ -5,6 +5,7 @@ import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.element.SVGElement;
 import com.jing.svg.element.SVGStylable;
 import com.jing.svg.util.StringUtil;
+import com.jing.svg.util.StringUtil.LogicSkipper;
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
@@ -18,12 +19,17 @@ public class Matcher {
     private SVGStringList attributeName = new SVGStringList();
     private SVGStringList attributeValue = new SVGStringList();
 
-    private int specificity = 0;
+    private int specificity;
 
     List<AttributeOperator> attributeOperators = new ArrayList<>();
     List<PseudoClassHolder> pseudoClassHolders = new ArrayList<>();
 
-    Matcher(@NotNull String elementMatch){
+    Matcher(){
+        //inline style;
+        specificity = 1 << 24;
+    }
+
+    Matcher(String elementMatch){
         matchString = elementMatch == null ? "" : elementMatch;
         parseMatcher(matchString);
     }
@@ -31,26 +37,38 @@ public class Matcher {
     private void parseMatcher(String matchString) {
         SelectorType type = SelectorType.TAG_NAME;
         StringBuilder stringBuilder = new StringBuilder();
+        LogicSkipper logicSkipper = new LogicSkipper("[","]","\"","\"","'","'","(",")");
         for(int i = 0 ; i < matchString.length() ;i++){
             char c = matchString.charAt(i);
+            if(logicSkipper.shouldSkip(""+c)){
+                stringBuilder.append(c);
+                continue;
+            }
             SelectorType selectorType = SelectorType.getSelectorType(c);
-            if(selectorType != null && type != SelectorType.ATTRIBUTE){
+            if(selectorType != null){
                 if(stringBuilder.length() > 0){
                     createSelector(type,stringBuilder.toString());
                 }
                 type = selectorType;
                 stringBuilder = new StringBuilder();
             }else{
-                if(c==']' && type == SelectorType.ATTRIBUTE){
+                if(c==']'){
                     createSelector(type,stringBuilder.toString());
+                    stringBuilder = new StringBuilder();
                 }else{
                     stringBuilder.append(c);
                 }
-                if(i == matchString.length() -1){
+                if(i == matchString.length() -1 && c!=']'){
                     createSelector(type,stringBuilder.toString());
                 }
             }
         }
+        calSpecificity();
+    }
+
+
+    private void calSpecificity() {
+
     }
 
     public boolean match(SVGElement svgElement){
@@ -260,19 +278,19 @@ public class Matcher {
         switch (selectorType){
             case CLASS:
                 addClass(value);
-                specificity += 1 << 8;
+                specificity += (1 << 8);
                 break;
             case ID:
                 id = value;
-                specificity += 1 << 16;
+                specificity += (1 << 16);
                 break;
             case ATTRIBUTE:
                 addAttribute(value);
-                specificity += 1 << 8;
+                specificity += (1 << 8);
                 break;
             case PSEUDO_CLASS:
                 addStatus(value);
-                specificity += 1 << 8;
+                specificity += (1 << 8);
                 break;
             case TAG_NAME:
                 this.elementName = value;
@@ -413,7 +431,6 @@ public class Matcher {
             }
             return null;
         }
-
         @Override
         public String toString(){
             return operator;

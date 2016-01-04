@@ -6,6 +6,7 @@ import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.Constants.ElementAttributeNames;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.CSSStyleDeclaration;
+import com.jing.svg.dom.CSSStyleRule;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
@@ -60,7 +61,7 @@ public class SVGStylableImplTest {
         SVGSVGElement svgsvgElement = new SVGSVGElement();
         svgsvgElement.setAttribute(STYLE.toString(),"font-family: abc; stroke: #122312; stoke-width: 13px");
         svgsvgElement.setAttribute(FILL.toString(),"#ababab");
-        assertThat(svgsvgElement.getStyle().getFont().getFontFamily().getValue().toString(), Is.is("abc"));
+        assertThat((String)svgsvgElement.getStyle().getFont().getFontFamily().getValue(), Is.is("abc"));
         assertThat(svgsvgElement.getStyle().getFill().getValue(), Is.is("#ababab"));
     }
 
@@ -71,6 +72,22 @@ public class SVGStylableImplTest {
         svgsvgElement.setAttribute(FILL.toString(),"#ababab");
         assertThat(svgsvgElement.getStyle().getFont().getFontFamily().getValue().toString(), Is.is("abc"));
         assertThat(svgsvgElement.getStyle().getFill().getValue(), Is.is("#123132"));
+    }
+
+    @Test
+    public void should_get_style_based_on_specificity(){
+        SVGGElement svggElement = new SVGGElement();
+        svggElement.setAttribute(STYLE.toString(),"font-family: abc;");
+        svggElement.setId("123");
+        svggElement.setAttribute(CLASS.toString(),"class1 class2");
+        CSSStyleRule classStyle = new CSSStyleRule(".class1","fill:#ababab;stroke-width:10px;",null,null);
+        CSSStyleRule idStyle = new CSSStyleRule("#123","fill:#565656;",null,null);
+        svggElement.addStyleRule(classStyle );
+        svggElement.addStyleRule(idStyle );
+
+        assertThat(svggElement.getStyle().getFill().getValue() , is("#565656"));
+        assertThat(svggElement.getStyle().getStrokeWidth().getValue() , is("10px"));
+        assertThat(svggElement.getStyle().getFont().getFontFamily().getValue() , is("abc"));
     }
 
     @Test

@@ -265,8 +265,14 @@ public class MatcherTest {
     @Test
     public void should_calculate_specificity(){
         Matcher matcher = new Matcher("g.class1.class2.#abc");
-        int specificity = 1 + (1 << 8) + (1 << 8) + (1 << 16);
+        int specificity = 1 + (2 << 8) + (1 << 16);
+        assertThat(matcher.getSpecificity(),Is.is(specificity));
+    }
 
+    @Test
+    public void should_calculate_specificity_with_psedo(){
+        Matcher matcher = new Matcher("g[fill='#ababab']#abc");
+        int specificity = 1 + (1 << 8) + (1 << 16);
         assertThat(matcher.getSpecificity(),Is.is(specificity));
     }
 }

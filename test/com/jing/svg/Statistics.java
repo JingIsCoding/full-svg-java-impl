@@ -12,6 +12,7 @@ public class Statistics {
         try {
             int count = recCount(file);
             System.out.println(count);
+            System.out.print((int)'a');
         } catch (IOException e) {
             e.printStackTrace();
         }
