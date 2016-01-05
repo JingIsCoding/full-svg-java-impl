@@ -3,23 +3,13 @@ package com.jing.svg.animated;
 
 import com.jing.svg.dataType.SVGLengthList;
 
-public class SVGAnimatedLengthList {
-    private SVGLengthList baseVal;
-    private SVGLengthList animVal;
+public class SVGAnimatedLengthList extends AnimatedItemList<SVGLengthList>{
 
     public SVGAnimatedLengthList(SVGLengthList baseVal) {
-        this.baseVal = baseVal;
+        super(baseVal);
     }
 
-    public void setBaseVal(SVGLengthList baseVal){
-        this.baseVal = baseVal;
-    }
-
-    public SVGLengthList getBaseVal(){
-        return baseVal;
-    }
-
-    public SVGLengthList getAnimVal(){
-        return animVal;
+    public SVGAnimatedLengthList(SVGLengthList baseVal, SVGLengthList animVal){
+        super(baseVal,animVal);
     }
 }

@@ -1,23 +1,14 @@
 package com.jing.svg.animated;
 
-public class SVGAnimatedBoolean {
+import com.jing.svg.dataType.SVGAngle;
 
-    private boolean baseVal;
-    private boolean animVal;
+public class SVGAnimatedBoolean extends AnimatedItemList<Boolean> {
 
     public SVGAnimatedBoolean(boolean baseVal) {
-        this.baseVal = baseVal;
+        super(baseVal);
     }
 
-    public void setBaseVal(boolean baseVal){
-        this.baseVal = baseVal;
-    }
-
-    public boolean getBaseVal(){
-        return baseVal;
-    }
-
-    public boolean getAnimVal(){
-        return animVal;
+    public SVGAnimatedBoolean(boolean baseVal, boolean animVal){
+        super(baseVal,animVal);
     }
 }

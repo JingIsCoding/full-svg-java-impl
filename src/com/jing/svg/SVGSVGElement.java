@@ -18,6 +18,9 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     private SVGStylable svgStylable = new SVGStylableImpl(this);
     private SVGFitToViewBox svgFitToViewBox = new SVGFitToViewBoxImpl(this);
 
+    private float pixelUnitToMillimeterX;
+    private float pixelUnitToMillimeterY;
+
     public SVGSVGElement() {
         super(SVG);
     }
@@ -73,7 +76,6 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     public SVGStringList getRequiredExtensions() {
         return svgTests.getRequiredExtensions();
     }
-
 
     @Override
     public boolean hasExtension(String extension) {

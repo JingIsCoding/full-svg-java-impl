@@ -1,22 +1,12 @@
 package com.jing.svg.animated;
 
-public class SVGAnimatedEnumeration {
-    private short baseVal;
-    private short animVal;
+public class SVGAnimatedEnumeration extends AnimatedItemList<Short> {
 
     public SVGAnimatedEnumeration(short baseVal) {
-        this.baseVal = baseVal;
+        super(baseVal);
     }
 
-    public void setBaseVal(short baseVal){
-        this.baseVal = baseVal;
-    }
-
-    public short getBaseVal(){
-        return baseVal;
-    }
-
-    public short getAnimVal(){
-        return animVal;
+    public SVGAnimatedEnumeration(short baseVal, short animVal){
+        super(baseVal,animVal);
     }
 }

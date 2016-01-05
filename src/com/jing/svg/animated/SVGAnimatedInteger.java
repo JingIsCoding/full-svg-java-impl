@@ -1,23 +1,12 @@
 package com.jing.svg.animated;
 
-public class SVGAnimatedInteger {
-
-    private int baseVal;
-    private int animVal;
+public class SVGAnimatedInteger extends AnimatedItemList<Integer> {
 
     public SVGAnimatedInteger(int baseVal) {
-        this.baseVal = baseVal;
+        super(baseVal);
     }
 
-    public void setBaseVal(int baseVal){
-        this.baseVal = baseVal;
-    }
-
-    public int getBaseVal(){
-        return baseVal;
-    }
-
-    public int getAnimVal(){
-        return animVal;
+    public SVGAnimatedInteger(int baseVal, int animVal){
+        super(baseVal,animVal);
     }
 }

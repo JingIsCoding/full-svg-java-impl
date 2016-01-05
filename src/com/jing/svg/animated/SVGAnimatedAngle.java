@@ -1,25 +1,15 @@
 package com.jing.svg.animated;
 
 import com.jing.svg.dataType.SVGAngle;
+import com.jing.svg.dataType.SVGLengthList;
 
-public class SVGAnimatedAngle {
-
-    private SVGAngle baseVal;
-    private SVGAngle animVal;
+public class SVGAnimatedAngle extends AnimatedItemList<SVGAngle>{
 
     public SVGAnimatedAngle(SVGAngle baseVal) {
-        this.baseVal = baseVal;
+        super(baseVal);
     }
 
-    public void setBaseVal(SVGAngle baseVal){
-        this.baseVal = baseVal;
-    }
-
-    public SVGAngle getBaseVal(){
-        return baseVal;
-    }
-
-    public SVGAngle getAnimVal(){
-        return animVal;
+    public SVGAnimatedAngle(SVGAngle baseVal, SVGAngle animVal){
+        super(baseVal,animVal);
     }
 }
