@@ -9,13 +9,13 @@ public class SVGRect {
     private float height;
 
     public SVGRect(String coordination){
-        String[] coordinations = coordination.split(BY_SPACE);
+        String[] coordinations = coordination.split(",");
         try{
         if(coordinations.length == 4){
-            this.x = Float.parseFloat(coordinations[0]);
-            this.y = Float.parseFloat(coordinations[1]);
-            this.width = Float.parseFloat(coordinations[2]);
-            this.height = Float.parseFloat(coordinations[3]);
+            this.x = Float.parseFloat(coordinations[0].trim());
+            this.y = Float.parseFloat(coordinations[1].trim());
+            this.width = Float.parseFloat(coordinations[2].trim());
+            this.height = Float.parseFloat(coordinations[3].trim());
         }else{
             throw new IllegalArgumentException();
         }
