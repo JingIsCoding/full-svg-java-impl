@@ -34,7 +34,7 @@ public class SVGMatrixTest {
     }
 
     @Test
-    public void should_create_matrix_with_input_maxtrix_correctly(){
+    public void should_create_matrix_with_input_matrix_correctly(){
         SVGMatrix svgMatrix1 = new SVGMatrix(new double[]{1d,0,0,0,1,0});
         SVGMatrix svgMatrix2 = new SVGMatrix(svgMatrix1);
 
@@ -84,5 +84,33 @@ public class SVGMatrixTest {
         assertThat(multiply.getValues()[3], is(0d));
         assertThat(multiply.getValues()[4], is(1d));
         assertThat(multiply.getValues()[5], is(0d));
+    }
+
+    @Test
+    public void should_rotate(){
+        SVGMatrix svgMatrix = new SVGMatrix();
+        SVGMatrix rotate = svgMatrix.rotate(new SVGAngle("30"));
+
+        assertThat(rotate.getValues().length, is(6));
+        assertThat(rotate.getValues()[0], is(0.8660254037844387d));
+        assertThat(rotate.getValues()[1], is(-0.49999999999999994d));
+        assertThat(rotate.getValues()[2], is(0d));
+        assertThat(rotate.getValues()[3], is(0.49999999999999994d));
+        assertThat(rotate.getValues()[4], is(0.8660254037844387d));
+        assertThat(rotate.getValues()[5], is(0d));
+    }
+
+    @Test
+    public void should_rotate_on_point(){
+        SVGMatrix svgMatrix = new SVGMatrix();
+        SVGMatrix rotate = svgMatrix.rotateFromVector(new SVGAngle("30"),100,100);
+
+        assertThat(rotate.getValues().length, is(6));
+        assertThat(rotate.getValues()[0], is(0.8660254037844387d));
+        assertThat(rotate.getValues()[1], is(-0.49999999999999994d));
+        assertThat(rotate.getValues()[2], is(63.397459621556116d));
+        assertThat(rotate.getValues()[3], is(0.49999999999999994d));
+        assertThat(rotate.getValues()[4], is(0.8660254037844387d));
+        assertThat(rotate.getValues()[5], is(-36.60254037844388d));
     }
 }

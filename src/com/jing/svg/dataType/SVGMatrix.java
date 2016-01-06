@@ -1,7 +1,6 @@
 package com.jing.svg.dataType;
 
 public class SVGMatrix {
-    //TODO Finish the empty functions
     /**
      * [a c e]
      * [b d f]
@@ -12,6 +11,7 @@ public class SVGMatrix {
     public SVGMatrix(){
         this(new double[]{1,0,0,0,1,0});
     }
+
 
     public SVGMatrix(double[] values){
         if(values.length < 6){
@@ -85,10 +85,10 @@ public class SVGMatrix {
         return this.translate(-x,-y).rotate(angle).translate(x, y);
     }
     public SVGMatrix flipX(){
-        return null;
+        return this.multiply(new SVGMatrix(new double[]{-1,0,0,1,0,0}));
     }
     public SVGMatrix flipY(){
-        return null;
+        return this.multiply(new SVGMatrix(new double[]{1,0,0,-1,0,0}));
     }
     public SVGMatrix skewX(SVGAngle angle){
         return this.multiply(new SVGMatrix(new double[]{1, Math.tan(angle.getRadius()) ,0, 0 , 1, 0}));

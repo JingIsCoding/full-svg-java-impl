@@ -1,6 +1,5 @@
 package com.jing.svg.element;
 
-import com.jing.svg.dataType.Constants;
 import com.jing.svg.dataType.Constants.StyleName;
 import com.jing.svg.dataType.SVGStringList;
 import com.jing.svg.dom.Attribute;
@@ -9,7 +8,10 @@ import com.jing.svg.dom.CSSStyleRule;
 import com.jing.svg.dom.CSSValue;
 import com.jing.svg.util.StringUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.jing.svg.dataType.Constants.BY_SPACE;
 import static com.jing.svg.dataType.Constants.ElementAttributeNames.CLASS;
