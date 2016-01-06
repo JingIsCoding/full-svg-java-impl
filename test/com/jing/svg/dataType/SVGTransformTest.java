@@ -17,8 +17,8 @@ public class SVGTransformTest {
         assertThat(svgTransform.getMatrix().getValues()[0], Is.is(1d));
         assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(0d));
     }
 
@@ -26,11 +26,11 @@ public class SVGTransformTest {
     public void should_get_transform_from_input_string_rotate_correctly(){
         SVGTransform svgTransform = new SVGTransform("  rotate(30)");
         assertThat(svgTransform.getTransformType(), Is.is(SVG_TRANSFORM_ROTATE));
-        assertThat(svgTransform.getMatrix().getValues()[0], Is.is(Math.cos(Math.toRadians(30))));
-        assertThat(svgTransform.getMatrix().getValues()[1], Is.is(-Math.sin(Math.toRadians(30))));
-        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(Math.sin(Math.toRadians(30))));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(Math.cos(Math.toRadians(30))));
+        assertThat(svgTransform.getMatrix().getValues()[0], Is.is(0.8660254037844387d));
+        assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0.49999999999999994));
+        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(-0.49999999999999994));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0.8660254037844387));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(0d));
     }
 
@@ -50,11 +50,11 @@ public class SVGTransformTest {
     public void should_get_transform_from_input_string_rotate_on_point_correctly(){
         SVGTransform svgTransform = new SVGTransform("  rotate(30 100 100)");
         assertThat(svgTransform.getTransformType(), Is.is(SVG_TRANSFORM_ROTATE));
-        assertThat(svgTransform.getMatrix().getValues()[0], Is.is(Math.cos(Math.toRadians(30))));
-        assertThat(svgTransform.getMatrix().getValues()[1], Is.is(-Math.sin(Math.toRadians(30))));
-        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(63.397459621556116d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(Math.sin(Math.toRadians(30))));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(Math.cos(Math.toRadians(30))));
+        assertThat(svgTransform.getMatrix().getValues()[0], Is.is(0.8660254037844387d));
+        assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0.49999999999999994));
+        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(-0.49999999999999994));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0.8660254037844387));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(63.397459621556116));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(-36.60254037844388d));
     }
 
@@ -76,9 +76,9 @@ public class SVGTransformTest {
         assertThat(svgTransform.getTransformType(), Is.is(SVG_TRANSFORM_TRANSLATE));
         assertThat(svgTransform.getMatrix().getValues()[0], Is.is(1d));
         assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(100d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(100d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(0d));
     }
 
