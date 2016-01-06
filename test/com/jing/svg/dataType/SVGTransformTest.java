@@ -41,8 +41,8 @@ public class SVGTransformTest {
         assertThat(svgTransform.getMatrix().getValues()[0], Is.is(1d));
         assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(0d));
     }
 
@@ -88,9 +88,9 @@ public class SVGTransformTest {
         assertThat(svgTransform.getTransformType(), Is.is(SVG_TRANSFORM_TRANSLATE));
         assertThat(svgTransform.getMatrix().getValues()[0], Is.is(1d));
         assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(100d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(1d));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(100d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(200d));
     }
 
@@ -101,8 +101,8 @@ public class SVGTransformTest {
         assertThat(svgTransform.getMatrix().getValues()[0], Is.is(12d));
         assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(12d));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(12d));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(0d));
     }
 
@@ -114,8 +114,8 @@ public class SVGTransformTest {
         assertThat(svgTransform.getMatrix().getValues()[0], Is.is(12d));
         assertThat(svgTransform.getMatrix().getValues()[1], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[2], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(0d));
-        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(5d));
+        assertThat(svgTransform.getMatrix().getValues()[3], Is.is(5d));
+        assertThat(svgTransform.getMatrix().getValues()[4], Is.is(0d));
         assertThat(svgTransform.getMatrix().getValues()[5], Is.is(0d));
     }
 }

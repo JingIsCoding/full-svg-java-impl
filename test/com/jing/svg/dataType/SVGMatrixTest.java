@@ -93,10 +93,10 @@ public class SVGMatrixTest {
 
         assertThat(rotate.getValues().length, is(6));
         assertThat(rotate.getValues()[0], is(0.8660254037844387d));
-        assertThat(rotate.getValues()[1], is(-0.49999999999999994d));
-        assertThat(rotate.getValues()[2], is(0d));
-        assertThat(rotate.getValues()[3], is(0.49999999999999994d));
-        assertThat(rotate.getValues()[4], is(0.8660254037844387d));
+        assertThat(rotate.getValues()[1], is(0.49999999999999994d));
+        assertThat(rotate.getValues()[2], is(-0.49999999999999994d));
+        assertThat(rotate.getValues()[3], is(0.8660254037844387d));
+        assertThat(rotate.getValues()[4], is(0d));
         assertThat(rotate.getValues()[5], is(0d));
     }
 

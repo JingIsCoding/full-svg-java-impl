@@ -9,19 +9,20 @@ public class SVGMatrix {
     private double[][] matrix = new double[3][3];
 
     public SVGMatrix(){
-        this(new double[]{1,0,0,0,1,0});
+        this(new double[]{1,0,0,1,0,0});
     }
 
-
+    //a,b,c,d,e,f
     public SVGMatrix(double[] values){
         if(values.length < 6){
             throw new IllegalArgumentException();
         }
-        for(int i = 0 ; i < 2 ; i++){
-            for(int j = 0; j <3;j++){
-                this.matrix[i][j] = values[i * 3 + j];
-            }
-        }
+        this.matrix[0][0] = values[0];
+        this.matrix[0][1] = values[2];
+        this.matrix[0][2] = values[4];
+        this.matrix[1][0] = values[1];
+        this.matrix[1][1] = values[3];
+        this.matrix[1][2] = values[5];
         this.matrix[2][0] = 0;
         this.matrix[2][1] = 0;
         this.matrix[2][2] = 1;
@@ -67,18 +68,18 @@ public class SVGMatrix {
         return null;
     }
     public SVGMatrix translate(double x, double y){
-        return this.multiply(new SVGMatrix(new double[]{1, 0 ,x, 0 , 1, y}));
+        return this.multiply(new SVGMatrix(new double[]{1, 0 ,0, 1 , x, y}));
     }
 
     public SVGMatrix scale(double scaleFactor){
         return this.scaleNonUniform(scaleFactor,scaleFactor);
     }
     public SVGMatrix scaleNonUniform(double scaleFactorX, double scaleFactorY){
-        return this.multiply(new SVGMatrix(new double[]{scaleFactorX , 0 , 0, 0 ,scaleFactorY , 0}));
+        return this.multiply(new SVGMatrix(new double[]{scaleFactorX , 0 , 0, scaleFactorY ,0 , 0}));
     }
     public SVGMatrix rotate(SVGAngle angle){
         double svgAngle = angle.getRadius();
-        return this.multiply(new SVGMatrix(new double[]{Math.cos(svgAngle) ,-Math.sin(svgAngle) , 0, Math.sin(svgAngle) ,Math.cos(svgAngle) , 0}));
+        return this.multiply(new SVGMatrix(new double[]{Math.cos(svgAngle) ,Math.sin(svgAngle) , -Math.sin(svgAngle), Math.cos(svgAngle) ,0, 0}));
     }
     public SVGMatrix rotateFromVector(SVGAngle angle,double x,double y){
 
@@ -98,6 +99,6 @@ public class SVGMatrix {
     }
 
     public double[] getValues(){
-        return new double[]{this.matrix[0][0],this.matrix[0][1],this.matrix[0][2],this.matrix[1][0],this.matrix[1][1],this.matrix[1][2]};
+        return new double[]{this.matrix[0][0],this.matrix[1][0],this.matrix[1][0],this.matrix[1][1],this.matrix[2][0],this.matrix[2][1]};
     }
 }
