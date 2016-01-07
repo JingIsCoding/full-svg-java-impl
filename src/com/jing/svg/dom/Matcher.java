@@ -24,9 +24,17 @@ public class Matcher {
     List<AttributeOperator> attributeOperators = new ArrayList<>();
     List<PseudoClassHolder> pseudoClassHolders = new ArrayList<>();
 
-    Matcher(){
-        //inline style;
-        specificity = 1 << 24;
+    Matcher(SelectorType selectorType){
+        switch (selectorType){
+            case STYLE:
+                //inline style;
+                specificity = 1 << 24;
+                break;
+            case USER_AGENT:
+                specificity = 0;
+                break;
+        }
+
     }
 
     Matcher(String elementMatch){
@@ -346,7 +354,9 @@ public class Matcher {
         ID('#'),
         ATTRIBUTE('['),
         PSEUDO_CLASS(':'),
-        TAG_NAME('\0');
+        TAG_NAME('\0'),
+        STYLE('\0'),
+        USER_AGENT('\0');
         char startCharacter;
 
         static SelectorType getSelectorType(char c){

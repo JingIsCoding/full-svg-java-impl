@@ -6,9 +6,8 @@ import com.jing.svg.dataType.*;
 import com.jing.svg.dom.CSSStyleDeclaration;
 import com.jing.svg.dom.CSSStyleRule;
 import com.jing.svg.dom.CSSValue;
+import com.jing.svg.dom.Matcher;
 import com.jing.svg.element.*;
-
-import java.util.List;
 
 import static com.jing.svg.dataType.Constants.TagName.SVG;
 
@@ -18,19 +17,21 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     private SVGStylable svgStylable = new SVGStylableImpl(this);
     private SVGFitToViewBox svgFitToViewBox = new SVGFitToViewBoxImpl(this);
 
+    private CSSStyleDeclaration userAgentStyle = new CSSStyleDeclaration(Constants.DEFAULT_STYLE);
+
     private float pixelUnitToMillimeterX;
     private float pixelUnitToMillimeterY;
 
     public SVGSVGElement() {
-        super(SVG);
+        this(null,null);
     }
 
     public SVGSVGElement(SVGSVGElement ownerSVGElement) {
-        super(SVG, ownerSVGElement);
+        this(null, ownerSVGElement,null);
     }
 
     public SVGSVGElement(String value, SVGSVGElement ownerSVGElement) {
-        super(SVG, value, ownerSVGElement);
+        this(value, ownerSVGElement,null);
     }
 
     public SVGSVGElement(String value, SVGSVGElement ownerSVGElement, SVGElement viewPortElement) {
@@ -109,7 +110,7 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
 
     @Override
     public CSSStyleDeclaration getComputedStyleDeclarationStyle() {
-        return this.svgStylable.getComputedStyleDeclarationStyle();
+        return this.svgStylable.getComputedStyleDeclarationStyle().overRideStyle(this.userAgentStyle);
     }
 
     @Override
@@ -126,5 +127,4 @@ public class SVGSVGElement extends SVGBaseCoordinatedElement implements SVGTests
     public SVGAnimatedRect getViewBox() {
         return svgFitToViewBox.getViewBox();
     }
-
 }

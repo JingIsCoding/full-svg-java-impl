@@ -1,5 +1,6 @@
 package com.jing.svg.dom;
 
+import com.jing.svg.dom.Matcher.SelectorType;
 import com.jing.svg.element.SVGElement;
 import com.sun.istack.internal.NotNull;
 
@@ -14,8 +15,8 @@ public class Selector {
      * The matching approach is to split svg>.class1+#id into three matches [svg,.class1 #id] and connected by relations [SPACE , >, +, ~]
      * */
     private List<MatcherRelation> matcherRelations = new ArrayList<>();
-    public Selector(){
-        Matcher matcher = new Matcher();
+    Selector(SelectorType selectorType){
+        Matcher matcher = new Matcher(selectorType);
     }
 
     Selector(@NotNull String selector){

@@ -58,9 +58,9 @@ public class SVGStylableImplTest {
     @Test
     public void should_get_style_correctly_when_element_has_style_attribute(){
         SVGSVGElement svgsvgElement = new SVGSVGElement();
-        svgsvgElement.setAttribute(STYLE.toString(),"font-family: abc; stroke: #122312; stoke-width: 13px");
+        svgsvgElement.setAttribute(STYLE.toString(),"font-family: abc; stroke: #122312; stoke-width: 13px;");
         svgsvgElement.setAttribute(FILL.toString(),"#ababab");
-        assertThat((String)svgsvgElement.getStyle().getFont().getFontFamily().getValue(), Is.is("abc"));
+        assertThat(svgsvgElement.getStyle().getFont().getFontFamily().getValue(), Is.is("abc"));
         assertThat(svgsvgElement.getStyle().getFill().getValue(), Is.is("#ababab"));
     }
 

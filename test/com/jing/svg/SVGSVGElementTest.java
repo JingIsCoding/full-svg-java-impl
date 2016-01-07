@@ -29,4 +29,11 @@ public class SVGSVGElementTest {
         assertThat(elementByTagName.size(), Is.is(2));
     }
 
+    @Test
+    public void should_has_default_style(){
+        SVGSVGElement svgsvgElement = new SVGSVGElement();
+        assertThat(svgsvgElement.getComputedStyleDeclarationStyle().getFill().getValue(),Is.is("#000000"));
+        assertThat(svgsvgElement.getComputedStyleDeclarationStyle().getFont().getFontFamily().getValue(),Is.is("'Times New Roman'"));
+        assertThat(svgsvgElement.getComputedStyleDeclarationStyle().getFont().getFontSize().getValue(),Is.is("16px"));
+    }
 }

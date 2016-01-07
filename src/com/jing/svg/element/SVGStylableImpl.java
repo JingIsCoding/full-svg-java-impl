@@ -2,10 +2,8 @@ package com.jing.svg.element;
 
 import com.jing.svg.dataType.Constants.StyleName;
 import com.jing.svg.dataType.SVGStringList;
-import com.jing.svg.dom.Attribute;
-import com.jing.svg.dom.CSSStyleDeclaration;
-import com.jing.svg.dom.CSSStyleRule;
-import com.jing.svg.dom.CSSValue;
+import com.jing.svg.dom.*;
+import com.jing.svg.dom.Matcher.SelectorType;
 import com.jing.svg.util.StringUtil;
 
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ public class SVGStylableImpl implements SVGStylable{
 
     private void setupInlineStyle() {
         if(svgElement.hasOwnAttribute(STYLE.toString())){
-            CSSStyleRule inlineStyle = new CSSStyleRule((String)svgElement.getAttributeValue(STYLE.toString()),null);
+            CSSStyleRule inlineStyle = new CSSStyleRule(SelectorType.STYLE,(String)svgElement.getAttributeValue(STYLE.toString()),null);
             this.addStyleRule(inlineStyle);
         }
     }
@@ -87,7 +85,7 @@ public class SVGStylableImpl implements SVGStylable{
         while(styleElement != null && !(styleElement instanceof SVGStylable)){
             styleElement = styleElement.getParent();
         }
-        CSSStyleDeclaration mergedStyle =  styleElement != null ? this.getStyle().mergeStyleDeclaration(((SVGStylable)styleElement).getComputedStyleDeclarationStyle()) : this.getStyle();
+        CSSStyleDeclaration mergedStyle =  styleElement != null ? this.getStyle().overRideStyle(((SVGStylable)styleElement).getComputedStyleDeclarationStyle()) : this.getStyle();
         return mergedStyle;
     }
 

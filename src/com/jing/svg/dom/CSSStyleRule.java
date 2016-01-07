@@ -20,7 +20,7 @@ public class CSSStyleRule {
         return parentStyleSheet;
     }
 
-    public CSSStyleRule(String styles, CSSStyleRule parentRule) {
+    public CSSStyleRule(Matcher.SelectorType selectorType, String styles, CSSStyleRule parentRule) {
         this.selector = "";
         this.parentRule = parentRule;
 

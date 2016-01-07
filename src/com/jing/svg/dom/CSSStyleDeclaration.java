@@ -306,7 +306,7 @@ public class CSSStyleDeclaration {
         }
     }
 
-    public CSSStyleDeclaration mergeStyleDeclaration(CSSStyleDeclaration cssStyleDeclaration){
+    public CSSStyleDeclaration overRideStyle(CSSStyleDeclaration cssStyleDeclaration){
         CSSStyleDeclaration mergedStyle = new CSSStyleDeclaration();
         mergedStyle.attributeMap.putAll(cssStyleDeclaration.attributeMap);
         mergedStyle.attributeMap.putAll(this.attributeMap);

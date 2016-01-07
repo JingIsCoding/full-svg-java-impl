@@ -8,20 +8,15 @@ public class SVGLangSpaceImpl implements SVGLangSpace {
 
 
     public SVGLangSpaceImpl(SVGElement svgElement){
-        this(svgElement,null,null);
+        this.svgElement = svgElement;
     }
 
-    private SVGLangSpaceImpl(SVGElement svgElement, String xmllang, String xmlspace) {
-        this.svgElement = svgElement;
-        svgElement.setAttribute(XML_LANG.toString(),xmllang);
-        svgElement.setAttribute(XML_SPACE.toString(),xmlspace);
-    }
 
     public String getXmlspace() {
-        return (String)svgElement.getAttribute(XML_SPACE.toString()).getValue();
+        return svgElement.hasOwnAttribute(XML_SPACE.toString()) ? (String)svgElement.getAttribute(XML_SPACE.toString()).getValue() : null;
     }
 
     public String getXmllang() {
-        return (String)svgElement.getAttribute(XML_LANG.toString()).getValue();
+        return svgElement.hasOwnAttribute(XML_SPACE.toString()) ? (String)svgElement.getAttribute(XML_LANG.toString()).getValue() : null;
     }
 }
